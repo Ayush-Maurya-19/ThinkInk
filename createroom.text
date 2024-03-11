@@ -1,0 +1,292 @@
+// import React, { useState, useRef, useEffect } from "react";
+// import io from "socket.io-client";
+// import JoinRoom from "./joinroom";
+// import Chat from "./Chat";
+// import immer from "immer";
+
+
+// const initialMessages = {
+//   general: [],
+//   random: [],
+//   jokes: [],
+//   javascript: [],
+// };
+
+// const CreateRoom = () => {
+//   const [username, setUsername] = useState("");
+//   const [connected, setConnected] = useState(false);
+//   const [currentChat, setCurrentChat] = useState({
+//     isChannel: true,
+//     chatName: "general",
+//     reciverId: "",
+//   });
+//   const [connectedRooms, setConnectedRooms] = useState(["general"]);
+//   const [allUsers, setAllUsers] = useState([]);
+//   const [messages, setMessages] = useState(initialMessages);
+//   const [message, setMessage] = useState("");
+//   const socketRef = useRef();
+
+//   function handleChange(e) {
+//     setUsername(e.target.value);
+//   }
+
+//   function sendMessage() {
+//     const payload = {
+//       content: message,
+//       to: currentChat.isChannel ? currentChat.chatName : currentChat.reciverId,
+//       sender: username,
+//       chatName: currentChat.chatName,
+//       isChannel: currentChat.isChannel,
+//     };
+//     socketRef.current.emit("send message", payload);
+//     const newMessages = immer(messages, (draft) => {
+//       draft[currentChat.chatName].push({
+//         sender: username,
+//         content: message,
+//       });
+//     });
+//     setMessages(newMessages);
+//   }
+
+//   function roomJoinCallback(messages, room) {
+//     const newMessages = immer(messages, (draft) => {
+//       draft[room] = incomingMessages;
+//     });
+//     setMessages(newMessages);
+//   }
+
+//   function joinRoom(room) {
+//     const newConnectedRooms = immer(connectedRooms, (draft) => {
+//       draft.push(room);
+//     });
+
+//     socketRef.current.emit("join room", room, (messages) =>
+//       roomJoinCallback(messages, room)
+//     );
+//     setConnectedRooms(newConnectedRooms);
+//   }
+
+//   function toggleChat(currentChat) {
+//     if (!messages[currentChat.chatName]) {
+//       const newMessages = immer(messages, (draft) => {
+//         draft[currentChat.chatName] = [];
+//       });
+//       setMessages(newMessages);
+//     }
+//     setCurrentChat(currentChat);
+//   }
+
+//   function handleChange(e) {
+//     setUsername(e.target.value);
+//   }
+
+//   useEffect(() => {
+//     setMessage("");
+//   }, [messages]);
+
+//   function connect() {
+//     setConnected(true);
+//     socketRef.current = io.connect("/chat");
+//     socketRef.current.emit("join server", username);
+//     socketRef.current.emit("join room", "general", (messages) =>
+//       roomJoinCallback(messages, "general")
+//     );
+//     socketRef.current.on("new user", (allusers) => {
+//       setAllUsers(allusers);
+//     });
+//     socketRef.current.on("new message", ({ content, sender, chatName }) => {
+//       setMessage((messages) => {
+//         const newMessages = immer(messages, (draft) => {
+//           if (draft[chatName]) {
+//             draft[chatName].push({ content, sender });
+//           } else {
+//             draft[chatName] = [{ content, sender }];
+//           }
+//         });
+//         return newMessages;
+//       });
+//     });
+//   }
+
+//   let body;
+//   if (connected) {
+//     body = (
+//       <chat
+//         message={message}
+//         handleMessageChange={handleMessageChange}
+//         sendMessage={sendMessage}
+//         yourId={socketRef.current ? socketRef.current.id : ""}
+//         allUsers={allUsers}
+//         joinRoom={joinRoom}
+//         connectedRooms={connectedRooms}
+//         currentChat={currentChat}
+//         toggleChat={toggleChat}
+//         messages={messages[currentChat.chatName]}
+//       />
+//     );
+//   } else {
+//     body = (
+//       <JoinRoom username={username} onChange={handleChange} connect={connect} />
+//     );
+//   }
+
+//   return <div>{body}</div>;
+// };
+
+// export default CreateRoom;
+
+
+
+
+
+
+
+
+
+
+
+import React from 'react'
+
+const Chat = () => {
+  return (
+    <div>Chat</div>
+  )
+}
+
+export default Chat
+
+
+
+
+
+
+
+// import React from "react";
+
+// const rooms = ["general", "random", "jokes", "javascript"];
+
+// const Chat = (props) => {
+//   function renderRooms(room) {
+//     const currentChat = {
+//       chatName: room,
+//       isChannel: true,
+//       reciverId: "",
+//     };
+//     return (
+//       <div onClick={() => props.toggleChat(currentChat)} key={room}>
+//         {room}
+//       </div>
+//     );
+//   }
+
+//   function renderUsers(user) {
+//     if (user.id === props.yourID) {
+//       return <div key={user.id}>You: {user.username}</div>;
+//     }
+//     const currentChat = {
+//       chatName: user.username,
+//       isChannel: false,
+//       reciverId: user.id,
+//     };
+//     return (
+//       <div onClick={() => props.toggleChat(currentChat)} key={user.id}>
+//         {user.username}
+//       </div>
+//     );
+//   }
+
+//   function renderMessages(message, index) {
+//     return (
+//       <div key={index}>
+//         <h3>{message.sender}</h3>
+//         <p>{message.content}</p>
+//       </div>
+//     );
+//   }
+
+//   let body;
+//   if (
+//     !props.currentChat.isChannel ||
+//     props.connectedRooms.includes(props.currentChat.chatName)
+//   ) {
+//     body = <div>Chatting with {props.messages.map(renderMessages)}</div>;
+//   } else {
+//     body = (
+//       <button onClick={() => props.joinRoom(props.currentChat.chatName)}>
+//         Join {props.currentChat.chatName}
+//       </button>
+//     );
+//   }
+
+//   function handleKeyPress(e) {
+//     if (e.key === "Enter") {
+//       props.sendMessage();
+//     }
+//   }
+
+
+
+
+
+//   return (
+//     <div>
+//       <h3>Channels</h3>
+//       {rooms.map(renderRooms)}
+//       <h3>All Users</h3>
+//       {props.allUsers.map(renderUsers)}
+
+//       <div>
+//         <input
+//           type="text"
+//           placeholder="Message..."
+//           value={props.message}
+//           onChange={props.handleMessageChange}
+//         />
+//         <button onClick={props.sendMessage}>Send</button>
+//       </div>
+//       <div>{body}</div>
+
+//       <div>
+//         <input
+//           type="text"
+//           placeholder="Message..."
+//           value={props.message}
+//           onChange={props.handleKeyPress}
+//         />
+//         <button onClick={props.sendMessage}>Send</button>
+//       </div>
+
+//       <div>
+//         {props.messages[props.currentChat.chatName].map((message, index) => {
+//           return (
+//             <div key={index}>
+//               <h3>{message.sender}</h3>
+//               <p>{message.content}</p>
+//             </div>
+//           );
+//         })}
+//       </div>
+
+//       {/* <Container>
+//       <SideBar>
+//         <h3>Channels</h3>
+//         {rooms.map(renderRooms)}
+//         <h3>All Users</h3>
+//         {props.allUsers.map(renderUsers)}
+//       </SideBar>
+//       <ChatPanel>
+//         <ChannelInfo>{props.currentChat.chatName}</ChannelInfo>
+//         <BodyContainer>{body}</BodyContainer>
+//         <TextBox
+//           value={props.message}
+//           onChange={props.handleMessageChange}
+//           onKeyPress={handleKeyPress}
+//           placeholder="Type your message here..."
+//         />
+//       </ChatPanel>
+//     </Container> */}
+//     </div>
+//   );
+// };
+
+// export default Chat;

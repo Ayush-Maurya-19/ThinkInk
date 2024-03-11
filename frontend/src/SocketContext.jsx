@@ -8,7 +8,6 @@ export const SocketProvider = ({ children }) => {
   const socket = useMemo(() => io("http://localhost:5000"), []);
 
   const [messages, setMessages] = useState([]);
-
   const [room, setRoom] = useState("");
   const [socketID, setSocketId] = useState("");
   const [roomName, setRoomName] = useState("");
@@ -56,6 +55,7 @@ export const SocketProvider = ({ children }) => {
         joinRoomHandler,
         roomName,
         setRoomName,
+        
       }}
     >
       {children}

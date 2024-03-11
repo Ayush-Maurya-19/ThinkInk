@@ -10,7 +10,8 @@ const Chat = () => {
     joinRoomHandler,
     roomName,
     setRoomName,
-    handleSubmit
+    handleSubmit,
+    
   } = UseSocketContext();
 
   const [message, setMessage] = useState("");
