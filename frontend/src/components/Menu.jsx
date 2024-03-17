@@ -35,12 +35,13 @@ const Menu = ({ onClick, gameState }) => {
         >
             <h1
                 className='sm:text-8xl text-7xl mb-4 font-extrabold tracking-tight text-slate-900 text-center'>
-                Doodle Dash
+                Welcome To ThinkInk <br/>
+                A Doodle Game
             </h1>
 
             <h2
                 className='sm:text-2xl text-xl mb-3 font-semibold text-slate-900'>
-                How fast can a neural network predict your doodles?
+                Compete Against Real Players from all around the world. 
             </h2>
 
             <button

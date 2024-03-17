@@ -7,7 +7,8 @@ const userRouter = require("./routers/userRouter");
 const utilRouter = require("./routers/utils");
 const cors = require("cors");
 
-let users = [];
+const users = [];
+const createdRooms = [];
 
 // initialize express
 const app = express();
@@ -64,7 +65,17 @@ io.on("connection", (socket) => {
 
   socket.on("join-room", (room) => {
     socket.join(room);
+    if(createdRooms.find(r => r.roomName === room)) {
+      createdRooms.find(r => r.roomName === room).users.push(socket.id);
+    }else{
+      createdRooms.push({
+        roomName : room,
+        users: [socket.id],
+      });
+    }
     console.log(`User joined room ${room}`);
+
+    socket.emit('notify-room', createdRooms)
   });
 
   socket.on("message", ({ room, message }) => {

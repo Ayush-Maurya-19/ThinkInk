@@ -15,11 +15,13 @@ import DemoPage from "./components/DemoPage";
 import Multiplayer from "./components/Multiplayer";
 import { AppProvider } from "./AppContext";
 import { SocketProvider } from "./SocketContext";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <div>
       <BrowserRouter>
+      <Toaster position="top-right" />
         <AppProvider>
           <SocketProvider>
             <Navbar />
@@ -38,6 +40,7 @@ function App() {
             </Routes>
           </SocketProvider>
         </AppProvider>
+        
       </BrowserRouter>
     </div>
   );

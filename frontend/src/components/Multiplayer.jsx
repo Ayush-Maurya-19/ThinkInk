@@ -4,13 +4,13 @@ import Chat from "./Chat";
 
 const Multiplayer = () => {
   return (
-    <div>
+    <div className="grid grid-flow-row auto-rows-max ">
       <div className="row">
         <div className="col-md-2">
           <h2>Players</h2>
         </div>
         <div className="col-md-7">
-          {/* <SinglePlayer /> */}
+          <SinglePlayer />
         </div>
         <div className="col-md-2">
           <Chat />

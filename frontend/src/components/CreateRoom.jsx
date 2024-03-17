@@ -5,13 +5,24 @@ import { toast } from "react-hot-toast";
 import UseSocketContext from "../SocketContext";
 
 const CreateRoom = () => {
-  
-  const { socket, messages, setMessages, joinRoomHandler, roomName, setRoomName } = UseSocketContext();
+  const {
+    socket,
+    messages,
+    setMessages,
+    joinRoomHandler,
+    roomName,
+    setRoomName,
+    handleSubmit,
+    message,
+    setMessage,
+    room, setRoom
+    // createRoomHandler,
+  } = UseSocketContext();
 
-  const [message, setMessage] = useState("");
+  // const [message, setMessage] = useState("");
+
 
   useEffect(() => {
-
     socket.on("welcome", (s) => {
       console.log(s);
     });
@@ -33,12 +44,12 @@ const CreateRoom = () => {
           <div className="card-body">
             <h1 className="text-center">Manage Room</h1>
 
-            <p className="text-center mt-2">Socket ID: {socketID}</p>
+            <p className="text-center mt-2">Socket ID: {socket.id}</p>
 
-            <p className="text-center mt-2">Socket name: {socketname}</p>
+            {/* <p className="text-center mt-2">Socket name: {socketname}</p> */}
 
             <div className="justify-content-between d-flex ">
-              <form onSubmit={joinRoomHandler} className="mt-3">
+              <form  className="mt-3">
                 <input
                   type="text"
                   value={room}
@@ -46,21 +57,21 @@ const CreateRoom = () => {
                   className="form-control mb-3"
                 />
                 <div className="d-grid gap-2">
-                  <button type="submit" className="btn btn-primary ">
+                  <button type="button" className="btn btn-primary " onClick={joinRoomHandler}>
                     Create Room
                   </button>
                 </div>
               </form>
 
-              <form onSubmit={joinRoomHandler} className="mt-3">
+              <form className="mt-3">
                 <input
                   type="text"
-                  value={roomName}
-                  onChange={(e) => setRoomName(e.target.value)}
+                  value={room}
+                  onChange={(e) => setRoom(e.target.value)}
                   className="form-control mb-3"
                 />
                 <div className="d-grid gap-2">
-                  <button type="submit" className="btn btn-primary">
+                  <button type="button" className="btn btn-primary" onClick={joinRoomHandler}>
                     Join Room
                   </button>
                 </div>

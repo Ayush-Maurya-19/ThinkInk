@@ -2,18 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Walter+Turncoat&display=swap');
+
+
+
 @layer base {
-  ul, ol {
+  ul,
+  ol {
     list-style: revert;
   }
 }
 
+
+
 :root {
   position: relative;
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-
+  font-family: "Walter Turncoat", cursive;
   color: #213547;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -40,6 +45,8 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  font-family: "Walter Turncoat", cursive;
+
 }
 
 #root {
@@ -101,7 +108,6 @@ button {
 
   cursor: pointer;
   transition: border-color 0.25s;
-
 }
 
 button:hover {
