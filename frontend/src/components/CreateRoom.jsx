@@ -15,11 +15,19 @@ const CreateRoom = () => {
     handleSubmit,
     message,
     setMessage,
-    room, setRoom
+    room,
+    setRoom,
+    createdRooms,
+    roomList,
+    setRoomList,
+
+
+    
     // createRoomHandler,
   } = UseSocketContext();
 
   // const [message, setMessage] = useState("");
+
 
 
   useEffect(() => {
@@ -31,15 +39,48 @@ const CreateRoom = () => {
       console.log(users);
     });
 
+
+
+     
+
+
+    // socket.on("message", (message) => {
+    //   setMessages((prev) => [...prev, message]);
+    // });
+
+    // socket.on("notify-room", (createdRooms) => {
+    //   setRoomList(createdRooms);
+    // });
+
     // return () => {
     //   socket.disconnect();
     // };
   }, []);
 
   return (
-    <div>
+    <div className="row">
+      <div className="col-md-3 mx-auto mt-5">
+        <div className="card shadow">
+          <div className="card-body">
+            <h1 className="text-center">Rooms</h1>
+            <div className="text-center mt-3">
+              <h5>Rooms</h5>
+              <div className="card">
+                <div className="card-body">
+                  {roomList.map((r, i) => (
+                    <div key={i} style={{ marginBottom: "1rem" }}>
+                      <p className="text-end">{r.roomName}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
       {/* join room form */}
-      <div className="col-md-5 mx-auto mt-5">
+      <div className="col-md-4 mx-auto mt-5">
         <div className="card shadow">
           <div className="card-body">
             <h1 className="text-center">Manage Room</h1>
@@ -49,7 +90,7 @@ const CreateRoom = () => {
             {/* <p className="text-center mt-2">Socket name: {socketname}</p> */}
 
             <div className="justify-content-between d-flex ">
-              <form  className="mt-3">
+              <form className="mt-3">
                 <input
                   type="text"
                   value={room}
@@ -57,7 +98,11 @@ const CreateRoom = () => {
                   className="form-control mb-3"
                 />
                 <div className="d-grid gap-2">
-                  <button type="button" className="btn btn-primary " onClick={joinRoomHandler}>
+                  <button
+                    type="button"
+                    className="btn btn-primary "
+                    onClick={joinRoomHandler}
+                  >
                     Create Room
                   </button>
                 </div>
@@ -71,7 +116,11 @@ const CreateRoom = () => {
                   className="form-control mb-3"
                 />
                 <div className="d-grid gap-2">
-                  <button type="button" className="btn btn-primary" onClick={joinRoomHandler}>
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={joinRoomHandler}
+                  >
                     Join Room
                   </button>
                 </div>
@@ -106,6 +155,7 @@ const CreateRoom = () => {
           </div>
         </div>
       </div>
+      <div className="col-md-3"></div>
     </div>
   );
 };

@@ -17,18 +17,23 @@ export const SocketProvider = ({ children }) => {
 
   const [roomList, setRoomList] = useState([]);
 
+
+
   const navigate = useNavigate();
 
   useEffect(() => {
     socket.on("notify-room", (createdRooms) => console.log(createdRooms));
-  }, [])
-  
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     socket.emit("message", { message, room });
     setMessage("");
   };
+
+ 
+
+
 
   // const createRoomHandler = () => {
   //   // e.preventDefault();
@@ -56,6 +61,13 @@ export const SocketProvider = ({ children }) => {
     }
   };
 
+  roomList.map((r) => {
+    console.log(r);
+  }
+  );
+
+
+
   useEffect(() => {
     socket.on("connect", () => {
       setSocketId(socket.id);
@@ -82,6 +94,11 @@ export const SocketProvider = ({ children }) => {
         setMessage,
         setRoom,
         room,
+        createdRooms: roomList,
+        roomList,
+        setRoomList,
+
+        
       }}
     >
       {children}
