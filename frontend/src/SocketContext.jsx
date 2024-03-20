@@ -17,8 +17,6 @@ export const SocketProvider = ({ children }) => {
 
   const [roomList, setRoomList] = useState([]);
 
-
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,10 +28,6 @@ export const SocketProvider = ({ children }) => {
     socket.emit("message", { message, room });
     setMessage("");
   };
-
- 
-
-
 
   // const createRoomHandler = () => {
   //   // e.preventDefault();
@@ -53,25 +47,31 @@ export const SocketProvider = ({ children }) => {
     if (room === "") {
       toast.error("Room name is required");
     } else {
-      socket.emit("join-room", room);
-      setRoomName("");
-      toast.success("Room created successfully");
-      socket.on("notify-room", (createdRooms) => console.log(createdRooms));
-      // navigate("/multiplayer");
+      //check if user is in another room
+      if (roomList.find((r) => r.roomName === room)) {
+        toast.error("You are already in a room");
+      } else {
+        socket.emit("join-room", room);
+        setRoomName("");
+        toast.success("Room created successfully");
+        socket.on("notify-room", (createdRooms) => console.log(createdRooms));
+        // navigate("/multiplayer");
+      }
     }
   };
 
   roomList.map((r) => {
     console.log(r);
-  }
-  );
-
-
+  });
 
   useEffect(() => {
     socket.on("connect", () => {
       setSocketId(socket.id);
       console.log("connected", socket.id);
+    });
+
+    socket.on("new user", (users) => {
+      console.log(users);
     });
 
     socket.on("receive-message", (data) => {
@@ -97,8 +97,6 @@ export const SocketProvider = ({ children }) => {
         createdRooms: roomList,
         roomList,
         setRoomList,
-
-        
       }}
     >
       {children}

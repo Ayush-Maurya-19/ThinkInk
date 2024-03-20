@@ -26,7 +26,7 @@
   -webkit-text-size-adjust: 100%;
 
   background-color: #ffffff;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 a {
@@ -96,6 +96,8 @@ h6 {
   font-size: 1.2em;
   line-height: 1.1;
 }
+
+
 
 button {
   border-radius: 8px;

@@ -15,7 +15,9 @@ const app = express();
 const port = 5000;
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
-  cors: { origin: ["http://localhost:3000"] },
+  cors: {
+    origin: ["http://localhost:3000"],
+  },
 });
 
 // middlewares
@@ -51,7 +53,6 @@ app.get("/getall", (req, res) => {
 // socket.io
 
 io.on("connection", (socket) => {
-
   console.log("User Connected", socket.id);
 
   socket.on("join server", (username) => {
@@ -65,17 +66,24 @@ io.on("connection", (socket) => {
 
   socket.on("join-room", (room) => {
     socket.join(room);
-    if(createdRooms.find(r => r.roomName === room)) {
-      createdRooms.find(r => r.roomName === room).users.push(socket.id);
-    }else{
+    if (createdRooms.find((r) => r.roomName === room)) {
+      createdRooms.find((r) => r.roomName === room).users.push(socket.id);
+    } else {
       createdRooms.push({
-        roomName : room,
+        roomName: room,
         users: [socket.id],
       });
     }
     console.log(`User joined room ${room}`);
 
-    socket.emit('notify-room', createdRooms)
+    socket.emit("notify-room", createdRooms);
+  });
+
+  socket.on("delete-room", (room) => {
+    const index = createdRooms.findIndex((r) => r.roomName === room);
+    createdRooms.splice(index, 1);
+    io.emit("notify-room", createdRooms);
+    console.log(`User deleted room ${room}`);
   });
 
   socket.on("message", ({ room, message }) => {

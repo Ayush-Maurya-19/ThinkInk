@@ -17,40 +17,26 @@ const CreateRoom = () => {
     setMessage,
     room,
     setRoom,
-    createdRooms,
     roomList,
     setRoomList,
 
-
-    
     // createRoomHandler,
   } = UseSocketContext();
 
   // const [message, setMessage] = useState("");
-
-
 
   useEffect(() => {
     socket.on("welcome", (s) => {
       console.log(s);
     });
 
-    socket.on("new user", (users) => {
-      console.log(users);
-    });
-
-
-
-     
-
-
     // socket.on("message", (message) => {
     //   setMessages((prev) => [...prev, message]);
     // });
 
-    // socket.on("notify-room", (createdRooms) => {
-    //   setRoomList(createdRooms);
-    // });
+    socket.on("notify-room", (createdRooms) => {
+      setRoomList(createdRooms);
+    });
 
     // return () => {
     //   socket.disconnect();
@@ -62,22 +48,47 @@ const CreateRoom = () => {
       <div className="col-md-3 mx-auto mt-5">
         <div className="card shadow">
           <div className="card-body">
-            <h1 className="text-center">Rooms</h1>
-            <div className="text-center mt-3">
-              <h5>Rooms</h5>
-              <div className="card">
-                <div className="card-body">
-                  {roomList.map((r, i) => (
-                    <div key={i} style={{ marginBottom: "1rem" }}>
-                      <p className="text-end">{r.roomName}</p>
+            <h3 className="text-center mb-2">Room List</h3>
+            <div className="card">
+              <div className="card-body">
+                {roomList.map((r, i) => (
+                  <div key={i} style={{ marginBottom: "0.5rem" }}>
+                    <p>{r.roomName}</p>
+
+                    <p>Total Joined Player: {r.users.length}</p>
+                    {r.users.map((u, i) => (
+                      <div key={i} style={{ marginBottom: "0.5rem" }}>
+                        <p className="text-start text-sm">User: {u}</p>
+                      </div>
+                    ))}
+
+                    <div className="row mx-auto">
+                      <div className="col-md-6 ">
+                        <Link
+                          to={`/multiplayer/${r.roomName}`}
+                          className="btn btn-primary"
+                        >
+                          Join Room
+                        </Link>
+                      </div>
+                      <div className="col-md-6">
+                        <button
+                          type="button"
+                          className="btn btn-danger"
+                          onClick={() => {
+                            socket.emit("delete-room", r.roomName);
+                          }}
+                        >
+                          Delete Room
+                        </button>
+                      </div>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
-        
       </div>
       {/* join room form */}
       <div className="col-md-4 mx-auto mt-5">
@@ -155,7 +166,31 @@ const CreateRoom = () => {
           </div>
         </div>
       </div>
-      <div className="col-md-3"></div>
+      <div className="col-md-3">
+        <div className="card shadow">
+          <div className="card-body">
+            <h3 className="text-center">Player In Room</h3>
+            <div className="card">
+              <div className="card-body">
+                {/* {roomList.map((r, i) => (
+                  <div key={i} style={{ marginBottom: "0.5rem" }}>
+                    <p className="text-start text-lg">{r.roomName}</p>
+
+                    {r.users.map((u, i) => (
+                      <div key={i} style={{ marginBottom: "0.5rem" }}>
+                        <p className="text-start text-sm">{u}</p>
+                      </div>
+                    ))}
+
+                 
+                  
+                  </div>
+                ))} */}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
