@@ -7,7 +7,7 @@ const userRouter = require("./routers/userRouter");
 const utilRouter = require("./routers/utils");
 const cors = require("cors");
 
-const users = [];
+const usersName = [];
 const createdRooms = [];
 
 // initialize express
@@ -55,13 +55,14 @@ app.get("/getall", (req, res) => {
 io.on("connection", (socket) => {
   console.log("User Connected", socket.id);
 
-  socket.on("join server", (username) => {
-    const user = {
-      username,
-      id: socket.id,
-    };
-    users.push(user);
-    io.emit("new user", users);
+  socket.on("set-name", (name) => {
+    if (usersName.includes(name)) {
+      socket.emit("name-exists", "Name already exists");
+    } else {
+      usersName.push(name);
+      socket.emit("name-set", name);
+      console.log(`User set name ${name}`);
+    }
   });
 
   socket.on("join-room", (room) => {
@@ -77,6 +78,21 @@ io.on("connection", (socket) => {
     console.log(`User joined room ${room}`);
 
     socket.emit("notify-room", createdRooms);
+  });
+
+  socket.on("leave-room", (room) => {
+    socket.leave(room);
+    const index = createdRooms.findIndex((r) => r.roomName === room);
+    if (index !== -1) {
+      createdRooms[index].users = createdRooms[index].users.filter(
+        (u) => u !== socket.id
+      );
+      if (createdRooms[index].users.length === 0) {
+        createdRooms.splice(index, 1);
+      }
+      io.emit("notify-room", createdRooms);
+      console.log(`User left room ${room}`);
+    }
   });
 
   socket.on("delete-room", (room) => {

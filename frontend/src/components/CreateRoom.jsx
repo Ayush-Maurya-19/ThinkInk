@@ -19,6 +19,9 @@ const CreateRoom = () => {
     setRoom,
     roomList,
     setRoomList,
+    joinexisitingRoomHandler,
+    usersName,
+    setUsersName,
 
     // createRoomHandler,
   } = UseSocketContext();
@@ -56,6 +59,7 @@ const CreateRoom = () => {
                     <p>{r.roomName}</p>
 
                     <p>Total Joined Player: {r.users.length}</p>
+
                     {r.users.map((u, i) => (
                       <div key={i} style={{ marginBottom: "0.5rem" }}>
                         <p className="text-start text-sm">User: {u}</p>
@@ -64,22 +68,28 @@ const CreateRoom = () => {
 
                     <div className="row mx-auto">
                       <div className="col-md-6 ">
-                        <Link
-                          to={`/multiplayer/${r.roomName}`}
+                        {/*Join joinexisitingRoomHandler */}
+                        <button
+                          type="button"
                           className="btn btn-primary"
+                          onClick={() => {
+                            joinexisitingRoomHandler(r.roomName);
+                          }}
                         >
                           Join Room
-                        </Link>
+                        </button>
                       </div>
                       <div className="col-md-6">
+                        {/*Leave Room*/}
                         <button
                           type="button"
                           className="btn btn-danger"
                           onClick={() => {
-                            socket.emit("delete-room", r.roomName);
+                            socket.emit("leave-room", r.roomName);
+                            toast.error("Room left successfully");
                           }}
                         >
-                          Delete Room
+                          Leave Room
                         </button>
                       </div>
                     </div>
@@ -90,6 +100,7 @@ const CreateRoom = () => {
           </div>
         </div>
       </div>
+
       {/* join room form */}
       <div className="col-md-4 mx-auto mt-5">
         <div className="card shadow">
@@ -98,7 +109,27 @@ const CreateRoom = () => {
 
             <p className="text-center mt-2">Socket ID: {socket.id}</p>
 
-            {/* <p className="text-center mt-2">Socket name: {socketname}</p> */}
+            {/*user need to enter their name that should be unique */}
+            {/* 
+            <form className="mt-3">
+              <input
+                type="text"
+                value={usersName}
+                onChange={(e) => setUsersName(e.target.value)}
+                className="form-control mb-3"
+              />
+              <div className="d-grid gap-2">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => {
+                    socket.emit("name-set", usersName);
+                  }}
+                >
+                  Set Name
+                </button>
+              </div>
+            </form> */}
 
             <div className="justify-content-between d-flex ">
               <form className="mt-3">

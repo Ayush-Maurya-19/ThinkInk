@@ -14,6 +14,7 @@ export const SocketProvider = ({ children }) => {
   const [socketID, setSocketId] = useState("");
   const [roomName, setRoomName] = useState("");
   const [socketname, setSocketName] = useState("");
+  const [usersName, setUsersName] = useState([]);
 
   const [roomList, setRoomList] = useState([]);
 
@@ -47,8 +48,8 @@ export const SocketProvider = ({ children }) => {
     if (room === "") {
       toast.error("Room name is required");
     } else {
-      //check if user is in another room
-      if (roomList.find((r) => r.roomName === room)) {
+      //check if user is in another room and also check if he leave the room then allow him to join another room
+      if (roomList.find((r) => r.users.includes(socketID))) {
         toast.error("You are already in a room");
       } else {
         socket.emit("join-room", room);
@@ -60,6 +61,18 @@ export const SocketProvider = ({ children }) => {
     }
   };
 
+  const joinexisitingRoomHandler = (room) => {
+    if (roomList.find((r) => r.users.includes(socketID))) {
+      toast.error("You are already in a room");
+    } else {
+      socket.emit("join-room", room);
+      setRoomName("");
+      toast.success("Room created successfully");
+      socket.on("notify-room", (createdRooms) => console.log(createdRooms));
+      // navigate("/multiplayer");
+    }
+  };
+
   roomList.map((r) => {
     console.log(r);
   });
@@ -68,6 +81,10 @@ export const SocketProvider = ({ children }) => {
     socket.on("connect", () => {
       setSocketId(socket.id);
       console.log("connected", socket.id);
+    });
+
+    socket.on("name-set", (name) => {
+      console.log(name);
     });
 
     socket.on("new user", (users) => {
@@ -97,6 +114,9 @@ export const SocketProvider = ({ children }) => {
         createdRooms: roomList,
         roomList,
         setRoomList,
+        joinexisitingRoomHandler,
+        usersName,
+        setUsersName,
       }}
     >
       {children}
