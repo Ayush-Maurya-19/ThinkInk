@@ -69,15 +69,16 @@ const CreateRoom = () => {
                     <div className="row mx-auto">
                       <div className="col-md-6 ">
                         {/*Join joinexisitingRoomHandler */}
-                        <button
-                          type="button"
-                          className="btn btn-primary"
-                          onClick={() => {
-                            joinexisitingRoomHandler(r.roomName);
-                          }}
-                        >
-                          Join Room
-                        </button>
+                        
+                          <button
+                            type="button"
+                            className="btn btn-primary"
+                            onClick={() => {
+                              joinexisitingRoomHandler(r.roomName);
+                            }}
+                          >
+                            Join Room
+                          </button>
                       </div>
                       <div className="col-md-6">
                         {/*Leave Room*/}
@@ -101,7 +102,7 @@ const CreateRoom = () => {
         </div>
       </div>
 
-      {/* join room form */}
+      {/* -----------  Create room form  ------------------ */}
       <div className="col-md-4 mx-auto mt-5">
         <div className="card shadow">
           <div className="card-body">
@@ -131,13 +132,14 @@ const CreateRoom = () => {
               </div>
             </form> */}
 
-            <div className="justify-content-between d-flex ">
+            <div className="justify-content-between  ">
               <form className="mt-3">
                 <input
                   type="text"
                   value={room}
                   onChange={(e) => setRoom(e.target.value)}
                   className="form-control mb-3"
+                  placeholder="Enter Room Name"
                 />
                 <div className="d-grid gap-2">
                   <button
@@ -150,7 +152,7 @@ const CreateRoom = () => {
                 </div>
               </form>
 
-              <form className="mt-3">
+              {/* <form className="mt-3">
                 <input
                   type="text"
                   value={room}
@@ -166,7 +168,7 @@ const CreateRoom = () => {
                     Join Room
                   </button>
                 </div>
-              </form>
+              </form> */}
             </div>
 
             <div className="text-center mt-3">
@@ -197,26 +199,15 @@ const CreateRoom = () => {
           </div>
         </div>
       </div>
-      <div className="col-md-3">
+
+      {/* -----------  Players in room  ------------------ */}
+      <div className="col-md-3 mx-auto mt-5">
         <div className="card shadow">
           <div className="card-body">
             <h3 className="text-center">Player In Room</h3>
             <div className="card">
               <div className="card-body">
-                {/* {roomList.map((r, i) => (
-                  <div key={i} style={{ marginBottom: "0.5rem" }}>
-                    <p className="text-start text-lg">{r.roomName}</p>
-
-                    {r.users.map((u, i) => (
-                      <div key={i} style={{ marginBottom: "0.5rem" }}>
-                        <p className="text-start text-sm">{u}</p>
-                      </div>
-                    ))}
-
-                 
-                  
-                  </div>
-                ))} */}
+                {/* show user id with the room they have joined */}
               </div>
             </div>
           </div>
