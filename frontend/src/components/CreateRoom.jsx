@@ -132,7 +132,7 @@ const CreateRoom = () => {
               </div>
             </form> */}
 
-            <div className="justify-content-between  ">
+            <div className="justify-content-between  d-flex">
               <form className="mt-3">
                 <input
                   type="text"
@@ -152,7 +152,7 @@ const CreateRoom = () => {
                 </div>
               </form>
 
-              {/* <form className="mt-3">
+              <form className="mt-3">
                 <input
                   type="text"
                   value={room}
@@ -168,13 +168,13 @@ const CreateRoom = () => {
                     Join Room
                   </button>
                 </div>
-              </form> */}
+              </form>
             </div>
 
             <div className="text-center mt-3">
               <h5>Messages</h5>
               <div className="card">
-                <div className="card-body">
+                <div className="card-body bg-light">
                   {messages.map((m, i) => (
                     <div key={i} style={{ marginBottom: "1rem" }}>
                       <p className="text-end">{m}</p>
@@ -189,6 +189,7 @@ const CreateRoom = () => {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 className="form-control mb-3"
+                placeholder="Enter message"
               />
               <div className="d-grid gap-2">
                 <button type="submit" className="btn btn-primary">

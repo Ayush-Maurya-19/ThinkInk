@@ -8,6 +8,7 @@ const Multiplayer = () => {
   <div class="grid grid-cols-12 gap-4">
     <div class="col-span-2">
       <h2 class="text-xl font-bold">Players</h2>
+      
     </div>
     <div class="col-span-8 	">
         <SinglePlayer/>      
