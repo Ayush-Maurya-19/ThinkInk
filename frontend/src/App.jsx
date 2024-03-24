@@ -16,6 +16,7 @@ import Multiplayer from "./components/Multiplayer";
 import { AppProvider } from "./AppContext";
 import { SocketProvider } from "./SocketContext";
 import { Toaster } from "react-hot-toast";
+import LeaderBoard from "./components/LeaderBoard";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
               <Route element={<Chat />} path="chat" />
               <Route element={<DrawingPage />} path="drawingpage" />
               <Route element={<DemoPage />} path="demopage" />
+              <Route element={<LeaderBoard />} path="leaderboard" />
             </Routes>
           </SocketProvider>
         </AppProvider>
