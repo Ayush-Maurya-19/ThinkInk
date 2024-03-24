@@ -36,8 +36,9 @@ const CreateRoom = () => {
     // socket.on("message", (message) => {
     //   setMessages((prev) => [...prev, message]);
     // });
-
+    socket.emit("get-room-info");
     socket.on("notify-room", (createdRooms) => {
+      console.log(createdRooms);
       setRoomList(createdRooms);
     });
 
@@ -69,16 +70,16 @@ const CreateRoom = () => {
                     <div className="row mx-auto">
                       <div className="col-md-6 ">
                         {/*Join joinexisitingRoomHandler */}
-                        
-                          <button
-                            type="button"
-                            className="btn btn-primary"
-                            onClick={() => {
-                              joinexisitingRoomHandler(r.roomName);
-                            }}
-                          >
-                            Join Room
-                          </button>
+
+                        <button
+                          type="button"
+                          className="btn btn-primary"
+                          onClick={() => {
+                            joinexisitingRoomHandler(r.roomName);
+                          }}
+                        >
+                          Join Room
+                        </button>
                       </div>
                       <div className="col-md-6">
                         {/*Leave Room*/}
@@ -208,7 +209,19 @@ const CreateRoom = () => {
             <h3 className="text-center">Player In Room</h3>
             <div className="card">
               <div className="card-body">
-                {/* show user id with the room they have joined */}
+                {/*fetch data of users in a single room */}
+                {roomList.map((r, i) => (
+                  <div key={i} style={{ marginBottom: "0.5rem" }}>
+                    <p>{r.roomName}</p>
+
+                    {r.users.map((u, i) => (
+                      <div key={i} style={{ marginBottom: "0.5rem" }}>
+                        <p className="text-start text-sm">User: {u}</p>
+                      </div>
+                    ))}
+                    <p>Total Joined Player: {r.users.length}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

@@ -29,19 +29,7 @@ export const SocketProvider = ({ children }) => {
     socket.emit("message", { message, room });
     setMessage("");
   };
-
-  // const createRoomHandler = () => {
-  //   // e.preventDefault();
-  //   socket.emit("join-room", room);
-  //   setRoom("");
-
-  //   if (room === "") {
-  //     toast.error("Room name is required");
-  //   } else {
-  //     navigate("/multiplayer");
-  //   }
-  // }
-
+  socket.emit("get-room-info");
   const joinRoomHandler = () => {
     // e.preventDefault();
     console.log(room);
@@ -95,7 +83,16 @@ export const SocketProvider = ({ children }) => {
       console.log(data);
       setMessages((messages) => [...messages, data]);
     });
+
   }, []);
+  
+  socket.on('receive-doodle', (data) => {
+    console.log(data);
+  })
+
+  const getDoodle = () => {
+    socket.emit('request-doodle', socket.id);
+  }
 
   return (
     <SocketContext.Provider
@@ -117,6 +114,7 @@ export const SocketProvider = ({ children }) => {
         joinexisitingRoomHandler,
         usersName,
         setUsersName,
+        getDoodle
       }}
     >
       {children}

@@ -1,6 +1,7 @@
 import React from "react";
 import SinglePlayer from "./SinglePlayer";
 import Chat from "./Chat";
+import PlayGame from "./PlayGame";
 
 const Multiplayer = () => {
   return (
@@ -11,7 +12,7 @@ const Multiplayer = () => {
       
     </div>
     <div class="col-span-8 	">
-        <SinglePlayer/>      
+        <PlayGame/>      
     </div>
     <div class="col-span-2">
       <div class="bg-gray-100 p-4">

@@ -7,6 +7,8 @@ const userRouter = require("./routers/userRouter");
 const utilRouter = require("./routers/utils");
 const cors = require("cors");
 
+const constantData = require("./constants");
+
 const usersName = [];
 const createdRooms = [];
 
@@ -80,6 +82,10 @@ io.on("connection", (socket) => {
     socket.emit("notify-room", createdRooms);
   });
 
+  socket.on('get-room-info', () => {
+    socket.emit("notify-room", createdRooms);
+  })
+
   socket.on("leave-room", (room) => {
     socket.leave(room);
     const index = createdRooms.findIndex((r) => r.roomName === room);
@@ -110,6 +116,13 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("User Disconnected", socket.id);
   });
+
+  socket.on('request-doodle', socketId => {
+
+    console.log(constantData.LABELS[0]);
+
+    socket.emit('receive-doodle', constantData.LABELS[0]);
+  })
 });
 
 // home
