@@ -54,6 +54,11 @@ app.get("/getall", (req, res) => {
 
 // socket.io
 
+const getRandomElement = (arr) => {
+  var index = Math.floor(Math.random() * arr.length);
+  return arr[index];
+}
+
 io.on("connection", (socket) => {
   console.log("User Connected", socket.id);
 
@@ -120,9 +125,10 @@ io.on("connection", (socket) => {
 
   socket.on('request-doodle', socketId => {
 
-    console.log(constantData.LABELS[0]);
+    const selDoodle = getRandomElement(Object.values(constantData.LABELS));
+    console.log(selDoodle);
 
-    socket.emit('receive-doodle', constantData.LABELS[0]);
+    socket.emit('receive-doodle', selDoodle);
   })
 });
 

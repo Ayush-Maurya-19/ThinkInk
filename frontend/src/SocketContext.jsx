@@ -24,6 +24,7 @@ export const SocketProvider = ({ children }) => {
   const [usersName, setUsersName] = useState([]);
 
   const [roomList, setRoomList] = useState([]);
+  const [currentDoodle, setCurrentDoodle] = useState(null);
 
   const navigate = useNavigate();
 
@@ -108,7 +109,7 @@ export const SocketProvider = ({ children }) => {
     });
     socket.on("receive-doodle", (data) => {
       console.log(data);
-      return data;
+      setCurrentDoodle(data);
     });
   }, []);
 
@@ -139,6 +140,8 @@ export const SocketProvider = ({ children }) => {
         usersName,
         setUsersName,
         getDoodle,
+        currentDoodle,
+        setCurrentDoodle,
       }}
     >
       {children}

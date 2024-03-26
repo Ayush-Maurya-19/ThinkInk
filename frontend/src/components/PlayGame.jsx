@@ -27,7 +27,7 @@ function shuffleArray(array) {
 
 const PlayGame = () => {
 
-  const {getDoodle} = UseSocketContext();
+  const {getDoodle, currentDoodle, setCurrentDoodle} = UseSocketContext();
 
   // Model loading
   const [ready, setReady] = useState(false);
@@ -46,7 +46,7 @@ const PlayGame = () => {
   const [targetIndex, setTargetIndex] = useState(0);
   const [predictions, setPredictions] = useState([]);
 
-  const [currentDoodle, setCurrentDoodle] = useState(null);
+
 
   // Create a reference to the worker object.
   const worker = useRef(null);
@@ -169,9 +169,10 @@ const PlayGame = () => {
 
     setTargets(possibleLabels);
     setTargetIndex(0);
-    console.log(possibleLabels);
-
-    const doodleName = getDoodle();
+    // console.log(possibleLabels);
+    
+    getDoodle();
+    // setCurrentDoodle(doodleName);
   };
 
   const handleMainClick = () => {
