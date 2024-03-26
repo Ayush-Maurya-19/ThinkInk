@@ -7,6 +7,7 @@ import UseSocketContext from "../SocketContext";
 const CreateRoom = () => {
   const {
     socket,
+    socketID,
     messages,
     setMessages,
     joinRoomHandler,
@@ -27,6 +28,10 @@ const CreateRoom = () => {
   } = UseSocketContext();
 
   // const [message, setMessage] = useState("");
+
+  const [currentUser, setCurrentUser] = useState(
+    JSON.parse(sessionStorage.getItem("user"))
+  );
 
   useEffect(() => {
     socket.on("welcome", (s) => {
@@ -49,6 +54,7 @@ const CreateRoom = () => {
 
   return (
     <div className="row">
+      <Link to='/multiplayer'>Start Game</Link>
       <div className="col-md-3 mx-auto mt-5">
         <div className="card shadow">
           <div className="card-body">
@@ -109,7 +115,7 @@ const CreateRoom = () => {
           <div className="card-body">
             <h1 className="text-center">Manage Room</h1>
 
-            <p className="text-center mt-2">Socket ID: {socket.id}</p>
+            <p className="text-center mt-2">Socket ID: {socketID}</p>
 
             {/*user need to enter their name that should be unique */}
             {/* 
@@ -134,7 +140,7 @@ const CreateRoom = () => {
             </form> */}
 
             <div className="justify-content-between  d-flex">
-              <form className="mt-3">
+              {/* <form className="mt-3"> */}
                 <input
                   type="text"
                   value={room}
@@ -151,9 +157,9 @@ const CreateRoom = () => {
                     Create Room
                   </button>
                 </div>
-              </form>
+              {/* </form> */}
 
-              <form className="mt-3">
+              {/* <form className="mt-3">
                 <input
                   type="text"
                   value={room}
@@ -169,7 +175,7 @@ const CreateRoom = () => {
                     Join Room
                   </button>
                 </div>
-              </form>
+              </form> */}
             </div>
 
             <div className="text-center mt-3">
@@ -204,6 +210,11 @@ const CreateRoom = () => {
 
       {/* -----------  Players in room  ------------------ */}
       <div className="col-md-3 mx-auto mt-5">
+        <div className="card mb-3 shadow">
+          <div className="card-body">
+            <h3>Loggedin as : {currentUser.name}</h3>
+          </div>
+        </div>
         <div className="card shadow">
           <div className="card-body">
             <h3 className="text-center">Player In Room</h3>

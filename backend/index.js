@@ -69,6 +69,7 @@ io.on("connection", (socket) => {
 
   socket.on("join-room", (room) => {
     socket.join(room);
+    console.log(socket.id);
     if (createdRooms.find((r) => r.roomName === room)) {
       createdRooms.find((r) => r.roomName === room).users.push(socket.id);
     } else {

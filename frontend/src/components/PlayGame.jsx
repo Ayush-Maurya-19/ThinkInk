@@ -46,6 +46,8 @@ const PlayGame = () => {
   const [targetIndex, setTargetIndex] = useState(0);
   const [predictions, setPredictions] = useState([]);
 
+  const [currentDoodle, setCurrentDoodle] = useState(null);
+
   // Create a reference to the worker object.
   const worker = useRef(null);
 
@@ -98,7 +100,7 @@ const PlayGame = () => {
                 i < filteredResult.length && i < amount + 1;
                 ++i
               ) {
-                if (filteredResult[i].label === targets[targetIndex]) {
+                if (filteredResult[i].label === currentDoodle) {
                   // The target label should not be rejected
                   continue;
                 }
@@ -167,8 +169,9 @@ const PlayGame = () => {
 
     setTargets(possibleLabels);
     setTargetIndex(0);
+    console.log(possibleLabels);
 
-    getDoodle();
+    const doodleName = getDoodle();
   };
 
   const handleMainClick = () => {
@@ -208,11 +211,11 @@ const PlayGame = () => {
           output: output?.[0] ?? null,
           image: image,
           correct: isCorrect,
-          target: targets[targetIndex],
+          target: currentDoodle,
         },
       ]);
     },
-    [output, targetIndex, targets]
+    [output, targetIndex]
   );
 
   const endGame = useCallback(
@@ -264,15 +267,15 @@ const PlayGame = () => {
 
   // detect for correct and go onto next
   useEffect(() => {
-    if (gameState === "playing" && output !== null && targets !== null) {
+    if (gameState === "playing" && output !== null && currentDoodle !== null) {
       // console.log(targets[targetIndex], output[0])
 
-      if (targets[targetIndex] === output[0].label) {
+      if (currentDoodle === output[0].label) {
         // Correct! Switch to next
         goNext(true);
       }
     }
-  }, [goNext, gameState, output, targets, targetIndex]);
+  }, [goNext, gameState, output, currentDoodle, targetIndex]);
 
   // GAME LOOP:
   useEffect(() => {
@@ -353,9 +356,9 @@ const PlayGame = () => {
         )}
       </AnimatePresence>
 
-      {isPlaying && gameCurrentTime !== null && targets && (
+      {isPlaying && gameCurrentTime !== null && currentDoodle && (
         <div className=" top-5 text-center">
-          <h2 className="text-4xl ">Draw &quot;{targets[targetIndex]}&quot;</h2>
+          <h2 className="text-4xl ">Draw &quot;{currentDoodle}&quot;</h2>
           <h3 className="text-2xl">
             {formatTime(
               Math.max(

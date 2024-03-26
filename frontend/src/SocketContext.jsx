@@ -1,12 +1,19 @@
 import { useNavigate } from "react-router-dom";
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { io } from "socket.io-client";
 import toast from "react-hot-toast";
 
 const SocketContext = createContext();
 
 export const SocketProvider = ({ children }) => {
-  const socket = useMemo(() => io("http://localhost:5000"), []);
+  const socket = useMemo(
+    () => io("http://localhost:5000"),
+    []
+  );
+
+  const hasRun = useRef(false);
+
+  // const [socket, setSocket] = useState(io("http://localhost:5000", { autoConnect: false }));
 
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState([]);
@@ -21,7 +28,22 @@ export const SocketProvider = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    socket.on("notify-room", (createdRooms) => console.log(createdRooms));
+    if(!hasRun.current) {
+      socket.on("notify-room", (createdRooms) => console.log(createdRooms));
+      hasRun.current = true;
+    }
+  }, []);
+
+  useEffect(() => {
+    // const socketId = sessionStorage.getItem("socketID");
+    // if (socketId) {
+    //   setSocketId(socketId);
+    // }else{
+    //   let s = socket.connect();
+    //   // console.log(s);
+    //   // setSocket(s);
+    //   console.log('connected');
+    // }
   }, []);
 
   const handleSubmit = (e) => {
@@ -29,7 +51,7 @@ export const SocketProvider = ({ children }) => {
     socket.emit("message", { message, room });
     setMessage("");
   };
-  socket.emit("get-room-info");
+  // socket.emit("get-room-info");
   const joinRoomHandler = () => {
     // e.preventDefault();
     console.log(room);
@@ -68,6 +90,7 @@ export const SocketProvider = ({ children }) => {
   useEffect(() => {
     socket.on("connect", () => {
       setSocketId(socket.id);
+      sessionStorage.setItem("socketID", socket.id);
       console.log("connected", socket.id);
     });
 
@@ -83,21 +106,22 @@ export const SocketProvider = ({ children }) => {
       console.log(data);
       setMessages((messages) => [...messages, data]);
     });
-
+    socket.on("receive-doodle", (data) => {
+      console.log(data);
+      return data;
+    });
   }, []);
-  
-  socket.on('receive-doodle', (data) => {
-    console.log(data);
-  })
+
 
   const getDoodle = () => {
-    socket.emit('request-doodle', socket.id);
-  }
+    socket.emit("request-doodle", socket.id);
+  };
 
   return (
     <SocketContext.Provider
       value={{
         socket,
+        socketID,
         messages,
         setMessages,
         handleSubmit,
@@ -114,7 +138,7 @@ export const SocketProvider = ({ children }) => {
         joinexisitingRoomHandler,
         usersName,
         setUsersName,
-        getDoodle
+        getDoodle,
       }}
     >
       {children}
