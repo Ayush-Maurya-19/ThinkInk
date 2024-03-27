@@ -1,5 +1,4 @@
 
-// https://www.geeksforgeeks.org/difference-between-debouncing-and-throttling/
 export function debounce(func, delay) {
     let timerId;
     return function () {
@@ -26,7 +25,6 @@ export function throttle(func, delay) {
 }
 
 export function mobileTabletCheck() {
-    // https://stackoverflow.com/questions/11381673/detecting-a-mobile-browser
     let check = false;
     (function (a) {
         if (

@@ -37,19 +37,20 @@ const Home = () => {
               </Link>
             </div>
           </div>
-          <div className="col-md-5 mt-4 mx-auto">
-            <div className=" text-white text-center">
-              <span>
-                <h1>
-                  ThinkInk
+          <div className="col-md-5 mt-5 mx-auto">
+            <div className=" text-white text-center mx-auto mb-2">
+              <h1 className="row justify-content-center text-center mx-auto ">
+                <div className="col-sm-5 "> ThinkInk</div>
+                <div className="col-sm-2">
                   <img
+                  className="mx-auto"
                     src="./Assets/hui.gif"
                     alt="pencil"
-                    width={40}
-                    height={40}
+                    width={60}
+                    height={60}
                   />
-                </h1>
-              </span>
+                </div>
+              </h1>
             </div>
             <div className="card shadow bg-transparent text-white">
               <div className="card-body">
