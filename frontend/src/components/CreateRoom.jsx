@@ -54,7 +54,7 @@ const CreateRoom = () => {
 
   return (
     <div className="row">
-      <Link to='/multiplayer'>Start Game</Link>
+      <Link to="/multiplayer">Start Game</Link>
       <div className="col-md-3 mx-auto mt-5">
         <div className="card shadow">
           <div className="card-body">
@@ -141,22 +141,22 @@ const CreateRoom = () => {
 
             <div className="justify-content-between mt-2">
               {/* <form className="mt-3"> */}
-                <input
-                  type="text"
-                  value={room}
-                  onChange={(e) => setRoom(e.target.value)}
-                  className="form-control mb-3"
-                  placeholder="Enter Room Name"
-                />
-                <div className="d-grid gap-2">
-                  <button
-                    type="button"
-                    className="btn btn-primary "
-                    onClick={joinRoomHandler}
-                  >
-                    Create Room
-                  </button>
-                </div>
+              <input
+                type="text"
+                value={room}
+                onChange={(e) => setRoom(e.target.value)}
+                className="form-control mb-3"
+                placeholder="Enter Room Name"
+              />
+              <div className="d-grid gap-2">
+                <button
+                  type="button"
+                  className="btn btn-primary "
+                  onClick={joinRoomHandler}
+                >
+                  Create Room
+                </button>
+              </div>
               {/* </form> */}
 
               {/* <form className="mt-3">

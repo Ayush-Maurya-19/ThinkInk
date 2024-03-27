@@ -1,15 +1,19 @@
 import { useNavigate } from "react-router-dom";
-import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { io } from "socket.io-client";
 import toast from "react-hot-toast";
 
 const SocketContext = createContext();
 
 export const SocketProvider = ({ children }) => {
-  const socket = useMemo(
-    () => io("http://localhost:5000"),
-    []
-  );
+  const socket = useMemo(() => io("http://localhost:5000"), []);
 
   const hasRun = useRef(false);
 
@@ -29,7 +33,7 @@ export const SocketProvider = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(!hasRun.current) {
+    if (!hasRun.current) {
       socket.on("notify-room", (createdRooms) => console.log(createdRooms));
       hasRun.current = true;
     }
@@ -64,7 +68,7 @@ export const SocketProvider = ({ children }) => {
         toast.error("You are already in a room");
       } else {
         socket.emit("join-room", room);
-        setRoomName("");
+        setRoom("");
         toast.success("Room created successfully");
         socket.on("notify-room", (createdRooms) => console.log(createdRooms));
         // navigate("/multiplayer");
@@ -112,7 +116,6 @@ export const SocketProvider = ({ children }) => {
       setCurrentDoodle(data);
     });
   }, []);
-
 
   const getDoodle = () => {
     socket.emit("request-doodle", socket.id);
