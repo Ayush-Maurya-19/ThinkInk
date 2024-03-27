@@ -68,7 +68,7 @@ export const SocketProvider = ({ children }) => {
         toast.error("You are already in a room");
       } else {
         socket.emit("join-room", room);
-        setRoom("");
+        setRoomName("");
         toast.success("Room created successfully");
         socket.on("notify-room", (createdRooms) => console.log(createdRooms));
         // navigate("/multiplayer");
