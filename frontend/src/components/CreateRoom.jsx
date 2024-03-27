@@ -212,7 +212,8 @@ const CreateRoom = () => {
       <div className="col-md-3 mx-auto mt-5">
         <div className="card mb-3 shadow">
           <div className="card-body">
-            <h3>Loggedin as : {currentUser.name}</h3>
+            <h3 className="mb-2">User Name:</h3>
+            <h4 style={{textTransform: "uppercase"}}>&#128073; {currentUser.name}</h4>
           </div>
         </div>
         <div className="card shadow">
