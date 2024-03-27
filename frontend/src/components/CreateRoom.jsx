@@ -139,7 +139,7 @@ const CreateRoom = () => {
               </div>
             </form> */}
 
-            <div className="justify-content-between  d-flex">
+            <div className="justify-content-between mt-2">
               {/* <form className="mt-3"> */}
                 <input
                   type="text"
