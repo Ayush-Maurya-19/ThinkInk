@@ -183,7 +183,18 @@ const CreateRoom = () => {
                 <div className="card-body bg-light">
                   {messages.map((m, i) => (
                     <div key={i} style={{ marginBottom: "1rem" }}>
-                      <p className="text-end">{m}</p>
+                      <p className="text-start text-primary">
+                        <span
+                          className="text-secondary"
+                          style={{
+                            textTransform: "uppercase",
+                            fontSize: "12px",
+                          }}
+                        >
+                          {currentUser.name}:{" "}
+                        </span>
+                        {m}
+                      </p>
                     </div>
                   ))}
                 </div>

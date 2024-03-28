@@ -12,7 +12,10 @@ const Home = () => {
     if (loggedin) {
       return (
         <>
-          <div className="  cursor-pointer text-warning wobblee" onClick={logout}>
+          <div
+            className="  cursor-pointer text-warning wobblee"
+            onClick={logout}
+          >
             Logout
           </div>
         </>
@@ -63,8 +66,6 @@ const Home = () => {
       el.innerHTML = textCode.join("");
     });
   }, []);
-  
-  
 
   return (
     <div>
@@ -76,7 +77,7 @@ const Home = () => {
                 Rules
               </Link>
             </div>
-            <div >{displayUserOption()}</div>
+            <div>{displayUserOption()}</div>
           </div>
           <div className="col-md-5 mt-5 mx-auto">
             <div className=" text-white text-center mx-auto mb-2 ">
@@ -106,26 +107,12 @@ const Home = () => {
                   </Link>
                 </h3>
                 <h3 className="text-center mt-5 mb-3">
-                  {loggedin ? (
-                    <>
-                      <Link
-                        to="/createroom"
-                        className="text-decoration-none wobble text-white "
-                      >
-                        Multi Player
-                      </Link>
-                    </>
-                  ) : (
-                    <>
-                      <Link
-                        to="/login"
-                        className="text-decoration-none wobble text-white "
-                        
-                      >
-                        Multi Player
-                      </Link>
-                    </>
-                  )}
+                  <Link
+                    to="/createroom"
+                    className="text-decoration-none wobble text-white "
+                  >
+                    Multi Player
+                  </Link>
                 </h3>
               </div>
             </div>
