@@ -191,7 +191,8 @@ const CreateRoom = () => {
                             fontSize: "12px",
                           }}
                         >
-                          {currentUser.name}:{" "}
+                          
+                          {socketID}:{" "}
                         </span>
                         {m}
                       </p>
