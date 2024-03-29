@@ -6,10 +6,9 @@
   width: 100%;
 }
 
-.header{
+.header {
   display: flex;
   justify-content: space-between;
-  padding:0 20% 0 20%;
+  padding: 0 20% 0 20%;
   font-size: 22px;
-  
 }

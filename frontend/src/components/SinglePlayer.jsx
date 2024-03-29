@@ -16,7 +16,6 @@ const formatTime = (seconds) => {
     .padStart(2, "0")}`;
 };
 
-// https://stackoverflow.com/a/12646864/13989043
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -370,29 +369,10 @@ const SinglePlayer = () => {
                 100 * output[0].score
               ).toFixed(1)}%)`}
           </h1>
-
-          <div className="flex gap-2 text-white text">
-            <button
-              onClick={() => {
-                handleClearCanvas();
-              }}
-            >
-              Clear
-            </button>
-            <button
-              onClick={() => {
-                goNext(false);
-              }}
-            >
-              Skip
-            </button>
-            <button
-              onClick={() => {
-                handleEndGame(true);
-              }}
-            >
-              Exit
-            </button>
+          <div className='flex gap-2 justify-center  text-white'>
+            <button onClick={() => { handleClearCanvas() }}>Clear</button>
+            <button onClick={() => { goNext(false) }}>Skip</button>
+            <button onClick={() => { handleEndGame(true) }}>Exit</button>
           </div>
         </div>
       )}

@@ -57,7 +57,7 @@ app.get("/getall", (req, res) => {
 const getRandomElement = (arr) => {
   var index = Math.floor(Math.random() * arr.length);
   return arr[index];
-}
+};
 
 io.on("connection", (socket) => {
   console.log("User Connected", socket.id);
@@ -88,9 +88,9 @@ io.on("connection", (socket) => {
     socket.emit("notify-room", createdRooms);
   });
 
-  socket.on('get-room-info', () => {
+  socket.on("get-room-info", () => {
     socket.emit("notify-room", createdRooms);
-  })
+  });
 
   socket.on("leave-room", (room) => {
     socket.leave(room);
@@ -123,13 +123,12 @@ io.on("connection", (socket) => {
     console.log("User Disconnected", socket.id);
   });
 
-  socket.on('request-doodle', socketId => {
-
+  socket.on("request-doodle", (socketId) => {
     const selDoodle = getRandomElement(Object.values(constantData.LABELS));
     console.log(selDoodle);
 
-    socket.emit('receive-doodle', selDoodle);
-  })
+    socket.emit("receive-doodle", selDoodle);
+  });
 });
 
 // home

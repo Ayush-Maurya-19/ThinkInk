@@ -2,9 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Walter+Turncoat&display=swap');
-
-
+@import url("https://fonts.googleapis.com/css2?family=Walter+Turncoat&display=swap");
 
 @layer base {
   ul,
@@ -12,8 +10,6 @@
     list-style: revert;
   }
 }
-
-
 
 :root {
   position: relative;
@@ -46,7 +42,6 @@ body {
   min-width: 320px;
   min-height: 100vh;
   font-family: "Walter Turncoat", cursive;
-
 }
 
 #root {
@@ -97,8 +92,6 @@ h6 {
   line-height: 1.1;
 }
 
-
-
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -119,4 +112,40 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+/* .wobble {
+  font-size: 1.5rem;
+} */
+
+/* .wobblee {
+  font-size: 1.5rem;
+} */
+
+@keyframes wobb {
+  0%, 100%   {transform: translateY(0px)}
+  25%  {transform: translateY(-3px)}
+  75%  {transform: translateY(3px)}
+}
+
+.wobble span {
+  animation-name: wobb;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-duration: 400ms;
+  display: inline-block;
+  transform: translateY(0px);
+}
+
+.wobblee span {
+  animation-name: wobb;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-duration: 400ms;
+  display: inline-block;
+  transform: translateY(0px);
+}
+
+.spacer {
+  height: 100px;
 }

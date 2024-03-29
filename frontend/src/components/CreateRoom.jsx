@@ -54,7 +54,6 @@ const CreateRoom = () => {
 
   return (
     <div className="row">
-      <Link to='/multiplayer'>Start Game</Link>
       <div className="col-md-3 mx-auto mt-5">
         <div className="card shadow">
           <div className="card-body">
@@ -139,24 +138,24 @@ const CreateRoom = () => {
               </div>
             </form> */}
 
-            <div className="justify-content-between  d-flex">
+            <div className="justify-content-between mt-2">
               {/* <form className="mt-3"> */}
-                <input
-                  type="text"
-                  value={room}
-                  onChange={(e) => setRoom(e.target.value)}
-                  className="form-control mb-3"
-                  placeholder="Enter Room Name"
-                />
-                <div className="d-grid gap-2">
-                  <button
-                    type="button"
-                    className="btn btn-primary "
-                    onClick={joinRoomHandler}
-                  >
-                    Create Room
-                  </button>
-                </div>
+              <input
+                type="text"
+                value={room}
+                onChange={(e) => setRoom(e.target.value)}
+                className="form-control mb-3"
+                placeholder="Enter Room Name"
+              />
+              <div className="d-grid gap-2">
+                <button
+                  type="button"
+                  className="btn btn-primary "
+                  onClick={joinRoomHandler}
+                >
+                  Create Room
+                </button>
+              </div>
               {/* </form> */}
 
               {/* <form className="mt-3">
@@ -184,7 +183,19 @@ const CreateRoom = () => {
                 <div className="card-body bg-light">
                   {messages.map((m, i) => (
                     <div key={i} style={{ marginBottom: "1rem" }}>
-                      <p className="text-end">{m}</p>
+                      <p className="text-start text-primary">
+                        <span
+                          className="text-secondary"
+                          style={{
+                            textTransform: "uppercase",
+                            fontSize: "12px",
+                          }}
+                        >
+                          
+                          {socketID}:{" "}
+                        </span>
+                        {m}
+                      </p>
                     </div>
                   ))}
                 </div>
@@ -198,8 +209,8 @@ const CreateRoom = () => {
                 className="form-control mb-3"
                 placeholder="Enter message"
               />
-              <div className="d-grid gap-2">
-                <button type="submit" className="btn btn-primary">
+              <div className="d-grid">
+                <button type="submit" className="btn text-white">
                   Send
                 </button>
               </div>
@@ -212,7 +223,10 @@ const CreateRoom = () => {
       <div className="col-md-3 mx-auto mt-5">
         <div className="card mb-3 shadow">
           <div className="card-body">
-            <h3>Loggedin as : {currentUser.name}</h3>
+            <h3 className="mb-2">User Name:</h3>
+            <h4 style={{ textTransform: "uppercase" }}>
+              &#128073; {currentUser.name}
+            </h4>
           </div>
         </div>
         <div className="card shadow">
@@ -220,7 +234,8 @@ const CreateRoom = () => {
             <h3 className="text-center">Player In Room</h3>
             <div className="card">
               <div className="card-body">
-                {/*fetch data of users in a single room */}
+                {/*fetch data of users in all rooms */}
+
                 {roomList.map((r, i) => (
                   <div key={i} style={{ marginBottom: "0.5rem" }}>
                     <p>{r.roomName}</p>
@@ -230,7 +245,25 @@ const CreateRoom = () => {
                         <p className="text-start text-sm">User: {u}</p>
                       </div>
                     ))}
+
                     <p>Total Joined Player: {r.users.length}</p>
+
+                    {/* create if condition to check if user is in room or not */}
+                    {r.users.length >= 2 ? (
+                      <Link to="/multiplayer">
+                        <div className="d-grid mt-3">
+                          <button type="submit" className="btn text-white">
+                            Start Game
+                          </button>
+                        </div>
+                      </Link>
+                    ) : (
+                      <div className="d-grid mt-3">
+                        <button type="submit" className="btn text-white">
+                          Mini 2 Players required to Start
+                        </button>
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
