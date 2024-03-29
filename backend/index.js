@@ -62,6 +62,13 @@ const getRandomElement = (arr) => {
 io.on("connection", (socket) => {
   console.log("User Connected", socket.id);
 
+  //drawing logic
+
+  socket.on("draw-line", ({ room, line, tool, points }) => {
+    console.log({ room, line, tool, points });
+    socket.to(room).emit("draw-line", { line, tool, points });
+  });
+
   socket.on("set-name", (name) => {
     if (usersName.includes(name)) {
       socket.emit("name-exists", "Name already exists");

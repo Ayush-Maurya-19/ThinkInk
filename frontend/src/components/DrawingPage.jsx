@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Stage, Layer, Star, Text, Line } from "react-konva";
 import { useRef, useLayoutEffect } from "react";
+import { io } from "socket.io-client";
 
 const DrawingPage = () => {
   const containerRef = useRef(null);
