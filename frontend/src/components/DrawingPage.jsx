@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Stage, Layer, Star, Text, Line } from "react-konva";
 import { useRef, useLayoutEffect } from "react";
-import { io } from "socket.io-client";
+import UseSocketContext from "../SocketContext";
 
 const DrawingPage = () => {
   const containerRef = useRef(null);
@@ -13,6 +13,18 @@ const DrawingPage = () => {
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
   const [penWidth, setPenWidth] = useState(4);
+
+  const { getDoodle, currentDoodle, setCurrentDoodle } = UseSocketContext();
+
+  // change the doodle after every 30 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentDoodle(getDoodle());
+    }, 30000);
+    return () => clearInterval(interval);
+  }, [currentDoodle]);
+
+  const doodle = currentDoodle === null ? getDoodle() : currentDoodle;
 
   useLayoutEffect(() => {
     setWidth(containerRef.current.offsetWidth);
@@ -61,7 +73,7 @@ const DrawingPage = () => {
   return (
     <div className="container">
       <div className="text-center mt-4">
-        <h5>Draw the _______ </h5>
+        <h3>Draw the "{currentDoodle}"</h3>
       </div>
 
       <div className="col-span-6 mt-3">
