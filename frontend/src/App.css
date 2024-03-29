@@ -1,7 +1,7 @@
 .background {
   background-image: url(../Assets/bg1.jpg);
   background-size: cover;
-  height: 648px;
+  height: 100vh;
   display: flex;
   width: 100%;
 }
