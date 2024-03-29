@@ -18,6 +18,7 @@ import { SocketProvider } from "./SocketContext";
 import { Toaster } from "react-hot-toast";
 import LeaderBoard from "./components/LeaderBoard";
 import { GameProvider } from "./GameContext";
+import PlayersInRoom from "./components/PlayersInRoom";
 
 const ProtectedRoute = ({ children }) => {
   const userJSON = sessionStorage.user;
@@ -59,6 +60,8 @@ function App() {
                 <Route element={<Rules />} path="rules" />
                 <Route element={<Login />} path="login" />
                 <Route element={<Signup />} path="signup" />
+                <Route element={<PlayersInRoom />} path="playersinroom" />
+
                 <Route
                   element={
                     <ProtectedRoute>

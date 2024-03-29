@@ -220,6 +220,7 @@ const CreateRoom = () => {
       </div>
 
       {/* -----------  Players in room  ------------------ */}
+      
       <div className="col-md-3 mx-auto mt-5">
         <div className="card mb-3 shadow">
           <div className="card-body">

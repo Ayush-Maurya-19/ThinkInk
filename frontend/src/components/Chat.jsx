@@ -9,16 +9,16 @@ const Chat = () => {
     <div className="card shadow mx-auto ">
       <div className="card-body">
         <div className="text-center mb-4">
-          <h5 >Messages</h5>
+          <h5>Messages</h5>
+        </div>
+        <div className="card">
+          <div className="card-body bg-light">
+            {messages.map((m, i) => (
+              <div key={i} style={{ marginBottom: "1rem" }}>
+                <p className="text-end">{m}</p>
+              </div>
+            ))}
           </div>
-          <div className="card">
-            <div className="card-body bg-light">
-              {messages.map((m, i) => (
-                <div key={i} style={{ marginBottom: "1rem" }}>
-                  <p className="text-end">{m}</p>
-                </div>
-              ))}
-            </div>
         </div>
         <form onSubmit={handleSubmit} className="mt-3">
           <input
