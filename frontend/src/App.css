@@ -1,9 +1,19 @@
+
+.intro-card{
+  color: var(--theme-text);
+}
+
+.theme-text {
+  color: var(--theme-text);
+}
+
 .background {
   background-image: url(../Assets/bg1.jpg);
   background-size: cover;
   height: 100vh;
   display: flex;
-  width: 100%;
+  justify-content: center;
+  align-items: center;
 }
 
 .header {

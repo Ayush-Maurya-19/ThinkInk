@@ -94,14 +94,14 @@ const Home = () => {
                 </div>
               </h1>
             </div>
-            <div className="card shadow bg-transparent text-white">
+            <div className="card shadow intro-card">
               <div className="card-body">
-                <h2 className="text-center mb-3 ">Let's Play</h2>
+                <h2 className="text-center mb-3">Let's Play</h2>
                 <hr />
                 <h3 className="text-center my-5">
                   <Link
                     to="/singleplayer"
-                    className="text-decoration-none wobble text-white "
+                    className="text-decoration-none wobble theme-text"
                   >
                     Single Player
                   </Link>
@@ -109,7 +109,7 @@ const Home = () => {
                 <h3 className="text-center mt-5 mb-3">
                   <Link
                     to="/createroom"
-                    className="text-decoration-none wobble text-white "
+                    className="text-decoration-none wobble theme-text"
                   >
                     Multi Player
                   </Link>

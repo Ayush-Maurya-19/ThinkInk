@@ -6,6 +6,8 @@ import GameOver from "./GameOver";
 import Countdown from "./Countdown";
 
 import { AnimatePresence } from "framer-motion";
+import ScoreContainer from "./ScoreContainer";
+import UseGameContext from "../GameContext";
 
 const formatTime = (seconds) => {
   seconds = Math.floor(seconds);
@@ -26,6 +28,8 @@ function shuffleArray(array) {
 const SinglePlayer = () => {
   // Model loading
   const [ready, setReady] = useState(false);
+
+  const {setScore} = UseGameContext();
 
   // Game state
   const [gameState, setGameState] = useState("menu");
@@ -192,6 +196,7 @@ const SinglePlayer = () => {
 
   const addPrediction = useCallback(
     (isCorrect) => {
+      setScore((prev) => prev + (isCorrect ? 1 : 0));
       // take snapshot of canvas
       const image = canvasRef.current.getCanvasData();
 
@@ -313,14 +318,17 @@ const SinglePlayer = () => {
   const isPlaying = gameState === "playing";
   const countdownVisible = gameState === "countdown";
   const gameOver = gameState === "end";
+
+
+
   return (
-    <div className="" style={{width: '100%'}}>
+    <div className="" style={{ width: '100%' }}>
+      <ScoreContainer />
       {/*------------- this is the sketchcanvas files----------- */}
 
       <div
-        className={`h-full w-full top-0 left-0 absolute ${
-          isPlaying ? "" : "pointer-events-none"
-        }`}
+        className={`h-full w-full top-0 left-0 absolute ${isPlaying ? "" : "pointer-events-none"
+          }`}
       >
         <SketchCanvas
           onSketchChange={() => {
@@ -353,7 +361,7 @@ const SinglePlayer = () => {
             {formatTime(
               Math.max(
                 constants.GAME_DURATION -
-                  (gameCurrentTime - gameStartTime) / 1000,
+                (gameCurrentTime - gameStartTime) / 1000,
                 0
               )
             )}

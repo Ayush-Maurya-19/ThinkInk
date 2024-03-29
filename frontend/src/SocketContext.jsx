@@ -32,12 +32,14 @@ export const SocketProvider = ({ children }) => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!hasRun.current) {
-      socket.on("notify-room", (createdRooms) => console.log(createdRooms));
-      hasRun.current = true;
-    }
-  }, []);
+  socket.on("notify-room", (createdRooms) => {
+    console.log('notified');
+    console.log(createdRooms)});
+  // useEffect(() => {
+  //   if (!hasRun.current) {
+  //     hasRun.current = true;
+  //   }
+  // }, []);
 
   useEffect(() => {
     // const socketId = sessionStorage.getItem("socketID");
@@ -70,7 +72,7 @@ export const SocketProvider = ({ children }) => {
         socket.emit("join-room", room);
         setRoomName("");
         toast.success("Room created successfully");
-        socket.on("notify-room", (createdRooms) => console.log(createdRooms));
+        // socket.on("notify-room", (createdRooms) => console.log(createdRooms));
         // navigate("/multiplayer");
       }
     }
@@ -83,7 +85,7 @@ export const SocketProvider = ({ children }) => {
       socket.emit("join-room", room);
       setRoomName("");
       toast.success("Room created successfully");
-      socket.on("notify-room", (createdRooms) => console.log(createdRooms));
+      // socket.on("notify-room", (createdRooms) => console.log(createdRooms));
       // navigate("/multiplayer");
     }
   };

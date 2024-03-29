@@ -85,7 +85,7 @@ io.on("connection", (socket) => {
     }
     console.log(`User joined room ${room}`);
 
-    socket.emit("notify-room", createdRooms);
+    io.emit("notify-room", createdRooms);
   });
 
   socket.on("get-room-info", () => {
