@@ -1,3 +1,14 @@
+ {/* className="absolute  flex justify-center items-center  px-8 text-center" */}
+
+        {/* <h1 className="sm:text-8xl text-7xl mb-4 font-extrabold tracking-tight text-slate-900 text-center">
+          Welcome To ThinkInk <br />A Doodle Game
+        </h1>
+
+        <h2 className="sm:text-2xl text-xl mb-3 font-semibold text-slate-900">
+          Compete Against Real Players from all around the world.
+        </h2> */}
+
+        
 // import React, { useState, useRef, useEffect } from "react";
 // import io from "socket.io-client";
 // import JoinRoom from "./joinroom";

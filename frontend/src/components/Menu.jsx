@@ -29,7 +29,7 @@ const Menu = ({ onClick, gameState }) => {
       variants={dropIn}
       exit="hidden"
       // animate={{ opacity:  }}
-      className="absolute  flex justify-center items-center  px-8 text-center"
+      className="absolute w-full flex justify-center items-center flex-col px-8 mt-24 text-center"
     >
       <div>
         <h1 className="sm:text-8xl text-7xl mb-4 font-extrabold tracking-tight text-slate-900 text-center">
@@ -37,7 +37,7 @@ const Menu = ({ onClick, gameState }) => {
         </h1>
 
         <h2 className="sm:text-2xl text-xl mb-3 font-semibold text-slate-900">
-          Compete Against Real Players from all around the world.
+          Showcase Your Digital Drawing Skills.
         </h2>
 
         <button

@@ -323,7 +323,9 @@ const SinglePlayer = () => {
 
   return (
     <div className="" style={{ width: '100%' }}>
+      <div className="">
       <ScoreContainer />
+      </div>
       {/*------------- this is the sketchcanvas files----------- */}
 
       <div
@@ -353,9 +355,12 @@ const SinglePlayer = () => {
           <GameOver predictions={predictions} onClick={handleGameOverClick} />
         )}
       </AnimatePresence>
+      <div className="absolute"> 
+        --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        </div>
 
       {isPlaying && gameCurrentTime !== null && targets && (
-        <div className=" top-5 text-center">
+        <div className="absolute text-center mt-3	mx-96 px-36 ">
           <h2 className="text-4xl ">Draw &quot;{targets[targetIndex]}&quot;</h2>
           <h3 className="text-2xl">
             {formatTime(
@@ -368,16 +373,17 @@ const SinglePlayer = () => {
           </h3>
         </div>
       )}
+     
 
       {isPlaying && (
-        <div className="absolute bottom-5 text-center">
+        <div className="absolute bottom-5 text-center mx-96 px-36">
           <h1 className="text-2xl font-bold mb-3">
             {output &&
               `Prediction: ${output[0].label} (${(
                 100 * output[0].score
               ).toFixed(1)}%)`}
           </h1>
-          <div className='flex gap-2 justify-center  text-white'>
+          <div className='flex gap-2 text-white'>
             <button onClick={() => { handleClearCanvas() }}>Clear</button>
             <button onClick={() => { goNext(false) }}>Skip</button>
             <button onClick={() => { handleEndGame(true) }}>Exit</button>

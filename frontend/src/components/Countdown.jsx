@@ -39,7 +39,7 @@ const Countdown = ({ countdown }) => {
             animate={'visible'}
             variants={dropIn}
             exit="exit"
-            className='pointer-events-none absolute w-full h-full flex justify-center items-center'
+            className='pointer-events-none absolute w-full mt-40  flex justify-center items-center'
         >
             <h1
             style={{transform: 'translateY(-0.8rem)'}}

@@ -39,7 +39,14 @@ function App() {
             <SocketProvider>
               <Navbar />
               <Routes>
-                <Route element={<SinglePlayer />} path="/singleplayer" />
+                <Route
+                  element={
+                    <ProtectedRoute>
+                      <SinglePlayer />
+                    </ProtectedRoute>
+                  }
+                  path="/singleplayer"
+                />
                 <Route
                   element={
                     <ProtectedRoute>

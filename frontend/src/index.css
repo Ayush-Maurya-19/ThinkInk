@@ -24,7 +24,7 @@
   background-color: #ffffff;
   /* overflow: hidden; */
 
-  --theme-text: #213547;
+  --theme-text: white;
 }
 
 a {

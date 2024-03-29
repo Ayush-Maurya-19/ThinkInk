@@ -70,7 +70,7 @@ const Home = () => {
   return (
     <div>
       <div className="background">
-        <div className="container-fluid pt-5 mb-0 text-white ">
+        <div className="container-fluid mb-0 text-white ">
           <div className="header">
             <div>
               <Link to="/rules" className=" text-white wobblee">
@@ -79,7 +79,7 @@ const Home = () => {
             </div>
             <div>{displayUserOption()}</div>
           </div>
-          <div className="col-md-5 mt-5 mx-auto">
+          <div className="col-md-5 mt-3 mx-auto">
             <div className=" text-white text-center mx-auto mb-2 ">
               <h1 className="row justify-content-center text-center mx-auto ">
                 <div className="col-sm-5 wobblee "> ThinkInk</div>
@@ -94,7 +94,7 @@ const Home = () => {
                 </div>
               </h1>
             </div>
-            <div className="card shadow intro-card">
+            <div className="card shadow intro-card bg-transparent">
               <div className="card-body">
                 <h2 className="text-center mb-3">Let's Play</h2>
                 <hr />
