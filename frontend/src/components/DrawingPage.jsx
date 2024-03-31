@@ -73,7 +73,7 @@ const DrawingPage = () => {
   return (
     <div className="container">
       <div className="text-center mt-4">
-        <h3>Draw the "{currentDoodle}"</h3>
+        <h3>Draw a "{currentDoodle}"</h3>
       </div>
 
       <div className="col-span-6 mt-3">

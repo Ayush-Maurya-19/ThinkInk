@@ -13,13 +13,12 @@ const Rules = () => {
             <div>
               <h2  className="my-3">Single Player</h2>
               <ul>
-                <li>Draw the given word within 20sec.</li>
+                <li>Draw the given word within 30sec.</li>
                 <li>
-                  If the drawning is recoginized by AI you will recive 100
-                  points
+                  If the drawning is recoginized by AI you will recive a
+                  point.
                 </li>
-                <li>How if you don't you will lose 1 life.</li>
-                <li>The game offers you three lives.</li>
+                <li>However if you don't you will lose the game.</li>
                 <li>
                   Master the your drawing skills and beat your own high score
                   each time.
