@@ -60,15 +60,15 @@ const CreateRoom = () => {
             <h3 className="text-center mb-2">Room List</h3>
             <div className="card">
               <div className="card-body">
-                {roomList.map((r, i) => (
-                  <div key={i} style={{ marginBottom: "0.5rem" }}>
-                    <p>{r.roomName}</p>
+                {roomList.map(({roomName, users}) => (
+                  <div key={roomName} style={{ marginBottom: "0.5rem" }}>
+                    <p>{roomName}</p>
 
-                    <p>Total Joined Player: {r.users.length}</p>
+                    <p>Total Joined Player: {users.length}</p>
 
-                    {r.users.map((u, i) => (
-                      <div key={i} style={{ marginBottom: "0.5rem" }}>
-                        <p className="text-start text-sm">User: {u}</p>
+                    {users.map(({socketId, name}) => (
+                      <div key={socketId} style={{ marginBottom: "0.5rem" }}>
+                        <p className="text-start text-sm">User: {name} ({socketId})</p>
                       </div>
                     ))}
 
@@ -80,7 +80,7 @@ const CreateRoom = () => {
                           type="button"
                           className="btn btn-primary"
                           onClick={() => {
-                            joinexisitingRoomHandler(r.roomName);
+                            joinexisitingRoomHandler(roomName);
                           }}
                         >
                           Join Room
@@ -92,7 +92,7 @@ const CreateRoom = () => {
                           type="button"
                           className="btn btn-danger"
                           onClick={() => {
-                            socket.emit("leave-room", r.roomName);
+                            socket.emit("leave-room", roomName);
                             toast.error("Room left successfully");
                           }}
                         >
@@ -237,20 +237,20 @@ const CreateRoom = () => {
               <div className="card-body">
                 {/*fetch data of users in all rooms */}
 
-                {roomList.map((r, i) => (
-                  <div key={i} style={{ marginBottom: "0.5rem" }}>
-                    <p>{r.roomName}</p>
+                {roomList.map(({roomName, users}) => (
+                  <div key={roomName} style={{ marginBottom: "0.5rem" }}>
+                    <p>{roomName}</p>
 
-                    {r.users.map((u, i) => (
-                      <div key={i} style={{ marginBottom: "0.5rem" }}>
-                        <p className="text-start text-sm">User: {u}</p>
+                    {users.map(({username, socketId}) => (
+                      <div key={socketId} style={{ marginBottom: "0.5rem" }}>
+                        <p className="text-start text-sm">User: {username}</p>
                       </div>
                     ))}
 
-                    <p>Total Joined Player: {r.users.length}</p>
+                    <p>Total Joined Player: {users.length}</p>
 
                     {/* create if condition to check if user is in room or not */}
-                    {r.users.length >= 2 ? (
+                    {users.length >= 2 ? (
                       <Link to="/multiplayer">
                         <div className="d-grid mt-3">
                           <button type="submit" className="btn text-white">

@@ -79,7 +79,8 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("join-room", (room) => {
+  socket.on("join-room", (data) => {
+    const { room, username } = data;
     socket.join(room);
     console.log(socket.id);
     if (createdRooms.find((r) => r.roomName === room)) {
@@ -87,11 +88,10 @@ io.on("connection", (socket) => {
     } else {
       createdRooms.push({
         roomName: room,
-        users: [socket.id],
+        users: [{socketId : socket.id, name : username}],
       });
     }
     console.log(`User joined room ${room}`);
-
     io.emit("notify-room", createdRooms);
   });
 
