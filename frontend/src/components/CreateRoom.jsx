@@ -55,22 +55,23 @@ const CreateRoom = () => {
 
   return (
     <div className="row">
-    
       <div className="col-md-3 mx-auto mt-5">
         <div className="card shadow">
           <div className="card-body">
             <h3 className="text-center mb-2">Room List</h3>
             <div className="card">
               <div className="card-body">
-                {roomList.map(({roomName, users}) => (
+                {roomList.map(({ roomName, users }) => (
                   <div key={roomName} style={{ marginBottom: "0.5rem" }}>
-                    <p>{roomName}</p>
+                    <p>Room Name: {roomName}</p>
 
-                    <p>Total Joined Player: {users.length}</p>
+                    <p>Total Player: {users.length}</p>
 
-                    {users.map(({socketId, name}) => (
+                    {users.map(({ socketId, name }) => (
                       <div key={socketId} style={{ marginBottom: "0.5rem" }}>
-                        <p className="text-start text-sm">User: {name} ({socketId})</p>
+                        <p className="text-start text-sm">
+                          User: {name} ({socketId})
+                        </p>
                       </div>
                     ))}
 
@@ -193,7 +194,6 @@ const CreateRoom = () => {
                             fontSize: "12px",
                           }}
                         >
-                          
                           {socketID}:{" "}
                         </span>
                         {m}
@@ -222,7 +222,7 @@ const CreateRoom = () => {
       </div>
 
       {/* -----------  Players in room  ------------------ */}
-      
+
       <div className="col-md-3 mx-auto mt-5">
         <div className="card mb-3 shadow">
           <div className="card-body">
@@ -232,7 +232,7 @@ const CreateRoom = () => {
             </h4>
           </div>
         </div>
-        
+
         {/* <div className="card shadow">
           <div className="card-body">
             <h3 className="text-center">Player In Room</h3>

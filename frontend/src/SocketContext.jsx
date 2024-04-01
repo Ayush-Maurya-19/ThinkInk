@@ -75,7 +75,7 @@ export const SocketProvider = ({ children }) => {
         setRoomName("");
         toast.success("Room created successfully");
         // socket.on("notify-room", (createdRooms) => console.log(createdRooms));
-        navigate("/startgamescreen");
+        // navigate("/startgamescreen");
       }
     }
   };
