@@ -3,6 +3,7 @@ import { io } from "socket.io-client";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import UseSocketContext from "../SocketContext";
+import { Button } from "@mantine/core";
 
 const CreateRoom = () => {
   const {
@@ -54,6 +55,7 @@ const CreateRoom = () => {
 
   return (
     <div className="row">
+    
       <div className="col-md-3 mx-auto mt-5">
         <div className="card shadow">
           <div className="card-body">
@@ -230,12 +232,13 @@ const CreateRoom = () => {
             </h4>
           </div>
         </div>
-        <div className="card shadow">
+        
+        {/* <div className="card shadow">
           <div className="card-body">
             <h3 className="text-center">Player In Room</h3>
             <div className="card">
               <div className="card-body">
-                {/*fetch data of users in all rooms */}
+                {/*fetch data of users in all rooms 
 
                 {roomList.map(({roomName, users}) => (
                   <div key={roomName} style={{ marginBottom: "0.5rem" }}>
@@ -249,7 +252,7 @@ const CreateRoom = () => {
 
                     <p>Total Joined Player: {users.length}</p>
 
-                    {/* create if condition to check if user is in room or not */}
+                    {/* create if condition to check if user is in room or not 
                     {users.length >= 2 ? (
                       <Link to="/multiplayer">
                         <div className="d-grid mt-3">
@@ -270,7 +273,7 @@ const CreateRoom = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

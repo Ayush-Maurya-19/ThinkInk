@@ -19,6 +19,9 @@ import { Toaster } from "react-hot-toast";
 import LeaderBoard from "./components/LeaderBoard";
 import { GameProvider } from "./GameContext";
 import PlayersInRoom from "./components/PlayersInRoom";
+import StartGameScreen from "./components/StartGameScreen";
+import { MantineProvider } from "@mantine/core";
+import '@mantine/core/styles.css';
 
 const ProtectedRoute = ({ children }) => {
   const userJSON = sessionStorage.user;
@@ -32,7 +35,7 @@ const ProtectedRoute = ({ children }) => {
 
 function App() {
   return (
-    <div>
+    <MantineProvider>
       <BrowserRouter>
         <GameProvider>
           <Toaster position="top-right" />
@@ -55,6 +58,14 @@ function App() {
                     </ProtectedRoute>
                   }
                   path="/multiplayer"
+                />
+                <Route
+                  element={
+                    <ProtectedRoute>
+                      <StartGameScreen />
+                    </ProtectedRoute>
+                  }
+                  path="/startgamescreen"
                 />
                 <Route element={<Home />} path="/" />
                 <Route element={<Rules />} path="rules" />
@@ -80,7 +91,7 @@ function App() {
           </AppProvider>
         </GameProvider>
       </BrowserRouter>
-    </div>
+    </MantineProvider>
   );
 }
 
