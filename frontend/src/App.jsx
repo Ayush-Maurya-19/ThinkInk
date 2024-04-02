@@ -8,7 +8,7 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import Signup from "./components/signup";
 import CreateRoom from "./components/CreateRoom";
-import JoinRoom from "./components/joinroom";
+import JoinRoom from "./components/JoinRoom";
 import Chat from "./components/Chat";
 import DrawingPage from "./components/DrawingPage";
 import DemoPage from "./components/DemoPage";
@@ -86,6 +86,7 @@ function App() {
                 <Route element={<DrawingPage />} path="drawingpage" />
                 <Route element={<DemoPage />} path="demopage" />
                 <Route element={<LeaderBoard />} path="leaderboard" />
+                
               </Routes>
             </SocketProvider>
           </AppProvider>

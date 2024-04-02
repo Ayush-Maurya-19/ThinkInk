@@ -88,7 +88,7 @@ io.on("connection", (socket) => {
     } else {
       createdRooms.push({
         roomName: room,
-        users: [{socketId : socket.id, name : username}],
+        users: [{ socketId: socket.id, name: username }],
       });
     }
     console.log(`User joined room ${room}`);
@@ -98,6 +98,7 @@ io.on("connection", (socket) => {
   socket.on("get-room-info", () => {
     socket.emit("notify-room", createdRooms);
   });
+
 
   socket.on("leave-room", (room) => {
     socket.leave(room);

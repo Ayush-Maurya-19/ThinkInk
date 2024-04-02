@@ -119,30 +119,7 @@ const CreateRoom = () => {
 
             <p className="text-center mt-2">Socket ID: {socketID}</p>
 
-            {/*user need to enter their name that should be unique */}
-            {/* 
-            <form className="mt-3">
-              <input
-                type="text"
-                value={usersName}
-                onChange={(e) => setUsersName(e.target.value)}
-                className="form-control mb-3"
-              />
-              <div className="d-grid gap-2">
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={() => {
-                    socket.emit("name-set", usersName);
-                  }}
-                >
-                  Set Name
-                </button>
-              </div>
-            </form> */}
-
             <div className="justify-content-between mt-2">
-              {/* <form className="mt-3"> */}
               <input
                 type="text"
                 value={room}
@@ -159,25 +136,6 @@ const CreateRoom = () => {
                   Create Room
                 </button>
               </div>
-              {/* </form> */}
-
-              {/* <form className="mt-3">
-                <input
-                  type="text"
-                  value={room}
-                  onChange={(e) => setRoom(e.target.value)}
-                  className="form-control mb-3"
-                />
-                <div className="d-grid gap-2">
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={joinRoomHandler}
-                  >
-                    Join Room
-                  </button>
-                </div>
-              </form> */}
             </div>
 
             <div className="text-center mt-3">
@@ -233,26 +191,25 @@ const CreateRoom = () => {
           </div>
         </div>
 
-        {/* <div className="card shadow">
+        <div className="card shadow">
           <div className="card-body">
             <h3 className="text-center">Player In Room</h3>
             <div className="card">
               <div className="card-body">
-                {/*fetch data of users in all rooms 
-
-                {roomList.map(({roomName, users}) => (
+                {roomList.map(({ roomName, users }) => (
                   <div key={roomName} style={{ marginBottom: "0.5rem" }}>
-                    <p>{roomName}</p>
+                    <p>Room Name: {roomName}</p>
 
-                    {users.map(({username, socketId}) => (
+                    {users.map(({ socketId, name }) => (
                       <div key={socketId} style={{ marginBottom: "0.5rem" }}>
-                        <p className="text-start text-sm">User: {username}</p>
+                        <p className="text-start text-sm">
+                          User: {name} ({socketId})
+                        </p>
                       </div>
                     ))}
 
                     <p>Total Joined Player: {users.length}</p>
 
-                    {/* create if condition to check if user is in room or not 
                     {users.length >= 2 ? (
                       <Link to="/multiplayer">
                         <div className="d-grid mt-3">
@@ -273,7 +230,7 @@ const CreateRoom = () => {
               </div>
             </div>
           </div>
-        </div> */}
+        </div>
       </div>
     </div>
   );
