@@ -15,7 +15,10 @@ const SocketContext = createContext();
 export const SocketProvider = ({ children }) => {
   const socket = useMemo(() => io("http://localhost:5000"), []);
 
-  const [currentUser, setCurrentUser] = useState(JSON.parse(sessionStorage.getItem("user")));
+  const [currentUser, setCurrentUser] = useState(
+    JSON.parse(sessionStorage.getItem("user"))
+  );
+  console.log(currentUser);
 
   const hasRun = useRef(false);
 
@@ -35,8 +38,9 @@ export const SocketProvider = ({ children }) => {
   const navigate = useNavigate();
 
   socket.on("notify-room", (createdRooms) => {
-    console.log('notified');
-    console.log(createdRooms)});
+    console.log("notified");
+    console.log(createdRooms);
+  });
   // useEffect(() => {
   //   if (!hasRun.current) {
   //     hasRun.current = true;
@@ -71,11 +75,11 @@ export const SocketProvider = ({ children }) => {
       if (roomList.find((r) => r.users.includes(socketID))) {
         toast.error("You are already in a room");
       } else {
-        socket.emit("join-room", {room, username: currentUser.name});
+        socket.emit("join-room", { room, username: currentUser.name });
         setRoomName("");
         toast.success("Room created successfully");
         // socket.on("notify-room", (createdRooms) => console.log(createdRooms));
-        // navigate("/startgamescreen");
+        navigate("/startgamescreen");
       }
     }
   };
@@ -84,7 +88,7 @@ export const SocketProvider = ({ children }) => {
     if (roomList.find((r) => r.users.includes(socketID))) {
       toast.error("You are already in a room");
     } else {
-      socket.emit("join-room", {room, username: currentUser.name});
+      socket.emit("join-room", { room, username: currentUser.name });
       setRoomName("");
       toast.success("Room created successfully");
       // socket.on("notify-room", (createdRooms) => console.log(createdRooms));
