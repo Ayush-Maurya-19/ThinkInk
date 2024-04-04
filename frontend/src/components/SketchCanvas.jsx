@@ -12,7 +12,7 @@ const STOP_DRAW_EVENTS = ['mouseup', 'mouseout', 'touchend'];
 const THROTTLE_MS = 10; // number of milliseconds to throttle drawing by
 
 // Ensure the canvas is at least as large as the screen
-const CANVAS_SIZE = Math.max(window.screen.width, window.screen.height);
+const CANVAS_SIZE = Math.max(800, 600);
 
 const SKETCH_PADDING = 4; // number of pixels around the sketch
 

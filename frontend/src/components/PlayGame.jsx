@@ -25,8 +25,7 @@ function shuffleArray(array) {
 }
 
 const PlayGame = () => {
-
-  const {getDoodle, currentDoodle, setCurrentDoodle} = UseSocketContext();
+  const { getDoodle, currentDoodle, setCurrentDoodle } = UseSocketContext();
 
   // Model loading
   const [ready, setReady] = useState(false);
@@ -44,8 +43,6 @@ const PlayGame = () => {
   const [targets, setTargets] = useState(null);
   const [targetIndex, setTargetIndex] = useState(0);
   const [predictions, setPredictions] = useState([]);
-
-
 
   // Create a reference to the worker object.
   const worker = useRef(null);
@@ -169,7 +166,7 @@ const PlayGame = () => {
     setTargets(possibleLabels);
     setTargetIndex(0);
     // console.log(possibleLabels);
-    
+
     getDoodle();
     // setCurrentDoodle(doodleName);
   };
@@ -324,21 +321,20 @@ const PlayGame = () => {
   const countdownVisible = gameState === "countdown";
   const gameOver = gameState === "end";
   return (
-    <div className="" style={{width: '100%'}}>
+    <div className="" style={{ width: "100%" }}>
       {/*------------- this is the sketchcanvas files----------- */}
-
-      <div
-        className={`h-full w-full top-0 left-0 absolute ${
-          isPlaying ? "" : "pointer-events-none"
-        }`}
-      >
-        <SketchCanvas
-          onSketchChange={() => {
-            setSketchHasChanged(true);
-          }}
-          ref={canvasRef}
-        />
-      </div>
+      {isPlaying && (
+        <div
+          className={`h-full w-full ${isPlaying ? "" : "pointer-events-none"}`}
+        >
+          <SketchCanvas
+            onSketchChange={() => {
+              setSketchHasChanged(true);
+            }}
+            ref={canvasRef}
+          />
+        </div>
+      )}
 
       <AnimatePresence initial={false} mode="wait">
         {menuVisible && (

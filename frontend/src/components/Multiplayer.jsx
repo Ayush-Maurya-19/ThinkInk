@@ -8,7 +8,7 @@ const Multiplayer = () => {
   return (
     <div class="container mx-auto mt-4">
       <div class="grid grid-cols-12 gap-3">
-        <div className="col-span-3 mt-16">
+        <div className="col-span-2 mt-16">
           <div className="card shadow">
             <div className="card-body">
               <h3 className="text-center">Player In Room</h3>
@@ -19,10 +19,10 @@ const Multiplayer = () => {
           </div>
         </div>
 
-        <div class="col-span-6 	">
-          <DrawingPage />
+        <div class="col-span-8">
+          <PlayGame />
         </div>
-        <div class="col-span-3">
+        <div class="col-span-2">
           <div class="bg-gray-100  mt-16">
             <Chat />
           </div>

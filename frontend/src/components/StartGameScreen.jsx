@@ -37,9 +37,9 @@ const StartGameScreen = () => {
                   <div key={roomName} style={{ marginBottom: "0.5rem" }}>
                     <p>{roomName}</p>
 
-                    {users.map(({ username, socketId }) => (
+                    {users.map(({ name, socketId }) => (
                       <div key={socketId} style={{ marginBottom: "0.5rem" }}>
-                        <p className="text-start text-sm">User: {username}</p>
+                        <p className="text-start text-sm">User: {name}</p>
                       </div>
                     ))}
 

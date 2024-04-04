@@ -29,10 +29,10 @@ const Menu = ({ onClick, gameState }) => {
       variants={dropIn}
       exit="hidden"
       // animate={{ opacity:  }}
-      className="absolute w-full flex justify-center items-center flex-col px-8 mt-24 text-center"
+      className="w-full flex justify-center items-center flex-col px-8 mt-24 text-center"
     >
       <div>
-        <h1 className="sm:text-8xl text-7xl mb-4 font-extrabold tracking-tight text-slate-900 text-center">
+        <h1 className="sm:text-4xl text-7xl mb-4 font-extrabold tracking-tight text-slate-900 text-center">
           Welcome To ThinkInk <br />A Doodle Game
         </h1>
 

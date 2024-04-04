@@ -84,7 +84,7 @@ io.on("connection", (socket) => {
     socket.join(room);
     console.log(socket.id);
     if (createdRooms.find((r) => r.roomName === room)) {
-      createdRooms.find((r) => r.roomName === room).users.push(socket.id);
+      createdRooms.find((r) => r.roomName === room).users.push({ socketId: socket.id, name: username });
     } else {
       createdRooms.push({
         roomName: room,
