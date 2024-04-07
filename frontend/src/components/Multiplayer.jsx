@@ -6,8 +6,8 @@ import DrawingPage from "./DrawingPage";
 
 const Multiplayer = () => {
   return (
-    <div class="container mx-auto mt-4">
-      <div class="grid grid-cols-12 gap-3">
+    <div class="container mx-auto mt-1">
+      <div class="grid grid-cols-12 gap-2">
         <div className="col-span-2 mt-16">
           <div className="card shadow">
             <div className="card-body">

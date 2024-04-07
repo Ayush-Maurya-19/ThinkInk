@@ -55,7 +55,7 @@ const GameOver = ({ predictions, onClick }) => {
             variants={dropIn}
             exit="hidden"
             // animate={{ opacity:  }}
-            className='absolute w-full mt-3 flex justify-center items-center flex-col px-8 text-center'
+            className=' mt-3 flex justify-center items-center flex-col px-8 text-center'
         >
             <h1
                 className='sm:text-7xl text-6xl mb-3 font-bold tracking-tight text-slate-900 text-center'>

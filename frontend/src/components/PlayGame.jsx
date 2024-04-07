@@ -322,10 +322,24 @@ const PlayGame = () => {
   const gameOver = gameState === "end";
   return (
     <div className="" style={{ width: "100%" }}>
+      {isPlaying && gameCurrentTime !== null && currentDoodle && (
+        <div className="text-center">
+          <h2 className="text-4xl ">Draw &quot;{currentDoodle}&quot;</h2>
+          <h3 className="text-2xl">
+            {formatTime(
+              Math.max(
+                constants.GAME_DURATION -
+                  (gameCurrentTime - gameStartTime) / 1000,
+                0
+              )
+            )}
+          </h3>
+        </div>
+      )}
       {/*------------- this is the sketchcanvas files----------- */}
       {isPlaying && (
         <div
-          className={`h-full w-full ${isPlaying ? "" : "pointer-events-none"}`}
+          className={` ${isPlaying ? "" : "pointer-events-none"}`}
         >
           <SketchCanvas
             onSketchChange={() => {
@@ -352,23 +366,10 @@ const PlayGame = () => {
         )}
       </AnimatePresence>
 
-      {isPlaying && gameCurrentTime !== null && currentDoodle && (
-        <div className=" top-5 text-center">
-          <h2 className="text-4xl ">Draw &quot;{currentDoodle}&quot;</h2>
-          <h3 className="text-2xl">
-            {formatTime(
-              Math.max(
-                constants.GAME_DURATION -
-                  (gameCurrentTime - gameStartTime) / 1000,
-                0
-              )
-            )}
-          </h3>
-        </div>
-      )}
+      
 
       {isPlaying && (
-        <div className="absolute bottom-5 text-center">
+        <div className=" bottom-5 text-center">
           <h1 className="text-2xl font-bold mb-3">
             {output &&
               `Prediction: ${output[0].label} (${(
@@ -376,7 +377,7 @@ const PlayGame = () => {
               ).toFixed(1)}%)`}
           </h1>
 
-          <div className="flex gap-2 text-white text">
+          <div className="flex gap-2 text-white ">
             <button
               onClick={() => {
                 handleClearCanvas();

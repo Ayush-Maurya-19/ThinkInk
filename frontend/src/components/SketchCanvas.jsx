@@ -34,10 +34,10 @@ const getPosition = (event) => {
     const diff = (event.target.offsetHeight - document.body.offsetHeight) / 2;
     return [event.touches[0].clientX, event.touches[0].clientY - diff]
   } else {
+    console.log(event.offsetX, event.offsetY);
     return [event.offsetX, event.offsetY];
   }
 }
-
 
 const SketchCanvas = forwardRef(({
   onSketchChange, disabled
@@ -78,8 +78,8 @@ const SketchCanvas = forwardRef(({
 
     const handleResize = () => {
       // NOTE: We adjust the style's width and height to avoid clearing the canvas data. 
-      canvas.style.width = window.innerWidth;
-      canvas.style.height = window.innerHeight;
+      canvas.style.width = 800;
+      canvas.style.height = 600;
     };
 
     const startDrawing = (event) => {
@@ -87,8 +87,8 @@ const SketchCanvas = forwardRef(({
 
       // if (event.button !== 0) return; // Only draw on left click
       const [offsetX, offsetY] = getPosition(event);
-      const canvasX = offsetX + paddingLeft;
-      const canvasY = offsetY + paddingTop;
+      const canvasX = offsetX + 0;
+      const canvasY = offsetY + 0;
       context.moveTo(canvasX, canvasY);
       context.beginPath();
       context.lineTo(canvasX, canvasY);
@@ -117,8 +117,8 @@ const SketchCanvas = forwardRef(({
       setTimeSpentDrawing(x => x + THROTTLE_MS)
 
       const [offsetX, offsetY] = getPosition(event);
-      const canvasX = offsetX + paddingLeft;
-      const canvasY = offsetY + paddingTop;
+      const canvasX = offsetX + 0;
+      const canvasY = offsetY + 0;
 
       setSketchBoundingBox(x => x === null ? x : [
         Math.min(x[0], canvasX - brushRadius),
@@ -205,11 +205,12 @@ const SketchCanvas = forwardRef(({
 
   return (
     <canvas
-      className='object-none w-full h-full'
+    style={{border: '2px solid red'}}
+      className='object-none'
       ref={canvasRef}
 
-      width={CANVAS_SIZE}
-      height={CANVAS_SIZE}
+      width={985}
+      height={450}
     />
   );
 });
