@@ -14,10 +14,10 @@ const Multiplayer = () => {
         <div className="col-span-2 mt-16">
           <div className="card shadow">
             <div className="card-body">
-              <h3 className="text-center">Player In Room</h3>
-              <div className="card">
+              <h3 className="text-center mb-2">Player In Room</h3>
+              <div className="card px-2 py-2">
                 {getRoomInfo().users.map(({ name }) => (
-                  <h4>{name}</h4>
+                  <h6 className="my-1">&#128073; {name}</h6>
                 ))}
               </div>
             </div>

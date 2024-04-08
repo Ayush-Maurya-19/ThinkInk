@@ -101,8 +101,6 @@ io.on("connection", (socket) => {
     socket.emit("notify-room", createdRooms);
   });
 
-
-
   socket.on("leave-room", (room) => {
     const index = createdRooms.findIndex((r) => r.roomName === room);
     createdRooms[index].users = createdRooms[index].users.filter(
@@ -132,8 +130,7 @@ io.on("connection", (socket) => {
     console.log("User Disconnected", socket.id);
   });
 
-
-   socket.on("play-game", (room) => {
+  socket.on("play-game", (room) => {
     const index = createdRooms.findIndex((r) => r.roomName === room);
     createdRooms[index].gameStarted = true;
     io.emit("notify-room", createdRooms);
@@ -145,7 +142,6 @@ io.on("connection", (socket) => {
     console.log("Game Start from client");
     socket.to(roomName).emit("room-start-game");
   });
-
 
   socket.on("request-doodle", (socketId) => {
     const selDoodle = getRandomElement(Object.values(constantData.LABELS));

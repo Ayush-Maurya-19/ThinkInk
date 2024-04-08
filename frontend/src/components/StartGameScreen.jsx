@@ -28,7 +28,6 @@ const StartGameScreen = () => {
       console.log(createdRooms);
       setRoomList(createdRooms);
     });
-    
   }, []);
 
   return (
