@@ -4,9 +4,12 @@ import constants from "../constants";
 import Menu from "./Menu";
 import GameOver from "./GameOver";
 import Countdown from "./Countdown";
+import {io} from "socket.io-client";
 
 import { AnimatePresence } from "framer-motion";
 import UseSocketContext from "../SocketContext";
+
+
 
 const formatTime = (seconds) => {
   seconds = Math.floor(seconds);
@@ -25,7 +28,9 @@ function shuffleArray(array) {
 }
 
 const PlayGame = () => {
-  const { getDoodle, currentDoodle, setCurrentDoodle } = UseSocketContext();
+  const { getDoodle, currentDoodle, setCurrentDoodle, socket } = UseSocketContext();
+
+ 
 
   // Model loading
   const [ready, setReady] = useState(false);
@@ -46,6 +51,7 @@ const PlayGame = () => {
 
   // Create a reference to the worker object.
   const worker = useRef(null);
+
 
   // We use the `useEffect` hook to setup the worker as soon as the `App` component is mounted.
   useEffect(() => {
@@ -316,6 +322,7 @@ const PlayGame = () => {
       };
     }
   }, [gameState]);
+
   const menuVisible = gameState === "menu" || gameState === "loading";
   const isPlaying = gameState === "playing";
   const countdownVisible = gameState === "countdown";

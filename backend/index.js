@@ -82,9 +82,11 @@ io.on("connection", (socket) => {
   socket.on("join-room", (data) => {
     const { room, username } = data;
     socket.join(room);
-    console.log(socket.id);
+    console.log(socket.rooms);
     if (createdRooms.find((r) => r.roomName === room)) {
-      createdRooms.find((r) => r.roomName === room).users.push({ socketId: socket.id, name: username });
+      createdRooms
+        .find((r) => r.roomName === room)
+        .users.push({ socketId: socket.id, name: username });
     } else {
       createdRooms.push({
         roomName: room,
@@ -100,19 +102,18 @@ io.on("connection", (socket) => {
   });
 
 
+
   socket.on("leave-room", (room) => {
-    socket.leave(room);
     const index = createdRooms.findIndex((r) => r.roomName === room);
-    if (index !== -1) {
-      createdRooms[index].users = createdRooms[index].users.filter(
-        (u) => u !== socket.id
-      );
-      if (createdRooms[index].users.length === 0) {
-        createdRooms.splice(index, 1);
-      }
-      io.emit("notify-room", createdRooms);
-      console.log(`User left room ${room}`);
+    createdRooms[index].users = createdRooms[index].users.filter(
+      (u) => u.socketId !== socket.id
+    );
+    if (createdRooms[index].users.length === 0) {
+      createdRooms.splice(index, 1);
     }
+    socket.leave(room);
+    io.emit("notify-room", createdRooms);
+    console.log(`User left room ${room}`);
   });
 
   socket.on("delete-room", (room) => {
@@ -129,6 +130,33 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log("User Disconnected", socket.id);
+  });
+
+
+   socket.on("play-game", (room) => {
+    const index = createdRooms.findIndex((r) => r.roomName === room);
+    createdRooms[index].gameStarted = true;
+    io.emit("notify-room", createdRooms);
+  });
+
+  socket.on("command-start-game", (roomName) => {
+    // console.log(roomName);
+    // console.log(createdRooms[0].users.map((obj) => obj.socketId));
+    console.log("Game Start from client");
+    socket.to(roomName).emit("room-start-game");
+  });
+
+  io.on("connection", socket => {
+    //Don't forget to do this!
+    socket.join("some room");
+    socket.on("some event", data => {
+      //Do socket.to if you want to emit to all clients
+      //except sender
+      socket.to("some room").emit("some event", data);
+      //Do io.to if you want to emit to all clients
+      //including sender
+      io.to("some room").emit("some event", data);
+    });
   });
 
   socket.on("request-doodle", (socketId) => {

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { io } from "socket.io-client";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import UseSocketContext from "../SocketContext";
 import { Button } from "@mantine/core";

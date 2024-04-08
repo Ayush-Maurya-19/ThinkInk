@@ -34,6 +34,8 @@ export const SocketProvider = ({ children }) => {
 
   const [roomList, setRoomList] = useState([]);
   const [currentDoodle, setCurrentDoodle] = useState(null);
+  // const [currentRoom, setCurrentRoom] = useState('');
+  const [currentRoom, setCurrentRoom] = useState('');
 
   const navigate = useNavigate();
 
@@ -77,6 +79,7 @@ export const SocketProvider = ({ children }) => {
       } else {
         socket.emit("join-room", { room, username: currentUser.name });
         setRoomName("");
+        setCurrentRoom(room);
         toast.success("Room created successfully");
         // socket.on("notify-room", (createdRooms) => console.log(createdRooms));
         navigate("/startgamescreen");
@@ -90,6 +93,7 @@ export const SocketProvider = ({ children }) => {
     } else {
       socket.emit("join-room", { room , username: currentUser.name });
       setRoomName("");
+      setCurrentRoom(room);
       toast.success("Room created successfully");
       // socket.on("notify-room", (createdRooms) => console.log(createdRooms));
       navigate("/startgamescreen");
@@ -99,6 +103,10 @@ export const SocketProvider = ({ children }) => {
   roomList.map((r) => {
     console.log(r);
   });
+
+  const getRoomInfo = () => {
+    return roomList.find((r) => r.roomName === currentRoom);
+  }
 
   useEffect(() => {
     socket.on("connect", () => {
@@ -153,6 +161,8 @@ export const SocketProvider = ({ children }) => {
         getDoodle,
         currentDoodle,
         setCurrentDoodle,
+        getRoomInfo,
+        currentRoom
       }}
     >
       {children}

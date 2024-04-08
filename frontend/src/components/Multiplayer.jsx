@@ -3,8 +3,11 @@ import SinglePlayer from "./SinglePlayer";
 import Chat from "./Chat";
 import PlayGame from "./PlayGame";
 import DrawingPage from "./DrawingPage";
+import UseSocketContext from "../SocketContext";
 
 const Multiplayer = () => {
+  const { getRoomInfo } = UseSocketContext();
+  console.log(getRoomInfo());
   return (
     <div class="container mx-auto mt-1">
       <div class="grid grid-cols-12 gap-2">
@@ -13,7 +16,9 @@ const Multiplayer = () => {
             <div className="card-body">
               <h3 className="text-center">Player In Room</h3>
               <div className="card">
-                {/* call the users in the room here */}
+                {getRoomInfo().users.map(({ name }) => (
+                  <h4>{name}</h4>
+                ))}
               </div>
             </div>
           </div>
