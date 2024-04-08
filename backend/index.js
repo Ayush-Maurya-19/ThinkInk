@@ -146,18 +146,6 @@ io.on("connection", (socket) => {
     socket.to(roomName).emit("room-start-game");
   });
 
-  io.on("connection", socket => {
-    //Don't forget to do this!
-    socket.join("some room");
-    socket.on("some event", data => {
-      //Do socket.to if you want to emit to all clients
-      //except sender
-      socket.to("some room").emit("some event", data);
-      //Do io.to if you want to emit to all clients
-      //including sender
-      io.to("some room").emit("some event", data);
-    });
-  });
 
   socket.on("request-doodle", (socketId) => {
     const selDoodle = getRandomElement(Object.values(constantData.LABELS));

@@ -5,7 +5,6 @@ import Menu from "./Menu";
 import GameOver from "./GameOver";
 import Countdown from "./Countdown";
 import {io} from "socket.io-client";
-
 import { AnimatePresence } from "framer-motion";
 import UseSocketContext from "../SocketContext";
 
@@ -28,7 +27,7 @@ function shuffleArray(array) {
 }
 
 const PlayGame = () => {
-  const { getDoodle, currentDoodle, setCurrentDoodle, socket } = UseSocketContext();
+  const { getDoodle, currentDoodle, setCurrentDoodle, socketID, socket, currentRoom } = UseSocketContext();
 
  
 
@@ -183,8 +182,14 @@ const PlayGame = () => {
       worker.current.postMessage({ action: "load" });
     } else {
       beginCountdown();
+      socket.emit("command-start-game", currentRoom);
     }
   };
+
+  socket.on("room-start-game", () => {
+    console.log("Game Start");
+    beginCountdown();
+  });
 
   const handleGameOverClick = (playAgain) => {
     if (playAgain) {
