@@ -22,6 +22,7 @@ import PlayersInRoom from "./components/PlayersInRoom";
 import StartGameScreen from "./components/StartGameScreen";
 import { MantineProvider } from "@mantine/core";
 import '@mantine/core/styles.css';
+import FinalScore from "./components/FinalScore";
 
 const ProtectedRoute = ({ children }) => {
   const userJSON = sessionStorage.user;
@@ -86,6 +87,8 @@ function App() {
                 <Route element={<DrawingPage />} path="drawingpage" />
                 <Route element={<DemoPage />} path="demopage" />
                 <Route element={<LeaderBoard />} path="leaderboard" />
+                <Route element={<FinalScore />} path="finalscore" />
+
                 
               </Routes>
             </SocketProvider>
