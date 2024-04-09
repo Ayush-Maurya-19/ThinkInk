@@ -143,6 +143,12 @@ io.on("connection", (socket) => {
     socket.to(roomName).emit("room-start-game");
   });
 
+  socket.on("command-play-game", (roomName) => {
+    console.log("Game Play from client");
+    socket.to(roomName).emit("room-play-game");
+  });
+
+ 
   socket.on("request-doodle", (socketId) => {
     const selDoodle = getRandomElement(Object.values(constantData.LABELS));
     console.log(selDoodle);

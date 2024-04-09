@@ -177,18 +177,17 @@ const PlayGame = () => {
   };
 
   const handleMainClick = () => {
+    socket.emit("command-play-game", currentRoom);
     if (!ready) {
       setGameState("loading");
       worker.current.postMessage({ action: "load" });
     } else {
-      beginCountdown();
-      socket.emit("command-start-game", currentRoom);
+      beginCountdown() ;
     }
   };
 
-  socket.on("room-start-game", () => {
-    console.log("Game Start");
-    beginCountdown();
+  socket.on("room-play-game", () => {
+    // handleMainClick();
   });
 
   const handleGameOverClick = (playAgain) => {
