@@ -1,11 +1,9 @@
 const { model, Schema } = require("../connection");
 
 const mySchema = new Schema({
+  user_id: String,
   name: String,
-  id: String,
-  score: Number,
-  date: { type: Date, default: Date.now },
-  avatar: String,
+  points: Number,
   rank: Number,
 });
 

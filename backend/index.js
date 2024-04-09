@@ -4,6 +4,7 @@ const { createServer } = require("http");
 const { Server } = require("socket.io");
 
 const userRouter = require("./routers/userRouter");
+const scoreRouter = require("./routers/scoreRouter");
 const utilRouter = require("./routers/utils");
 const cors = require("cors");
 
@@ -31,6 +32,7 @@ app.use(
 );
 
 app.use("/user", userRouter);
+app.use("/score", scoreRouter);
 app.use("/util", utilRouter);
 
 app.use(express.static("./uploads"));
