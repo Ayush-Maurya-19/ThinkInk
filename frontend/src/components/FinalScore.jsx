@@ -46,7 +46,8 @@ const FinalScore = () => {
                   <div className="col-md-6">
                     <div className="card shadow">
                       <div className="card-body">
-                        <h5>Player 2: </h5>
+                        {/* <h5>Player 2: </h5> */}
+                        <h5>Player 2: {score.name}</h5>
                       </div>
                     </div>
                   </div>
