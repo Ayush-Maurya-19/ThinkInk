@@ -1,10 +1,10 @@
-const { model, Schema } = require("../connection");
+const { model, Schema, Types } = require("../connection");
 
 const mySchema = new Schema({
-  user_id: String,
-  name: String,
+  user: {type: Types.ObjectId, ref: "user"},
   points: Number,
   rank: Number,
+  createdAt: {type: Date, default: Date.now},
 });
 
 module.exports = model("score", mySchema);

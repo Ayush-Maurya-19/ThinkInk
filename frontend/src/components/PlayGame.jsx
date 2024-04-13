@@ -211,7 +211,6 @@ const PlayGame = () => {
     (isCorrect) => {
       // take snapshot of canvas
       const image = canvasRef.current.getCanvasData();
-
       setPredictions((prev) => [
         ...prev,
         {
