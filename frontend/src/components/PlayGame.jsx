@@ -4,14 +4,10 @@ import constants from "../constants";
 import Menu from "./Menu";
 import GameOver from "./GameOver";
 import Countdown from "./Countdown";
-import {io} from "socket.io-client";
+import { io } from "socket.io-client";
 import { AnimatePresence } from "framer-motion";
 import UseSocketContext from "../SocketContext";
 import UseGameContext from "../GameContext";
-
-
-
-
 
 const formatTime = (seconds) => {
   seconds = Math.floor(seconds);
@@ -30,10 +26,15 @@ function shuffleArray(array) {
 }
 
 const PlayGame = () => {
-  const { getDoodle, currentDoodle, setCurrentDoodle, socketID, socket, currentRoom } = UseSocketContext();
-  const {setScore} = UseGameContext();
-
- 
+  const {
+    getDoodle,
+    currentDoodle,
+    setCurrentDoodle,
+    socketID,
+    socket,
+    currentRoom,
+  } = UseSocketContext();
+  const { setScore } = UseGameContext();
 
   // Model loading
   const [ready, setReady] = useState(false);
@@ -54,7 +55,6 @@ const PlayGame = () => {
 
   // Create a reference to the worker object.
   const worker = useRef(null);
-
 
   // We use the `useEffect` hook to setup the worker as soon as the `App` component is mounted.
   useEffect(() => {
@@ -186,7 +186,7 @@ const PlayGame = () => {
       setGameState("loading");
       worker.current.postMessage({ action: "load" });
     } else {
-      beginCountdown() ;
+      beginCountdown();
     }
   };
 
@@ -214,7 +214,7 @@ const PlayGame = () => {
   const addPrediction = useCallback(
     (isCorrect) => {
       setScore((prev) => prev + (isCorrect ? 1 : 0));
-//      setScore("");
+      //      setScore("");
 
       // take snapshot of canvas
       const image = canvasRef.current.getCanvasData();
@@ -245,9 +245,8 @@ const PlayGame = () => {
       setCountdown(constants.COUNTDOWN_TIMER);
       setGameState(cancelled ? "menu" : "end");
 
-       //set score empty.....
-       setScore("");
-
+      //set score empty.....
+      setScore("");
     },
     [addPrediction]
   );
@@ -359,9 +358,7 @@ const PlayGame = () => {
       )}
       {/*------------- this is the sketchcanvas files----------- */}
       {isPlaying && (
-        <div
-          className={` ${isPlaying ? "" : "pointer-events-none"}`}
-        >
+        <div className={` ${isPlaying ? "" : "pointer-events-none"}`}>
           <SketchCanvas
             onSketchChange={() => {
               setSketchHasChanged(true);
@@ -386,8 +383,6 @@ const PlayGame = () => {
           <GameOver predictions={predictions} onClick={handleGameOverClick} />
         )}
       </AnimatePresence>
-
-      
 
       {isPlaying && (
         <div className=" bottom-5 text-center">
