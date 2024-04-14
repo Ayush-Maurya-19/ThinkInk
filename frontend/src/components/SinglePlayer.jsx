@@ -197,6 +197,7 @@ const SinglePlayer = () => {
   const addPrediction = useCallback(
     (isCorrect) => {
       setScore((prev) => prev + (isCorrect ? 1 : 0));
+      
       // take snapshot of canvas
       const image = canvasRef.current.getCanvasData();
 
@@ -211,6 +212,7 @@ const SinglePlayer = () => {
       ]);
     },
     [output, targetIndex, targets]
+    
   );
 
   const endGame = useCallback(

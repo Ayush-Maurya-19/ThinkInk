@@ -7,6 +7,9 @@ import Countdown from "./Countdown";
 import {io} from "socket.io-client";
 import { AnimatePresence } from "framer-motion";
 import UseSocketContext from "../SocketContext";
+import UseGameContext from "../GameContext";
+
+
 
 
 
@@ -28,6 +31,7 @@ function shuffleArray(array) {
 
 const PlayGame = () => {
   const { getDoodle, currentDoodle, setCurrentDoodle, socketID, socket, currentRoom } = UseSocketContext();
+  const {setScore} = UseGameContext();
 
  
 
@@ -209,6 +213,9 @@ const PlayGame = () => {
 
   const addPrediction = useCallback(
     (isCorrect) => {
+      setScore((prev) => prev + (isCorrect ? 1 : 0));
+//      setScore("");
+
       // take snapshot of canvas
       const image = canvasRef.current.getCanvasData();
       setPredictions((prev) => [
@@ -237,6 +244,10 @@ const PlayGame = () => {
       handleClearCanvas(true);
       setCountdown(constants.COUNTDOWN_TIMER);
       setGameState(cancelled ? "menu" : "end");
+
+       //set score empty.....
+       setScore("");
+
     },
     [addPrediction]
   );
