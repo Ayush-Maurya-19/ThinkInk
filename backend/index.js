@@ -91,6 +91,9 @@ io.on("connection", (socket) => {
         .users.push({ socketId: socket.id, name: username });
     } else {
       createdRooms.push({
+        canvasData: null,
+        gameStarted: false,
+        userDrawing: null,
         roomName: room,
         users: [{ socketId: socket.id, name: username }],
       });
@@ -148,6 +151,12 @@ io.on("connection", (socket) => {
   socket.on("command-play-game", (roomName) => {
     console.log("Game Play from client");
     socket.to(roomName).emit("room-play-game");
+  });
+
+  socket.on('command-update-room-canvas', (data) => {
+    console.log(data);
+
+    socket.emit( 'update-room-canvas', data.canvasData );
   });
 
  

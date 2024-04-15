@@ -52,9 +52,27 @@ const PlayGame = () => {
   const [targets, setTargets] = useState(null);
   const [targetIndex, setTargetIndex] = useState(0);
   const [predictions, setPredictions] = useState([]);
+  const [checkHandleMainClick, setCheckHandleMainClick] = useState(false);
+
+  const clickedHandled = useRef(false);
 
   // Create a reference to the worker object.
   const worker = useRef(null);
+
+  useEffect(() => {
+    socket.on("update-room-canvas", (canvasData) => {
+      console.log(canvasData);
+      canvasRef.current.updateMultiplayerCanvas(canvasData);
+    });
+  }, [])
+
+  const broadcastCanvasUpdates = () => {
+    socket.emit("command-update-room-canvas", {
+      room: currentRoom,
+      canvasData: canvasRef.current.getCanvasData(),
+    });
+  }
+  
 
   // We use the `useEffect` hook to setup the worker as soon as the `App` component is mounted.
   useEffect(() => {
@@ -182,6 +200,9 @@ const PlayGame = () => {
 
   const handleMainClick = () => {
     socket.emit("command-play-game", currentRoom);
+    console.log(checkHandleMainClick);
+    console.log('run handleMainClick');
+    clickedHandled.current = true;
     if (!ready) {
       setGameState("loading");
       worker.current.postMessage({ action: "load" });
@@ -190,9 +211,21 @@ const PlayGame = () => {
     }
   };
 
-  socket.on("room-play-game", () => {
-    // handleMainClick();
-  });
+  useEffect(() => {
+    socket.on("room-play-game", () => {
+      console.log("event recieved");
+      if (!clickedHandled.current) {
+        handleMainClick();
+      } 
+    });
+  }, []);
+
+  const updateCanvasChanges = () => {
+    socket.emit("update-canvas", {
+      room: currentRoom,
+      canvasData: canvasRef.current.getCanvasData(),
+    });
+  }
 
   const handleGameOverClick = (playAgain) => {
     if (playAgain) {
@@ -361,6 +394,8 @@ const PlayGame = () => {
         <div className={` ${isPlaying ? "" : "pointer-events-none"}`}>
           <SketchCanvas
             onSketchChange={() => {
+              // console.log(canvasRef.current.getCanvasData())
+              broadcastCanvasUpdates();
               setSketchHasChanged(true);
             }}
             ref={canvasRef}

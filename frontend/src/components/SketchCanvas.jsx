@@ -34,7 +34,7 @@ const getPosition = (event) => {
     const diff = (event.target.offsetHeight - document.body.offsetHeight) / 2;
     return [event.touches[0].clientX, event.touches[0].clientY - diff]
   } else {
-    console.log(event.offsetX, event.offsetY);
+    // console.log(event.offsetX, event.offsetY);
     return [event.offsetX, event.offsetY];
   }
 }
@@ -132,6 +132,8 @@ const SketchCanvas = forwardRef(({
       onSketchChange();
     }, THROTTLE_MS);
 
+    
+
     const stopDrawing = () => {
       setIsDrawing(false);
     };
@@ -153,6 +155,10 @@ const SketchCanvas = forwardRef(({
     };
   }, [isDrawing, onSketchChange, disabled]);
 
+  const updateMultiplayerCanvas = (imageData) => {
+    const context = contextRef.current;
+    setSketchBoundingBox(imageData)
+  } 
 
   const getCanvasData = () => {
     if (sketchBoundingBox === null) return null;
@@ -201,6 +207,7 @@ const SketchCanvas = forwardRef(({
     getCanvasData: getCanvasData,
     clearCanvas: clearCanvas,
     getTimeSpentDrawing: () => timeSpentDrawing,
+    updateMultiplayerCanvas
   }));
 
   return (
