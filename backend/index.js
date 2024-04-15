@@ -132,6 +132,13 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
+
+    
+    //this is to remove user from the room if the page reloads
+    createdRooms.forEach((room) => {
+      room.users = room.users.filter((u) => u.socketId !== socket.id);
+    });
+
     console.log("User Disconnected", socket.id);
   });
 
@@ -153,13 +160,12 @@ io.on("connection", (socket) => {
     socket.to(roomName).emit("room-play-game");
   });
 
-  socket.on('command-update-room-canvas', (data) => {
+  socket.on("command-update-room-canvas", (data) => {
     console.log(data);
 
-    socket.emit( 'update-room-canvas', data.canvasData );
+    socket.emit("update-room-canvas", data.canvasData);
   });
 
- 
   socket.on("request-doodle", (socketId) => {
     const selDoodle = getRandomElement(Object.values(constantData.LABELS));
     console.log(selDoodle);

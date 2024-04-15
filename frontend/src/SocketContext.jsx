@@ -34,8 +34,7 @@ export const SocketProvider = ({ children }) => {
 
   const [roomList, setRoomList] = useState([]);
   const [currentDoodle, setCurrentDoodle] = useState(null);
-  // const [currentRoom, setCurrentRoom] = useState('');
-  const [currentRoom, setCurrentRoom] = useState('');
+  const [currentRoom, setCurrentRoom] = useState("");
 
   const navigate = useNavigate();
 
@@ -43,23 +42,6 @@ export const SocketProvider = ({ children }) => {
     console.log("notified");
     console.log(createdRooms);
   });
-  // useEffect(() => {
-  //   if (!hasRun.current) {
-  //     hasRun.current = true;
-  //   }
-  // }, []);
-
-  useEffect(() => {
-    // const socketId = sessionStorage.getItem("socketID");
-    // if (socketId) {
-    //   setSocketId(socketId);
-    // }else{
-    //   let s = socket.connect();
-    //   // console.log(s);
-    //   // setSocket(s);
-    //   console.log('connected');
-    // }
-  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -74,7 +56,11 @@ export const SocketProvider = ({ children }) => {
       toast.error("Room name is required");
     } else {
       //check if user is in another room and also check if he leave the room then allow him to join another room
-      if (roomList.find((r) => r.users.map(user => user.socketId).includes(socketID))) {
+      if (
+        roomList.find((r) =>
+          r.users.map((user) => user.socketId).includes(socketID)
+        )
+      ) {
         toast.error("You are already in a room");
       } else {
         socket.emit("join-room", { room, username: currentUser.name });
@@ -88,10 +74,14 @@ export const SocketProvider = ({ children }) => {
   };
 
   const joinexisitingRoomHandler = (room) => {
-    if (roomList.find((r) => r.users.map(user => user.socketId).includes(socketID))) {
+    if (
+      roomList.find((r) =>
+        r.users.map((user) => user.socketId).includes(socketID)
+      )
+    ) {
       toast.error("You are already in a room");
     } else {
-      socket.emit("join-room", { room , username: currentUser.name });
+      socket.emit("join-room", { room, username: currentUser.name });
       setRoomName("");
       setCurrentRoom(room);
       toast.success("Room created successfully");
@@ -106,7 +96,7 @@ export const SocketProvider = ({ children }) => {
 
   const getRoomInfo = () => {
     return roomList.find((r) => r.roomName === currentRoom);
-  }
+  };
 
   useEffect(() => {
     socket.on("connect", () => {
@@ -162,7 +152,7 @@ export const SocketProvider = ({ children }) => {
         currentDoodle,
         setCurrentDoodle,
         getRoomInfo,
-        currentRoom
+        currentRoom,
       }}
     >
       {children}

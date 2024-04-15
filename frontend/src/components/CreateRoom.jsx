@@ -42,6 +42,7 @@ const CreateRoom = () => {
     // socket.on("message", (message) => {
     //   setMessages((prev) => [...prev, message]);
     // });
+
     socket.emit("get-room-info");
     socket.on("notify-room", (createdRooms) => {
       console.log(createdRooms);

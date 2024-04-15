@@ -376,7 +376,7 @@ const SinglePlayer = () => {
                 100 * output[0].score
               ).toFixed(1)}%)`}
           </h1>
-          <div className="flex gap-2 text-white 	">
+          <div className="flex gap-2 mb-1 text-white 	">
             <button
               onClick={() => {
                 handleClearCanvas();

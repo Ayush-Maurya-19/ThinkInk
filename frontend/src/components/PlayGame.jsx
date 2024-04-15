@@ -35,7 +35,7 @@ const PlayGame = () => {
     socket,
     currentRoom,
   } = UseSocketContext();
-  
+
   const { setScore } = UseGameContext();
 
   // Model loading
@@ -66,15 +66,14 @@ const PlayGame = () => {
       console.log(canvasData);
       canvasRef.current.updateMultiplayerCanvas(canvasData);
     });
-  }, [])
+  }, []);
 
   const broadcastCanvasUpdates = () => {
     socket.emit("command-update-room-canvas", {
       room: currentRoom,
       canvasData: canvasRef.current.getCanvasData(),
     });
-  }
-  
+  };
 
   // We use the `useEffect` hook to setup the worker as soon as the `App` component is mounted.
   useEffect(() => {
@@ -203,7 +202,7 @@ const PlayGame = () => {
   const handleMainClick = () => {
     socket.emit("command-play-game", currentRoom);
     console.log(checkHandleMainClick);
-    console.log('run handleMainClick');
+    console.log("run handleMainClick");
     clickedHandled.current = true;
     if (!ready) {
       setGameState("loading");
@@ -218,7 +217,7 @@ const PlayGame = () => {
       console.log("event recieved");
       if (!clickedHandled.current) {
         handleMainClick();
-      } 
+      }
     });
   }, []);
 
@@ -227,7 +226,7 @@ const PlayGame = () => {
       room: currentRoom,
       canvasData: canvasRef.current.getCanvasData(),
     });
-  }
+  };
 
   const handleGameOverClick = (playAgain) => {
     if (playAgain) {
@@ -378,7 +377,7 @@ const PlayGame = () => {
   return (
     <div className="" style={{ width: "100%" }}>
       <div className="">
-      <ScoreContainer />
+        <ScoreContainer />
       </div>
       {isPlaying && gameCurrentTime !== null && currentDoodle && (
         <div className="text-center">
@@ -425,7 +424,7 @@ const PlayGame = () => {
       </AnimatePresence>
 
       {isPlaying && (
-        <div className=" bottom-5 text-center">
+        <div className=" mx-36 px-36 ">
           <h1 className="text-2xl font-bold mb-3">
             {output &&
               `Prediction: ${output[0].label} (${(

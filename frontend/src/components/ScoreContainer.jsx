@@ -19,9 +19,9 @@ const ScoreContainer = () => {
   // };
 
   return (
-    <div className="p-3 pb-0 ">
+    <div className="p-5 pb-0 pt-1 ">
       <div className="d-flex justify-content-between">
-        <h5>Loggedin as: {currentUser.name}</h5>
+        <h5>Player: {currentUser.name}</h5>
         <h5>Score : {score}</h5>
       </div>
     </div>
