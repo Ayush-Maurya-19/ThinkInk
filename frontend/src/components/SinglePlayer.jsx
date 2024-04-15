@@ -29,7 +29,7 @@ const SinglePlayer = () => {
   // Model loading
   const [ready, setReady] = useState(false);
 
-  const {setScore} = UseGameContext();
+  const { setScore } = UseGameContext();
 
   // Game state
   const [gameState, setGameState] = useState("menu");
@@ -197,7 +197,7 @@ const SinglePlayer = () => {
   const addPrediction = useCallback(
     (isCorrect) => {
       setScore((prev) => prev + (isCorrect ? 1 : 0));
-      
+
       // take snapshot of canvas
       const image = canvasRef.current.getCanvasData();
 
@@ -212,7 +212,6 @@ const SinglePlayer = () => {
       ]);
     },
     [output, targetIndex, targets]
-    
   );
 
   const endGame = useCallback(
@@ -321,26 +320,37 @@ const SinglePlayer = () => {
   const countdownVisible = gameState === "countdown";
   const gameOver = gameState === "end";
 
-
-
   return (
-    <div className="" style={{ width: '100%' }}>
+    <div className="" style={{ width: "100%" }}>
       <div className="">
-      <ScoreContainer />
+        <ScoreContainer />
       </div>
+      {isPlaying && gameCurrentTime !== null && targets && (
+        <div className=" text-center 	mx-96 px-36 ">
+          <h2 className="text-4xl ">Draw &quot;{targets[targetIndex]}&quot;</h2>
+          <h3 className="text-2xl">
+            {formatTime(
+              Math.max(
+                constants.GAME_DURATION -
+                  (gameCurrentTime - gameStartTime) / 1000,
+                0
+              )
+            )}
+          </h3>
+        </div>
+      )}
       {/*------------- this is the sketchcanvas files----------- */}
 
-      <div
-        className={`h-full w-full top-0 left-0 absolute ${isPlaying ? "" : "pointer-events-none"
-          }`}
-      >
-        <SketchCanvas
-          onSketchChange={() => {
-            setSketchHasChanged(true);
-          }}
-          ref={canvasRef}
-        />
-      </div>
+      {isPlaying && (
+        <div className={`ml-60 ${isPlaying ? "" : "pointer-events-none"}`}>
+          <SketchCanvas
+            onSketchChange={() => {
+              setSketchHasChanged(true);
+            }}
+            ref={canvasRef}
+          />
+        </div>
+      )}
 
       <AnimatePresence initial={false} mode="wait">
         {menuVisible && (
@@ -357,38 +367,37 @@ const SinglePlayer = () => {
           <GameOver predictions={predictions} onClick={handleGameOverClick} />
         )}
       </AnimatePresence>
-      <div className="absolute"> 
-        --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        </div>
-
-      {isPlaying && gameCurrentTime !== null && targets && (
-        <div className="absolute text-center mt-3	mx-96 px-36 ">
-          <h2 className="text-4xl ">Draw &quot;{targets[targetIndex]}&quot;</h2>
-          <h3 className="text-2xl">
-            {formatTime(
-              Math.max(
-                constants.GAME_DURATION -
-                (gameCurrentTime - gameStartTime) / 1000,
-                0
-              )
-            )}
-          </h3>
-        </div>
-      )}
-     
 
       {isPlaying && (
-        <div className="absolute bottom-5 text-center mx-96 px-36">
-          <h1 className="text-2xl font-bold mb-3">
+        <div className="  mx-96 px-36 ">
+          <h1 className="text-2xl font-bold mb-2 ">
             {output &&
               `Prediction: ${output[0].label} (${(
                 100 * output[0].score
               ).toFixed(1)}%)`}
           </h1>
-          <div className='flex gap-2 text-white'>
-            <button onClick={() => { handleClearCanvas() }}>Clear</button>
-            <button onClick={() => { goNext(false) }}>Skip</button>
-            <button onClick={() => { handleEndGame(true) }}>Exit</button>
+          <div className="flex gap-2 text-white 	">
+            <button
+              onClick={() => {
+                handleClearCanvas();
+              }}
+            >
+              Clear
+            </button>
+            <button
+              onClick={() => {
+                goNext(false);
+              }}
+            >
+              Skip
+            </button>
+            <button
+              onClick={() => {
+                handleEndGame(true);
+              }}
+            >
+              Exit
+            </button>
           </div>
         </div>
       )}

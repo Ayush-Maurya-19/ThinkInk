@@ -8,6 +8,7 @@ import { io } from "socket.io-client";
 import { AnimatePresence } from "framer-motion";
 import UseSocketContext from "../SocketContext";
 import UseGameContext from "../GameContext";
+import ScoreContainer from "./ScoreContainer";
 
 const formatTime = (seconds) => {
   seconds = Math.floor(seconds);
@@ -34,6 +35,7 @@ const PlayGame = () => {
     socket,
     currentRoom,
   } = UseSocketContext();
+  
   const { setScore } = UseGameContext();
 
   // Model loading
@@ -375,6 +377,9 @@ const PlayGame = () => {
   const gameOver = gameState === "end";
   return (
     <div className="" style={{ width: "100%" }}>
+      <div className="">
+      <ScoreContainer />
+      </div>
       {isPlaying && gameCurrentTime !== null && currentDoodle && (
         <div className="text-center">
           <h2 className="text-4xl ">Draw &quot;{currentDoodle}&quot;</h2>

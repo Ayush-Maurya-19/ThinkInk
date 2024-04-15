@@ -6,20 +6,17 @@ import * as Yup from "yup";
 import { motion } from "framer-motion";
 import { useState } from "react";
 
-
 const SignupSchema = Yup.object().shape({
   name: Yup.string()
-    .min(3, 'Minimum 3 chracters required')
-    .required('Name is Required'),
-  email: Yup.string().email('Invalid email').required('Required'),
+    .min(3, "Minimum 3 chracters required")
+    .required("Name is Required"),
+  email: Yup.string().email("Invalid email").required("Required"),
 });
 
-
 const Signup = () => {
-
   const navigate = useNavigate();
 
-  const [selFile, setSelFile] = useState('');
+  const [selFile, setSelFile] = useState("");
 
   // initialize the formik
   const signupForm = useFormik({
@@ -40,36 +37,35 @@ const Signup = () => {
 
       // send the data to the server
 
-      const res = await fetch('http://localhost:5000/user/add', {
-        method: 'POST',
+      const res = await fetch("http://localhost:5000/user/add", {
+        method: "POST",
         body: JSON.stringify(values),
         headers: {
-          'Content-Type': 'application/json'
-        }
+          "Content-Type": "application/json",
+        },
       });
 
       console.log(res.status);
 
       if (res.status === 200) {
         Swal.fire({
-          icon: 'success',
-          title: 'Nice',
-          text: 'You have signed up sucessfully'
+          icon: "success",
+          title: "Nice",
+          text: "You have signed up sucessfully",
         })
           .then((result) => {
-            navigate('/login');
-          }).catch((err) => {
+            navigate("/login");
+          })
+          .catch((err) => {
             console.log(err);
           });
-
       } else {
         Swal.fire({
-          icon: 'error',
-          title: 'Oops!!',
-          text: 'Something went wrong'
-        })
+          icon: "error",
+          title: "Oops!!",
+          text: "Something went wrong",
+        });
       }
-
     },
     validationSchema: SignupSchema,
   });
@@ -82,85 +78,99 @@ const Signup = () => {
     setSelFile(file.name);
 
     const fd = new FormData();
-    fd.append('myfile', file);
+    fd.append("myfile", file);
 
-    const res = await fetch('http://localhost:5000/util/uploadfile', {
-      method: 'POST',
-      body: fd
+    const res = await fetch("http://localhost:5000/util/uploadfile", {
+      method: "POST",
+      body: fd,
     });
 
     console.log(res.status);
-
-  }
+  };
 
   return (
-    <motion.div
-      initial={{ x: '100%', opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      exit={{ x: '-100%', opacity: 0 }}
-      transition={{ duration: 0.3, stiffness: 100 }}
-    >
-      <div className="py-5 my-3 container-fluid">
-        <div className="col-md-4 mx-auto">
-          <div className="card shadow">
+    <div className="background ">
+      <motion.div
+        initial={{ x: "100%", opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        exit={{ x: "-100%", opacity: 0 }}
+        transition={{ duration: 0.3, stiffness: 100 }}
+        className="py-5 my-3 container-fluid"
+      >
+        <div className="col-md-3 mx-auto">
+          <div className="card shadow bg-transparent">
             <div className="card-body">
               <form onSubmit={signupForm.handleSubmit}>
-                <h3 className="text-center">Signup Form</h3>
+                <h3 className="text-center text-white">Signup Here</h3>
                 <hr />
 
-                <label>Name</label>
-                <span style={{ fontSize: "0.7em", color: "red", margineLeft: 20 }}>
+                <label className="text-white">Name</label>
+                <span
+                  style={{ fontSize: "0.7em", color: "red", margineLeft: 20 }}
+                >
                   {signupForm.touched.name && signupForm.errors.name}
                 </span>
                 <input
                   type="text"
-                  className="form-control mb-4"
+                  className="form-control mb-4 bg-transparent text-white"
                   name="name"
                   onChange={signupForm.handleChange}
                   value={signupForm.values.name}
                 />
 
-                <label>Email</label>
-                <span style={{ fontSize: "0.7em", color: "red", margineLeft: 20 }}>
+                <label className="text-white">Email</label>
+                <span
+                  style={{ fontSize: "0.7em", color: "red", margineLeft: 20 }}
+                >
                   {signupForm.touched.email && signupForm.errors.email}
                 </span>
                 <input
-                  className="form-control mb-4"
+                  className="form-control mb-4 bg-transparent text-white"
                   name="email"
                   onChange={signupForm.handleChange}
                   value={signupForm.values.email}
                 />
 
-                <label>Password</label>
-                <span style={{ fontSize: "0.8em", color: "red", marginLeft: 20 }}>
+                <label className="text-white">Password</label>
+                <span
+                  style={{ fontSize: "0.8em", color: "red", marginLeft: 20 }}
+                >
                   {signupForm.errors.password}
                 </span>
                 <input
                   type="password"
-                  className="form-control mb-4"
+                  className="form-control mb-4 bg-transparent text-white"
                   name="password"
                   onChange={signupForm.handleChange}
                   value={signupForm.values.password}
                 />
 
-                <input type="file" onChange={uploadFile} />
+                {/* <input className="text-white" type="file" onChange={uploadFile} /> */}
 
-                <button disabled={signupForm.isSubmitting} type="submit" className="mx-auto btn btn-primary mt-5 w-100">
-                  {
-                    signupForm.isSubmitting ? (
-                      <>
-                        <span class="spinner-border spinner-border-sm " role="status" aria-hidden="true"></span>
-                        <span> Loading ...</span>
-                      </>
-                    ) : 'Sumbit'
-                  }
+                <button
+                  disabled={signupForm.isSubmitting}
+                  type="submit"
+                  className="mx-auto btn mt-1 w-100 text-white"
+                >
+                  {signupForm.isSubmitting ? (
+                    <>
+                      <span
+                        class="spinner-border spinner-border-sm "
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                      <span > Loading ...</span>
+                    </>
+                  ) : (
+                    "Sumbit"
+                  )}
                 </button>
               </form>
             </div>
           </div>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </div>
   );
 };
 

@@ -59,6 +59,7 @@ const Login = () => {
   });
 
   return (
+    <div className="background ">
     <motion.div
       initial={{ x: "100%" }}
       animate={{ x: 0 }}
@@ -66,29 +67,29 @@ const Login = () => {
       transition={{ duration: 0.3 }}
       className="py-5 my-3 container-fluid"
     >
-      <div className="col-md-3 mx-auto">
-        <div className="card shadow">
+      <div className="col-md-3 mx-auto  ">
+        <div className="card shadow bg-transparent">
           <div className="card-body">
             <form onSubmit={loginForm.handleSubmit}>
-              <h2 className="text-center">Login Here</h2>
+              <h2 className="text-center text-white">Login Here</h2>
 
-              <label>Email</label>
+              <label className="text-white">Email</label>
               <input
                 id="email"
                 onChange={loginForm.handleChange}
                 value={loginForm.values.email}
                 type="email"
-                className="form-control mb-4"
+                className="form-control mb-4 bg-transparent text-white"
               />
-              <label>Password</label>
+              <label className="text-white">Password</label>
               <input
                 id="password"
                 onChange={loginForm.handleChange}
                 value={loginForm.values.password}
                 type="password"
-                className="form-control mb-4"
+                className="form-control mb-4 bg-transparent text-white"
               />
-              <p className="text-center">
+              <p className="text-center  text-white">
                 Don't have an account?{" "}
                 <a
                   href="/signup"
@@ -108,7 +109,9 @@ const Login = () => {
           </div>
         </div>
       </div>
+     
     </motion.div>
+    </div>
   );
 };
 
