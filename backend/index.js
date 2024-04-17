@@ -122,6 +122,9 @@ io.on("connection", (socket) => {
   socket.on("delete-room", (room) => {
     const index = createdRooms.findIndex((r) => r.roomName === room);
     createdRooms.splice(index, 1);
+    createdRooms.forEach((room) => {
+      room.users = room.users.filter((u) => u.socketId !== socket.id);
+    });
     io.emit("notify-room", createdRooms);
     console.log(`User deleted room ${room}`);
   });
@@ -138,6 +141,8 @@ io.on("connection", (socket) => {
     createdRooms.forEach((room) => {
       room.users = room.users.filter((u) => u.socketId !== socket.id);
     });
+    io.emit("notify-room", createdRooms);
+
 
     console.log("User Disconnected", socket.id);
   });
@@ -157,17 +162,22 @@ io.on("connection", (socket) => {
 
   socket.on("command-play-game", (roomName) => {
     console.log("Game Play from client");
-    socket.to(roomName).emit("room-play-game");
+    createdRooms.find((r) => r.roomName === roomName).gameStarted = true;
+    createdRooms.find((r) => r.roomName === roomName).userDrawing = getRandomElement(
+      createdRooms.find((r) => r.roomName === roomName).users
+    );
+    console.log(createdRooms);
+    socket.to(roomName).emit("room-play-game", createdRooms);
   });
 
   socket.on("command-update-room-canvas", (data) => {
     console.log(data);
-
     socket.emit("update-room-canvas", data.canvasData);
   });
 
-  socket.on("request-doodle", (socketId) => {
+  socket.on("request-doodle", (socketId, roomName) => {
     const selDoodle = getRandomElement(Object.values(constantData.LABELS));
+    createdRooms.find((r) => r.roomName === roomName).currentDoodle = selDoodle;
     console.log(selDoodle);
 
     socket.emit("receive-doodle", selDoodle);

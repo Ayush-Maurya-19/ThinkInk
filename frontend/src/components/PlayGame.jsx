@@ -34,6 +34,8 @@ const PlayGame = () => {
     socketID,
     socket,
     currentRoom,
+    drawEnabled,
+    setDrawEnabled
   } = UseSocketContext();
 
   const { setScore } = UseGameContext();
@@ -55,6 +57,8 @@ const PlayGame = () => {
   const [targetIndex, setTargetIndex] = useState(0);
   const [predictions, setPredictions] = useState([]);
   const [checkHandleMainClick, setCheckHandleMainClick] = useState(false);
+
+  
 
   const clickedHandled = useRef(false);
 
@@ -213,8 +217,11 @@ const PlayGame = () => {
   };
 
   useEffect(() => {
-    socket.on("room-play-game", () => {
+    socket.on("room-play-game", (createdRoomsData) => {
       console.log("event recieved");
+      if(createdRoomsData.userDrawing.socketId === socketID){
+        setDrawEnabled(true);
+      } 
       if (!clickedHandled.current) {
         handleMainClick();
       }
@@ -395,7 +402,7 @@ const PlayGame = () => {
       )}
       {/*------------- this is the sketchcanvas files----------- */}
       {isPlaying && (
-        <div className={` ${isPlaying ? "" : "pointer-events-none"}`}>
+        <div className={` ${(isPlaying && drawEnabled) ? "" : "pointer-events-none"}`}>
           <SketchCanvas
             onSketchChange={() => {
               // console.log(canvasRef.current.getCanvasData())

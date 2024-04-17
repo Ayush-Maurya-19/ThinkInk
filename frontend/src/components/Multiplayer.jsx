@@ -9,8 +9,8 @@ const Multiplayer = () => {
   const { getRoomInfo } = UseSocketContext();
   console.log(getRoomInfo());
   return (
-    <div class="container mx-auto mt-1">
-      <div class="grid grid-cols-12 gap-2">
+    <div className="container mx-auto mt-1">
+      <div className="grid grid-cols-12 gap-2">
         <div className="col-span-2 mt-16">
           <div className="card shadow">
             <div className="card-body">
@@ -24,11 +24,11 @@ const Multiplayer = () => {
           </div>
         </div>
 
-        <div class="col-span-8">
+        <div className="col-span-8">
           <PlayGame />
         </div>
-        <div class="col-span-2">
-          <div class="bg-gray-100  mt-16">
+        <div className="col-span-2">
+          <div className="bg-gray-100  mt-16">
             <Chat />
           </div>
         </div>

@@ -36,6 +36,8 @@ export const SocketProvider = ({ children }) => {
   const [currentDoodle, setCurrentDoodle] = useState(null);
   const [currentRoom, setCurrentRoom] = useState("");
 
+  const [drawEnabled, setDrawEnabled] = useState(false);
+
   const navigate = useNavigate();
 
   socket.on("notify-room", (createdRooms) => {
@@ -105,6 +107,12 @@ export const SocketProvider = ({ children }) => {
       console.log("connected", socket.id);
     });
 
+    //this is use to delete room from the room list
+    socket.on("delete-room", (room) => {
+      console.log(`User deleted room ${room}`);
+      setRoomList((roomList) => roomList.filter((r) => r.roomName !== room));
+    });
+
     socket.on("name-set", (name) => {
       console.log(name);
     });
@@ -124,7 +132,7 @@ export const SocketProvider = ({ children }) => {
   }, []);
 
   const getDoodle = () => {
-    socket.emit("request-doodle", socket.id);
+    socket.emit("request-doodle", {socketId : socket.id, roomName: currentRoom});
   };
 
   return (
@@ -153,6 +161,8 @@ export const SocketProvider = ({ children }) => {
         setCurrentDoodle,
         getRoomInfo,
         currentRoom,
+        drawEnabled,
+        setDrawEnabled,
       }}
     >
       {children}
