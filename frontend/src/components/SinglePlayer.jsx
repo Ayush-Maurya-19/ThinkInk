@@ -138,6 +138,7 @@ const SinglePlayer = () => {
       const image = canvasRef.current.getCanvasData();
       if (image !== null) {
         setIsPredicting(true);
+        console.log('classifying');
         worker.current.postMessage({ action: "classify", image });
       }
     }
@@ -285,6 +286,7 @@ const SinglePlayer = () => {
       };
     } else if (gameState === "playing") {
       const classifyTimer = setInterval(() => {
+        // console.log(isPredicting, sketchHasChanged);
         if (sketchHasChanged) {
           !isPredicting && classify();
         }

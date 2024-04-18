@@ -135,14 +135,11 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
-
-    
     //this is to remove user from the room if the page reloads
     createdRooms.forEach((room) => {
       room.users = room.users.filter((u) => u.socketId !== socket.id);
     });
     io.emit("notify-room", createdRooms);
-
 
     console.log("User Disconnected", socket.id);
   });
@@ -150,6 +147,8 @@ io.on("connection", (socket) => {
   socket.on("play-game", (room) => {
     const index = createdRooms.findIndex((r) => r.roomName === room);
     createdRooms[index].gameStarted = true;
+    createdRooms[index].rounds = 2;
+    createdRooms[index].currentRound = 1;
     io.emit("notify-room", createdRooms);
   });
 
@@ -162,25 +161,51 @@ io.on("connection", (socket) => {
 
   socket.on("command-play-game", (roomName) => {
     console.log("Game Play from client");
-    createdRooms.find((r) => r.roomName === roomName).gameStarted = true;
-    createdRooms.find((r) => r.roomName === roomName).userDrawing = getRandomElement(
-      createdRooms.find((r) => r.roomName === roomName).users
+    const currentRoom = createdRooms.find((r) => r.roomName === roomName);
+    currentRoom.gameStarted = true;
+    currentRoom.notPlayedUsers = currentRoom.users;
+    currentRoom.userDrawing = getRandomElement(currentRoom.notPlayedUsers);
+    // remove the use drawing
+    currentRoom.notPlayedUsers = currentRoom.notPlayedUsers.filter(
+      (u) => u.socketId !== currentRoom.userDrawing.socketId
     );
     console.log(createdRooms);
-    socket.to(roomName).emit("room-play-game", createdRooms);
+    socket.to(roomName).emit("room-play-game", currentRoom);
+  });
+
+  socket.on("turn-complete", () => {
+    console.log("Turn complete");
+    socket.emit("next-turn", (roomName) => {
+      const currentRoom = createdRooms.find((r) => r.roomName === roomName);
+      if (currentRoom.notPlayedUsers.length === 0 && currentRoom.currentRound < currentRoom.rounds) {
+        currentRoom.currentRound += 1;
+        currentRoom.notPlayedUsers = currentRoom.users;
+        socket.to(roomName).emit("round-update", currentRoom);
+      }
+      currentRoom.userDrawing = getRandomElement(currentRoom.notPlayedUsers);
+      currentRoom.notPlayedUsers = currentRoom.notPlayedUsers.filter(
+        (u) => u.socketId !== currentRoom.userDrawing.socketId
+      );
+      console.log(createdRooms);
+      socket.to(roomName).emit("next-turn-start", currentRoom);
+    });
   });
 
   socket.on("command-update-room-canvas", (data) => {
-    console.log(data);
+    // console.log(data);
     socket.emit("update-room-canvas", data.canvasData);
   });
 
-  socket.on("request-doodle", (socketId, roomName) => {
-    const selDoodle = getRandomElement(Object.values(constantData.LABELS));
-    createdRooms.find((r) => r.roomName === roomName).currentDoodle = selDoodle;
-    console.log(selDoodle);
-
-    socket.emit("receive-doodle", selDoodle);
+  socket.on("request-doodle", ({ socketId, roomName }) => {
+    const currentRoom = createdRooms.find((r) => r.roomName === roomName);
+    if (currentRoom.currentDoodle) {
+      socket.emit("receive-doodle", currentRoom.currentDoodle);
+    } else {
+      const selDoodle = getRandomElement(Object.values(constantData.LABELS));
+      currentRoom.currentDoodle = selDoodle;
+      console.log(selDoodle);
+      socket.emit("receive-doodle", selDoodle);
+    }
   });
 });
 

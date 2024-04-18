@@ -61,7 +61,7 @@ const StartGameScreen = () => {
 
                     <div className="">
                       <div className=" ">
-                        {users.length >= 2 ? (
+                        {users.length >= 1 ? (
                           <div className="d-grid mt-3">
                             <button
                               type="submit"

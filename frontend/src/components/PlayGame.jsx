@@ -35,7 +35,8 @@ const PlayGame = () => {
     socket,
     currentRoom,
     drawEnabled,
-    setDrawEnabled
+    setDrawEnabled,
+    nextPlayerTurn,
   } = UseSocketContext();
 
   const { setScore } = UseGameContext();
@@ -58,18 +59,16 @@ const PlayGame = () => {
   const [predictions, setPredictions] = useState([]);
   const [checkHandleMainClick, setCheckHandleMainClick] = useState(false);
 
-  
-
   const clickedHandled = useRef(false);
 
   // Create a reference to the worker object.
   const worker = useRef(null);
 
   useEffect(() => {
-    socket.on("update-room-canvas", (canvasData) => {
-      console.log(canvasData);
-      canvasRef.current.updateMultiplayerCanvas(canvasData);
-    });
+    // socket.on("update-room-canvas", (canvasData) => {
+    //   // console.log(canvasData);
+    //   canvasRef.current.updateMultiplayerCanvas(canvasData);
+    // });
   }, []);
 
   const broadcastCanvasUpdates = () => {
@@ -167,7 +166,9 @@ const PlayGame = () => {
   const classify = useCallback(() => {
     if (worker.current && canvasRef.current) {
       const image = canvasRef.current.getCanvasData();
+      // console.log(image);
       if (image !== null) {
+        // console.log('classifying');
         setIsPredicting(true);
         worker.current.postMessage({ action: "classify", image });
       }
@@ -217,12 +218,20 @@ const PlayGame = () => {
   };
 
   useEffect(() => {
-    socket.on("room-play-game", (createdRoomsData) => {
+    socket.on("room-play-game", (createdRoom) => {
+      console.log(createdRoom);
       console.log("event recieved");
-      if(createdRoomsData.userDrawing.socketId === socketID){
+      if (createdRoom.userDrawing.socketId === socketID) {
         setDrawEnabled(true);
-      } 
+      }
       if (!clickedHandled.current) {
+        handleMainClick();
+      }
+    });
+
+    socket.on("next-turn-start", (roomData) => {
+      if (socketID === roomData.userDrawing.socketId) {
+        setDrawEnabled(true);
         handleMainClick();
       }
     });
@@ -255,6 +264,7 @@ const PlayGame = () => {
   const addPrediction = useCallback(
     (isCorrect) => {
       setScore((prev) => prev + (isCorrect ? 1 : 0));
+      nextPlayerTurn();
       //      setScore("");
 
       // take snapshot of canvas
@@ -300,6 +310,7 @@ const PlayGame = () => {
       gameStartTime !== null &&
       (gameCurrentTime - gameStartTime) / 1000 > constants.GAME_DURATION
     ) {
+      nextPlayerTurn();
       endGame();
     }
   }, [endGame, gameState, gameStartTime, gameCurrentTime]);
@@ -347,6 +358,7 @@ const PlayGame = () => {
     } else if (gameState === "playing") {
       const classifyTimer = setInterval(() => {
         if (sketchHasChanged) {
+          // console.log(isPredicting, sketchHasChanged);
           !isPredicting && classify();
         }
         setSketchHasChanged(false);
@@ -402,7 +414,8 @@ const PlayGame = () => {
       )}
       {/*------------- this is the sketchcanvas files----------- */}
       {isPlaying && (
-        <div className={` ${(isPlaying && drawEnabled) ? "" : "pointer-events-none"}`}>
+        <div className={` ${isPlaying ? "" : "pointer-events-none"}`}>
+          {drawEnabled && <h2 className="text-center">"Your Turn"</h2>}
           <SketchCanvas
             onSketchChange={() => {
               // console.log(canvasRef.current.getCanvasData())

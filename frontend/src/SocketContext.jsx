@@ -38,6 +38,8 @@ export const SocketProvider = ({ children }) => {
 
   const [drawEnabled, setDrawEnabled] = useState(false);
 
+  const [gameRounds, setGameRounds] = useState(2);
+
   const navigate = useNavigate();
 
   socket.on("notify-room", (createdRooms) => {
@@ -129,11 +131,19 @@ export const SocketProvider = ({ children }) => {
       console.log(data);
       setCurrentDoodle(data);
     });
+
+    
   }, []);
 
   const getDoodle = () => {
+    console.log(currentRoom);
     socket.emit("request-doodle", {socketId : socket.id, roomName: currentRoom});
   };
+
+  const nextPlayerTurn = () => {
+     socket.emit('turn-complete', currentRoom);
+  }
+
 
   return (
     <SocketContext.Provider
@@ -163,6 +173,9 @@ export const SocketProvider = ({ children }) => {
         currentRoom,
         drawEnabled,
         setDrawEnabled,
+        gameRounds,
+        setGameRounds,
+        nextPlayerTurn
       }}
     >
       {children}
