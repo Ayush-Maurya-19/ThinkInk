@@ -10,8 +10,8 @@ const Multiplayer = () => {
   console.log(getRoomInfo());
   return (
     <div className="container mx-auto mt-1">
-      <div className="grid grid-cols-12 gap-2">
-        <div className="col-span-2 mt-16">
+      <div className="row">
+        <div className="col-md-2 mt-16">
           <div className="card shadow">
             <div className="card-body">
               <h3 className="text-center mb-2">Player In Room</h3>
@@ -24,10 +24,10 @@ const Multiplayer = () => {
           </div>
         </div>
 
-        <div className="col-span-8">
+        <div className="col-md-8">
           <PlayGame />
         </div>
-        <div className="col-span-2">
+        <div className="col-md-2">
           <div className="bg-gray-100  mt-16">
             <Chat />
           </div>

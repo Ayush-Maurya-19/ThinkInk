@@ -82,7 +82,7 @@ const Home = () => {
           <div className="col-md-5 mt-3 mx-auto">
             <div className=" text-white text-center mx-auto mb-2 ">
               <h1 className="row justify-content-center text-center mx-auto ">
-                <div className="col-sm-5 wobblee "> ThinkInk</div>
+                <div className="col-sm-5 col-md-10 wobblee "> ThinkInk</div>
                 <div className="col-sm-2">
                   <img
                     className="mx-auto"

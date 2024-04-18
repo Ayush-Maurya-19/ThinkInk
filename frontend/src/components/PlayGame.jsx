@@ -413,6 +413,7 @@ const PlayGame = () => {
         </div>
       )}
       {/*------------- this is the sketchcanvas files----------- */}
+      <div className="flex flex-col">
       {isPlaying && (
         <div className={` ${isPlaying ? "" : "pointer-events-none"}`}>
           {drawEnabled && <h2 className="text-center">"Your Turn"</h2>}
@@ -444,7 +445,7 @@ const PlayGame = () => {
       </AnimatePresence>
 
       {isPlaying && (
-        <div className=" mx-36 px-36 ">
+        <div className="mx-auto ">
           <h1 className="text-2xl font-bold mb-3">
             {output &&
               `Prediction: ${output[0].label} (${(
@@ -477,6 +478,7 @@ const PlayGame = () => {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 };

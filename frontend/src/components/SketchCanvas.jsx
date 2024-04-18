@@ -1,11 +1,17 @@
-import { useEffect, useRef, useState, forwardRef, useImperativeHandle } from 'react';
-import { throttle } from '../utils.js';
+import {
+  useEffect,
+  useRef,
+  useState,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
+import { throttle } from "../utils.js";
 
-import constants from '../constants.js';
+import constants from "../constants.js";
 
-const START_DRAW_EVENTS = ['mousedown', 'touchstart'];
-const DRAW_EVENTS = ['mousemove', 'touchmove'];
-const STOP_DRAW_EVENTS = ['mouseup', 'mouseout', 'touchend'];
+const START_DRAW_EVENTS = ["mousedown", "touchstart"];
+const DRAW_EVENTS = ["mousemove", "touchmove"];
+const STOP_DRAW_EVENTS = ["mouseup", "mouseout", "touchend"];
 
 const THROTTLE_MS = 10; // number of milliseconds to throttle drawing by
 
@@ -18,29 +24,26 @@ const addEventListeners = (item, events, fn) => {
   for (let event of events) {
     item.addEventListener(event, fn);
   }
-}
+};
 
 const removeEventListeners = (item, events, fn) => {
   for (let event of events) {
     item.removeEventListener(event, fn);
   }
-}
+};
 
 const getPosition = (event) => {
   if (event.touches && event.touches[0]) {
     // Account for "safe area" on iPhones (i.e., notch)
     const diff = (event.target.offsetHeight - document.body.offsetHeight) / 2;
-    return [event.touches[0].clientX, event.touches[0].clientY - diff]
+    return [event.touches[0].clientX, event.touches[0].clientY - diff];
   } else {
     // console.log(event.offsetX, event.offsetY);
     return [event.offsetX, event.offsetY];
   }
-}
+};
 
-const SketchCanvas = forwardRef(({
-  onSketchChange, disabled
-}, ref) => {
-
+const SketchCanvas = forwardRef(({ onSketchChange, disabled }, ref) => {
   // const [disabled, setDisabled] = useState(false);
 
   const canvasRef = useRef(null);
@@ -55,7 +58,9 @@ const SketchCanvas = forwardRef(({
     if (!contextRef.current) {
       // Set up the canvas context on initial render
       // NOTE: We set `willReadFrequently` to true to improve performance.
-      contextRef.current = canvas.getContext('2d', { willReadFrequently: true });
+      contextRef.current = canvas.getContext("2d", {
+        willReadFrequently: true,
+      });
     }
 
     const context = contextRef.current;
@@ -63,10 +68,10 @@ const SketchCanvas = forwardRef(({
     // Setup the brush
     context.imageSmoothingEnabled = true;
     context.lineWidth = constants.BRUSH_SIZE;
-    context.lineJoin = 'round';
-    context.lineCap = 'round';
-    context.strokeStyle = 'black';
-    context.shadowColor = 'rgba(0, 0, 0, 0.9)'; // Set shadow color
+    context.lineJoin = "round";
+    context.lineCap = "round";
+    context.strokeStyle = "black";
+    context.shadowColor = "rgba(0, 0, 0, 0.9)"; // Set shadow color
     context.shadowBlur = 1; // Set shadow blur
 
     const paddingLeft = (canvas.width - window.innerWidth) / 2;
@@ -75,7 +80,7 @@ const SketchCanvas = forwardRef(({
     const brushRadius = constants.BRUSH_SIZE / 2;
 
     const handleResize = () => {
-      // NOTE: We adjust the style's width and height to avoid clearing the canvas data. 
+      // NOTE: We adjust the style's width and height to avoid clearing the canvas data.
       canvas.style.width = 800;
       canvas.style.height = 600;
     };
@@ -97,14 +102,15 @@ const SketchCanvas = forwardRef(({
 
       setIsDrawing(true);
 
-      setSketchBoundingBox(x => x === null
-        ? [canvasX, canvasY, canvasX, canvasY]
-        : [
-          Math.min(x[0], canvasX - brushRadius),
-          Math.min(x[1], canvasY - brushRadius),
-          Math.max(x[2], canvasX + brushRadius),
-          Math.max(x[3], canvasY + brushRadius),
-        ]
+      setSketchBoundingBox((x) =>
+        x === null
+          ? [canvasX, canvasY, canvasX, canvasY]
+          : [
+              Math.min(x[0], canvasX - brushRadius),
+              Math.min(x[1], canvasY - brushRadius),
+              Math.max(x[2], canvasX + brushRadius),
+              Math.max(x[3], canvasY + brushRadius),
+            ]
       );
       onSketchChange();
     };
@@ -112,25 +118,27 @@ const SketchCanvas = forwardRef(({
     const draw = throttle((event) => {
       if (!isDrawing || disabled) return;
 
-      setTimeSpentDrawing(x => x + THROTTLE_MS)
+      setTimeSpentDrawing((x) => x + THROTTLE_MS);
 
       const [offsetX, offsetY] = getPosition(event);
       const canvasX = offsetX + 0;
       const canvasY = offsetY + 0;
 
-      setSketchBoundingBox(x => x === null ? x : [
-        Math.min(x[0], canvasX - brushRadius),
-        Math.min(x[1], canvasY - brushRadius),
-        Math.max(x[2], canvasX + brushRadius),
-        Math.max(x[3], canvasY + brushRadius),
-      ]);
+      setSketchBoundingBox((x) =>
+        x === null
+          ? x
+          : [
+              Math.min(x[0], canvasX - brushRadius),
+              Math.min(x[1], canvasY - brushRadius),
+              Math.max(x[2], canvasX + brushRadius),
+              Math.max(x[3], canvasY + brushRadius),
+            ]
+      );
 
       context.lineTo(canvasX, canvasY);
       context.stroke();
       onSketchChange();
     }, THROTTLE_MS);
-
-    
 
     const stopDrawing = () => {
       setIsDrawing(false);
@@ -138,14 +146,14 @@ const SketchCanvas = forwardRef(({
 
     handleResize();
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     addEventListeners(canvas, START_DRAW_EVENTS, startDrawing);
     addEventListeners(canvas, DRAW_EVENTS, draw);
     addEventListeners(canvas, STOP_DRAW_EVENTS, stopDrawing);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
 
       removeEventListeners(canvas, START_DRAW_EVENTS, startDrawing);
       removeEventListeners(canvas, DRAW_EVENTS, draw);
@@ -155,8 +163,8 @@ const SketchCanvas = forwardRef(({
 
   const updateMultiplayerCanvas = (imageData) => {
     const context = contextRef.current;
-    setSketchBoundingBox(imageData)
-  } 
+    setSketchBoundingBox(imageData);
+  };
 
   const getCanvasData = () => {
     if (sketchBoundingBox === null) return null;
@@ -179,7 +187,12 @@ const SketchCanvas = forwardRef(({
       left = Math.max(left - (height - width) / 2, 0);
     }
 
-    const imgData = context.getImageData(left - SKETCH_PADDING, top - SKETCH_PADDING, sketchSize, sketchSize);
+    const imgData = context.getImageData(
+      left - SKETCH_PADDING,
+      top - SKETCH_PADDING,
+      sketchSize,
+      sketchSize
+    );
 
     // DEBUG:
     // context.putImageData(imgData, 1920 / 2, 1920 / 2)
@@ -205,20 +218,19 @@ const SketchCanvas = forwardRef(({
     getCanvasData: getCanvasData,
     clearCanvas: clearCanvas,
     getTimeSpentDrawing: () => timeSpentDrawing,
-    updateMultiplayerCanvas
+    updateMultiplayerCanvas,
   }));
 
   return (
     <canvas
-    style={{border: '2px solid red'}}
-      className='object-none'
+      style={{ border: "2px solid red"  }}
+      className="object-none w-full"
       ref={canvasRef}
-
       width={985}
       height={450}
     />
   );
 });
-SketchCanvas.displayName = 'SketchCanvas'; // Add the display name
+SketchCanvas.displayName = "SketchCanvas"; // Add the display name
 
 export default SketchCanvas;
