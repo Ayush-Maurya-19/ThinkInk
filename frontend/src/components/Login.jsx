@@ -9,6 +9,8 @@ const Login = () => {
   const { setLoggedin } = UseAppContext();
   const navigate = useNavigate();
 
+ 
+
   const loginForm = useFormik({
     initialValues: {
       email: "",
@@ -27,6 +29,8 @@ const Login = () => {
       });
 
       console.log(res.status);
+
+      
 
       if (res.status === 200) {
         Swal.fire({
@@ -59,7 +63,7 @@ const Login = () => {
   });
 
   return (
-    <div className="background ">
+    <div className="background " style={{overflow:"hidden"}}>
     <motion.div
       initial={{ x: "100%" }}
       animate={{ x: 0 }}

@@ -364,9 +364,9 @@ const SinglePlayer = () => {
         {countdownVisible && <Countdown countdown={countdown} />}
       </AnimatePresence>
 
-      <AnimatePresence initial={false} mode="wait">
+      <AnimatePresence initial={false} mode="wait" >
         {gameOver && (
-          <GameOver predictions={predictions} onClick={handleGameOverClick} />
+          <GameOver  predictions={predictions} onClick={handleGameOverClick} />
         )}
       </AnimatePresence>
 
