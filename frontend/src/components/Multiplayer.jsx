@@ -28,7 +28,7 @@ const Multiplayer = () => {
           <PlayGame />
         </div>
         <div className="col-md-2">
-          <div className="bg-gray-100  mt-5">
+          <div className="bg-light  mt-5">
             <Chat />
           </div>
         </div>
