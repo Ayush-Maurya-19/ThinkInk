@@ -223,7 +223,7 @@ const SketchCanvas = forwardRef(({ onSketchChange, disabled }, ref) => {
 
   return (
     <canvas
-      style={{ border: "2px solid red"  }}
+      style={{ border: "2px solid red" }}
       className="object-none w-full"
       ref={canvasRef}
       width={985}

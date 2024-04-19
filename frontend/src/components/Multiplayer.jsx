@@ -11,7 +11,7 @@ const Multiplayer = () => {
   return (
     <div className="container mx-auto mt-1">
       <div className="row">
-        <div className="col-md-2 mt-16">
+        <div className="col-md-2 mt-5">
           <div className="card shadow">
             <div className="card-body">
               <h3 className="text-center mb-2">Player In Room</h3>
@@ -28,7 +28,7 @@ const Multiplayer = () => {
           <PlayGame />
         </div>
         <div className="col-md-2">
-          <div className="bg-gray-100  mt-16">
+          <div className="bg-gray-100  mt-5">
             <Chat />
           </div>
         </div>

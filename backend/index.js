@@ -131,7 +131,7 @@ io.on("connection", (socket) => {
 
   socket.on("message", ({ room, message }) => {
     console.log({ room, message });
-    socket.to(room).emit("receive-message", message);
+    io.to(room).emit("receive-message", message);
   });
 
   socket.on("disconnect", () => {
