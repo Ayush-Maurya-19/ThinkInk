@@ -59,6 +59,9 @@ const PlayGame = () => {
   const [predictions, setPredictions] = useState([]);
   const [checkHandleMainClick, setCheckHandleMainClick] = useState(false);
 
+  // temp
+  const [currentDrawingName, setCurrentDrawingName] = useState("");
+
   const clickedHandled = useRef(false);
 
   // Create a reference to the worker object.
@@ -205,6 +208,7 @@ const PlayGame = () => {
   };
 
   const handleMainClick = () => {
+
     socket.emit("command-play-game", currentRoom);
     console.log(checkHandleMainClick);
     console.log("run handleMainClick");
@@ -219,7 +223,8 @@ const PlayGame = () => {
 
   useEffect(() => {
     socket.on("room-play-game", (createdRoom) => {
-      console.log(createdRoom);
+      setCurrentDrawingName(createdRoom.userDrawing.name);
+      console.log(createdRoom.userDrawing);
       console.log("event recieved");
       if (createdRoom.userDrawing.socketId === socketID) {
         setDrawEnabled(true);
@@ -230,9 +235,10 @@ const PlayGame = () => {
     });
 
     socket.on("next-turn-start", (roomData) => {
+      console.log("turn start");
       if (socketID === roomData.userDrawing.socketId) {
         setDrawEnabled(true);
-        handleMainClick();
+        beginCountdown();
       }
     });
   }, []);
@@ -264,7 +270,7 @@ const PlayGame = () => {
   const addPrediction = useCallback(
     (isCorrect) => {
       setScore((prev) => prev + (isCorrect ? 1 : 0));
-      nextPlayerTurn();
+      // nextPlayerTurn();
       //      setScore("");
 
       // take snapshot of canvas
@@ -310,7 +316,11 @@ const PlayGame = () => {
       gameStartTime !== null &&
       (gameCurrentTime - gameStartTime) / 1000 > constants.GAME_DURATION
     ) {
-      nextPlayerTurn();
+      console.log("game ended");
+
+      if (drawEnabled) {
+        nextPlayerTurn();
+      }
       endGame();
     }
   }, [endGame, gameState, gameStartTime, gameCurrentTime]);
@@ -325,7 +335,7 @@ const PlayGame = () => {
       }
       addPrediction(isCorrect);
 
-      setTargetIndex((prev) => prev + 1);
+      // setTargetIndex((prev) => prev + 1);
       setOutput(null);
       setSketchHasChanged(false);
       handleClearCanvas(true);
@@ -341,6 +351,10 @@ const PlayGame = () => {
       if (currentDoodle === output[0].label) {
         // Correct! Switch to next
         goNext(true);
+        if (drawEnabled) {
+          console.log("next player turn triggered");
+          nextPlayerTurn();
+        }
       }
     }
   }, [goNext, gameState, output, currentDoodle, targetIndex]);
@@ -395,6 +409,7 @@ const PlayGame = () => {
   const gameOver = gameState === "end";
   return (
     <div className="" style={{ width: "100%" }}>
+      user drawing : {currentDrawingName}
       <div className="">
         <ScoreContainer />
       </div>
@@ -414,71 +429,75 @@ const PlayGame = () => {
       )}
       {/*------------- this is the sketchcanvas files----------- */}
       <div className="flex flex-col">
-      {isPlaying && (
-        <div className={` ${isPlaying ? "" : "pointer-events-none"}`}>
-          {drawEnabled && <h2 className="text-center">"Your Turn"</h2>}
-          <SketchCanvas
-            onSketchChange={() => {
-              // console.log(canvasRef.current.getCanvasData())
-              broadcastCanvasUpdates();
-              setSketchHasChanged(true);
-            }}
-            ref={canvasRef}
-          />
-        </div>
-      )}
-
-      <AnimatePresence initial={false} mode="wait">
-        {menuVisible && (
-          <Menu gameState={gameState} onClick={handleMainClick} />
-        )}
-      </AnimatePresence>
-
-      <AnimatePresence initial={false} mode="wait">
-        {countdownVisible && <Countdown countdown={countdown} />}
-      </AnimatePresence>
-
-      <AnimatePresence initial={false} mode="wait">
-        {gameOver && (
-          <GameOver predictions={predictions} onClick={handleGameOverClick} />
-        )}
-      </AnimatePresence>
-
-      {isPlaying && (
-        <div className="mx-auto ">
-          <h1 className="text-2xl font-bold mb-3">
-            {output &&
-              `Prediction: ${output[0].label} (${(
-                100 * output[0].score
-              ).toFixed(1)}%)`}
-          </h1>
-
-          <div className="flex gap-2 text-white ">
-            <button
-              onClick={() => {
-                handleClearCanvas();
+        {isPlaying && (
+          <div
+            className={` ${
+              isPlaying && drawEnabled ? "" : "pointer-events-none"
+            }`}
+          >
+            {drawEnabled && <h2 className="text-center">"Your Turn"</h2>}
+            <SketchCanvas
+              onSketchChange={() => {
+                // console.log(canvasRef.current.getCanvasData())
+                broadcastCanvasUpdates();
+                setSketchHasChanged(true);
               }}
-            >
-              Clear
-            </button>
-            <button
-              onClick={() => {
-                goNext(false);
-              }}
-            >
-              Skip
-            </button>
-            <button
-              onClick={() => {
-                handleEndGame(true);
-              }}
-            >
-              Exit
-            </button>
+              ref={canvasRef}
+            />
           </div>
-        </div>
-      )}
-    </div>
+        )}
+
+        <AnimatePresence initial={false} mode="wait">
+          {menuVisible && (
+            <Menu gameState={gameState} onClick={handleMainClick} />
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence initial={false} mode="wait">
+          {countdownVisible && <Countdown countdown={countdown} />}
+        </AnimatePresence>
+
+        <AnimatePresence initial={false} mode="wait">
+          {gameOver && (
+            <GameOver predictions={predictions} onClick={handleGameOverClick} />
+          )}
+        </AnimatePresence>
+
+        {isPlaying && (
+          <div className="mx-auto ">
+            <h1 className="text-2xl font-bold mb-3">
+              {output &&
+                `Prediction: ${output[0].label} (${(
+                  100 * output[0].score
+                ).toFixed(1)}%)`}
+            </h1>
+
+            <div className="flex gap-2 text-white ">
+              <button
+                onClick={() => {
+                  handleClearCanvas();
+                }}
+              >
+                Clear
+              </button>
+              <button
+                onClick={() => {
+                  goNext(false);
+                }}
+              >
+                Skip
+              </button>
+              <button
+                onClick={() => {
+                  handleEndGame(true);
+                }}
+              >
+                Exit
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

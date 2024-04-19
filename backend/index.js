@@ -58,6 +58,7 @@ app.get("/getall", (req, res) => {
 
 const getRandomElement = (arr) => {
   var index = Math.floor(Math.random() * arr.length);
+  // console.log(  index);
   return arr[index];
 };
 
@@ -145,10 +146,10 @@ io.on("connection", (socket) => {
   });
 
   socket.on("play-game", (room) => {
-    const index = createdRooms.findIndex((r) => r.roomName === room);
-    createdRooms[index].gameStarted = true;
-    createdRooms[index].rounds = 2;
-    createdRooms[index].currentRound = 1;
+    const currentRoom = createdRooms.find((r) => r.roomName === room);
+    currentRoom.gameStarted = true;
+    createdRooms.rounds = 2;
+    createdRooms.currentRound = 1;
     io.emit("notify-room", createdRooms);
   });
 
@@ -165,6 +166,7 @@ io.on("connection", (socket) => {
     currentRoom.gameStarted = true;
     currentRoom.notPlayedUsers = currentRoom.users;
     currentRoom.userDrawing = getRandomElement(currentRoom.notPlayedUsers);
+    console.log('next player '+currentRoom.userDrawing.name);
     // remove the use drawing
     currentRoom.notPlayedUsers = currentRoom.notPlayedUsers.filter(
       (u) => u.socketId !== currentRoom.userDrawing.socketId
@@ -173,22 +175,25 @@ io.on("connection", (socket) => {
     socket.to(roomName).emit("room-play-game", currentRoom);
   });
 
-  socket.on("turn-complete", () => {
+  socket.on("turn-complete", (roomName) => {
     console.log("Turn complete");
-    socket.emit("next-turn", (roomName) => {
+    // socket.emit("next-turn", (roomName) => {
       const currentRoom = createdRooms.find((r) => r.roomName === roomName);
+      console.log(currentRoom);
       if (currentRoom.notPlayedUsers.length === 0 && currentRoom.currentRound < currentRoom.rounds) {
         currentRoom.currentRound += 1;
         currentRoom.notPlayedUsers = currentRoom.users;
         socket.to(roomName).emit("round-update", currentRoom);
+        console.log('round update');
       }
       currentRoom.userDrawing = getRandomElement(currentRoom.notPlayedUsers);
+      console.log('next player '+currentRoom.userDrawing.name);
       currentRoom.notPlayedUsers = currentRoom.notPlayedUsers.filter(
         (u) => u.socketId !== currentRoom.userDrawing.socketId
       );
-      console.log(createdRooms);
+      console.log(currentRoom);
       socket.to(roomName).emit("next-turn-start", currentRoom);
-    });
+    // });
   });
 
   socket.on("command-update-room-canvas", (data) => {
