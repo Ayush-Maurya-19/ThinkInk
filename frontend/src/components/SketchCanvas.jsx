@@ -161,10 +161,24 @@ const SketchCanvas = forwardRef(({ onSketchChange, disabled }, ref) => {
     };
   }, [isDrawing, onSketchChange, disabled]);
 
-  const updateMultiplayerCanvas = (imageData) => {
-    const context = contextRef.current;
-    setSketchBoundingBox(imageData);
+  const updateMultiplayerCanvas = (dataUrl) => {
+    let canvas = canvasRef.current;
+    let ctx = canvas.getContext('2d');
+  
+    let img = new Image();
+    img.onload = function () {
+      ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the canvas
+      ctx.drawImage(img, 0, 0); // draw the image onto the canvas
+    };
+    img.src = dataUrl;
   };
+
+  const getCanvasContent = () => {
+    const canvas = canvasRef.current;
+    // console.log(canvas.toDataURL());
+    return canvas.toDataURL();
+  }
+  
 
   const getCanvasData = () => {
     if (sketchBoundingBox === null) return null;
@@ -219,6 +233,7 @@ const SketchCanvas = forwardRef(({ onSketchChange, disabled }, ref) => {
     clearCanvas: clearCanvas,
     getTimeSpentDrawing: () => timeSpentDrawing,
     updateMultiplayerCanvas,
+    getCanvasContent
   }));
 
   return (

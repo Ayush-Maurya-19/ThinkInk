@@ -187,7 +187,7 @@ io.on("connection", (socket) => {
         console.log('round update');
       }
       currentRoom.userDrawing = getRandomElement(currentRoom.notPlayedUsers);
-      console.log('next player '+currentRoom.userDrawing.name);
+      // console.log('next player '+currentRoom.userDrawing.name);
       currentRoom.notPlayedUsers = currentRoom.notPlayedUsers.filter(
         (u) => u.socketId !== currentRoom.userDrawing.socketId
       );
@@ -198,7 +198,8 @@ io.on("connection", (socket) => {
 
   socket.on("command-update-room-canvas", (data) => {
     // console.log(data);
-    socket.emit("update-room-canvas", data.canvasData);
+
+    socket.to(data.room).emit("update-room-canvas", data.canvasData);
   });
 
   socket.on("request-doodle", ({ socketId, roomName }) => {

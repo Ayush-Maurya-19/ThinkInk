@@ -322,6 +322,8 @@ const SinglePlayer = () => {
   const countdownVisible = gameState === "countdown";
   const gameOver = gameState === "end";
 
+  
+
   return (
     <div className="" style={{ width: "100%" }}>
       <div className="">

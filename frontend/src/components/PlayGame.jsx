@@ -67,11 +67,25 @@ const PlayGame = () => {
   // Create a reference to the worker object.
   const worker = useRef(null);
 
+  function arrayBufferToBase64(buffer) {
+    let binary = "";
+    let bytes = new Uint8Array(buffer);
+    let len = bytes.byteLength;
+    for (let i = 0; i < len; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
+  }
+
   useEffect(() => {
-    // socket.on("update-room-canvas", (canvasData) => {
-    //   // console.log(canvasData);
-    //   canvasRef.current.updateMultiplayerCanvas(canvasData);
-    // });
+    if (canvasRef.current) {
+      canvasRef.current.updateMultiplayerCanvas();
+    }
+    socket.on("update-room-canvas", (canvasData) => {
+      console.log("update-room-canvas", canvasData);
+      let base64String = arrayBufferToBase64(canvasData.data);
+      canvasRef.current.updateMultiplayerCanvas(base64String);
+    });
   }, []);
 
   const broadcastCanvasUpdates = () => {
@@ -168,8 +182,8 @@ const PlayGame = () => {
   // Set up classify function
   const classify = useCallback(() => {
     if (worker.current && canvasRef.current) {
-      const image = canvasRef.current.getCanvasData();
-      // console.log(image);
+      const image = canvasRef.current.getCanvasContent();
+      console.log(image);
       if (image !== null) {
         // console.log('classifying');
         setIsPredicting(true);
@@ -208,7 +222,6 @@ const PlayGame = () => {
   };
 
   const handleMainClick = () => {
-
     socket.emit("command-play-game", currentRoom);
     console.log(checkHandleMainClick);
     console.log("run handleMainClick");
@@ -244,9 +257,9 @@ const PlayGame = () => {
   }, []);
 
   const updateCanvasChanges = () => {
-    socket.emit("update-canvas", {
+    socket.emit("command-update-room-canvas", {
       room: currentRoom,
-      canvasData: canvasRef.current.getCanvasData(),
+      canvasData: canvasRef.current.getCanvasContent(),
     });
   };
 
@@ -409,7 +422,7 @@ const PlayGame = () => {
   const gameOver = gameState === "end";
   return (
     <div className="" style={{ width: "100%" }}>
-      user drawing : {currentDrawingName}
+      User Drawing : {currentDrawingName}
       <div className="">
         <ScoreContainer />
       </div>
@@ -430,15 +443,11 @@ const PlayGame = () => {
       {/*------------- this is the sketchcanvas files----------- */}
       <div className="flex flex-col">
         {isPlaying && (
-          <div
-            className={` ${
-              isPlaying && drawEnabled ? "" : "pointer-events-none"
-            }`}
-          >
+          <div className={` ${isPlaying ? "" : "pointer-events-none"}`}>
             {drawEnabled && <h2 className="text-center">"Your Turn"</h2>}
             <SketchCanvas
               onSketchChange={() => {
-                // console.log(canvasRef.current.getCanvasData())
+                // console.log(canvasRef.current.updateMultiplayerCanvas())
                 broadcastCanvasUpdates();
                 setSketchHasChanged(true);
               }}

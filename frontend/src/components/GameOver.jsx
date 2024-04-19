@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const dropIn = {
   hidden: {
@@ -82,8 +83,14 @@ const GameOver = ({ predictions, onClick }) => {
           );
         })}
       </div>
+      {/*Create a button to navigate to exit and navigate to home screen */}
+      <Link to="/createroom" className="mt-2 text-white bg-transparent">
+      <button>Exit</button>
+      </Link>
+      
+        
 
-      <div className="flex mt-6 gap-4">
+      {/* <div className="flex mt-6 gap-4">
         <button
           onClick={() => onClick(true)}
           type="button"
@@ -106,7 +113,7 @@ const GameOver = ({ predictions, onClick }) => {
         >
           Main Menu
         </button>
-      </div>
+      </div> */}
     </motion.div>
   );
 };
