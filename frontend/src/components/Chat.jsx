@@ -8,8 +8,8 @@ const Chat = () => {
   return (
     <div className="card shadow mx-auto ">
       <div className="card-body">
-        <div className="text-center mb-4">
-          <h5>Messages</h5>
+        <div className="text-center mb-4 text-white">
+          <h5>type</h5>
         </div>
         <div className="card">
           <div className="card-body bg-light">
@@ -26,12 +26,12 @@ const Chat = () => {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             className="form-control mb-3"
-            placeholder="Enter message"
+            // placeholder="Enter message"
           />
           <div className="d-grid gap-2">
-            <button type="submit" className="btn btn-primary">
-              Send
-            </button>
+              {/* <button type="submit" className="btn btn-primary">
+                Send
+              </button> */}
           </div>
         </form>
       </div>

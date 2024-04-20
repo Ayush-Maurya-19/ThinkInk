@@ -23,6 +23,8 @@ import StartGameScreen from "./components/StartGameScreen";
 import { MantineProvider } from "@mantine/core";
 import '@mantine/core/styles.css';
 import FinalScore from "./components/FinalScore";
+import GameOverForSinglePlayer from "./components/GameOverForSinglePlayer";
+
 
 const ProtectedRoute = ({ children }) => {
   const userJSON = sessionStorage.user;
@@ -88,6 +90,7 @@ function App() {
                 <Route element={<DemoPage />} path="demopage" />
                 <Route element={<LeaderBoard />} path="leaderboard" />
                 <Route element={<FinalScore />} path="finalscore" />
+                <Route element={<GameOverForSinglePlayer />} path="gameoverforsingleplayer" />
 
                 
               </Routes>
