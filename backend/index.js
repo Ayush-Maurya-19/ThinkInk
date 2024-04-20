@@ -191,6 +191,9 @@ io.on("connection", (socket) => {
       socket.to(roomName).emit("round-update", currentRoom);
       console.log('round update');
       // socket.to(roomName).emit("room-play-game", currentRoom);
+    }else if(currentRoom.notPlayedUsers.length === 0 && currentRoom.currentRound === currentRoom.rounds){
+      currentRoom.gameStarted = false;
+      socket.to(roomName).emit("game-end", currentRoom);
     }
     const selDoodle = getRandomElement(Object.values(constantData.LABELS));
       currentRoom.currentDoodle = selDoodle;
@@ -206,6 +209,8 @@ io.on("connection", (socket) => {
     socket.to(roomName).emit("next-turn-start", currentRoom);
     // });
   });
+
+  // socket.on()
 
   socket.on("command-update-room-canvas", (data) => {
     // console.log(data);

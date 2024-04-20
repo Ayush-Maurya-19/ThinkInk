@@ -9,6 +9,7 @@ import { AnimatePresence } from "framer-motion";
 import UseSocketContext from "../SocketContext";
 import UseGameContext from "../GameContext";
 import ScoreContainer from "./ScoreContainer";
+import { useNavigate } from "react-router-dom";
 
 const formatTime = (seconds) => {
   seconds = Math.floor(seconds);
@@ -59,6 +60,8 @@ const PlayGame = () => {
   const [predictions, setPredictions] = useState([]);
   const [checkHandleMainClick, setCheckHandleMainClick] = useState(false);
 
+  const navigate = useNavigate();
+
   const [currentRound, setCurrentRound] = useState(0);
 
   // temp
@@ -91,6 +94,12 @@ const PlayGame = () => {
 
     socket.on('round-update', (roomData) => {
       setCurrentRound(roomData.currentRound);
+    })
+
+    socket.on('game-end', (roomData) => {
+      console.log('game end');
+      setGameState("end");
+      navigate('/createroom');
     })
 
   }, []);
@@ -434,7 +443,7 @@ const PlayGame = () => {
   return (
     <div className="" style={{ width: "100%" }}>
       <h4 style={{textAlign: 'center'}}> Round : {currentRound} </h4>
-      {drawEnabled && `${currentDrawingName} is Drawing...`}
+      {(!drawEnabled && currentDrawingName) && (`${currentDrawingName} is Drawing...`)}
       <div className="">
         <ScoreContainer />
       </div>
