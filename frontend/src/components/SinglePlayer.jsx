@@ -2,7 +2,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import SketchCanvas from "./SketchCanvas";
 import constants from "../constants";
 import Menu from "./Menu";
-import GameOver from "./GameOver";
+// import GameOver from "./GameOver";
+import GameOverForSinglePlayer from "./GameOverForSinglePlayer";
 import Countdown from "./Countdown";
 
 import { AnimatePresence } from "framer-motion";
@@ -368,7 +369,7 @@ const SinglePlayer = () => {
 
       <AnimatePresence initial={false} mode="wait" >
         {gameOver && (
-          <GameOver  predictions={predictions} onClick={handleGameOverClick} />
+          <GameOverForSinglePlayer  predictions={predictions} onClick={handleGameOverClick} />
         )}
       </AnimatePresence>
 
