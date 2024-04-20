@@ -68,7 +68,7 @@ io.on("connection", (socket) => {
   //drawing logic
 
   socket.on("draw-line", ({ room, line, tool, points }) => {
-    console.log({ room, line, tool, points });
+    // console.log({ room, line, tool, points });
     socket.to(room).emit("draw-line", { line, tool, points });
   });
 
@@ -85,7 +85,7 @@ io.on("connection", (socket) => {
   socket.on("join-room", (data) => {
     const { room, username } = data;
     socket.join(room);
-    console.log(socket.rooms);
+    // console.log(socket.rooms);
     if (createdRooms.find((r) => r.roomName === room)) {
       createdRooms
         .find((r) => r.roomName === room)
@@ -99,7 +99,7 @@ io.on("connection", (socket) => {
         users: [{ socketId: socket.id, name: username }],
       });
     }
-    console.log(`User joined room ${room}`);
+    // console.log(`User joined room ${room}`);
     io.emit("notify-room", createdRooms);
   });
 
@@ -117,7 +117,7 @@ io.on("connection", (socket) => {
     }
     socket.leave(room);
     io.emit("notify-room", createdRooms);
-    console.log(`User left room ${room}`);
+    // console.log(`User left room ${room}`);
   });
 
   socket.on("delete-room", (room) => {
@@ -127,11 +127,11 @@ io.on("connection", (socket) => {
       room.users = room.users.filter((u) => u.socketId !== socket.id);
     });
     io.emit("notify-room", createdRooms);
-    console.log(`User deleted room ${room}`);
+    // console.log(`User deleted room ${room}`);
   });
 
   socket.on("message", ({ room, message }) => {
-    console.log({ room, message });
+    // console.log({ room, message });
     io.to(room).emit("receive-message", message);
   });
 
@@ -142,57 +142,68 @@ io.on("connection", (socket) => {
     });
     io.emit("notify-room", createdRooms);
 
-    console.log("User Disconnected", socket.id);
+    // console.log("User Disconnected", socket.id);
   });
 
   socket.on("play-game", (room) => {
     const currentRoom = createdRooms.find((r) => r.roomName === room);
-    currentRoom.gameStarted = true;
-    createdRooms.rounds = 2;
-    createdRooms.currentRound = 1;
+    // currentRoom.gameStarted = true;
+    
+    // console.log(currentRoom);
     io.emit("notify-room", createdRooms);
   });
 
   socket.on("command-start-game", (roomName) => {
     // console.log(roomName);
     // console.log(createdRooms[0].users.map((obj) => obj.socketId));
-    console.log("Game Start from client");
+    // console.log("Game Start from client");
     socket.to(roomName).emit("room-start-game");
   });
 
   socket.on("command-play-game", (roomName) => {
     console.log("Game Play from client");
     const currentRoom = createdRooms.find((r) => r.roomName === roomName);
-    currentRoom.gameStarted = true;
-    currentRoom.notPlayedUsers = currentRoom.users;
-    currentRoom.userDrawing = getRandomElement(currentRoom.notPlayedUsers);
-    console.log('next player '+currentRoom.userDrawing.name);
-    // remove the use drawing
-    currentRoom.notPlayedUsers = currentRoom.notPlayedUsers.filter(
-      (u) => u.socketId !== currentRoom.userDrawing.socketId
-    );
-    console.log(createdRooms);
+    currentRoom.rounds = 2;
+    currentRoom.currentRound = 1;
+    console.log(currentRoom);
+    if (!currentRoom.gameStarted) {
+      currentRoom.gameStarted = true;
+      currentRoom.notPlayedUsers = currentRoom.users;
+      currentRoom.userDrawing = getRandomElement(currentRoom.notPlayedUsers);
+      // console.log('next player '+currentRoom.userDrawing.name);
+      // remove the use drawing
+      currentRoom.notPlayedUsers = currentRoom.notPlayedUsers.filter(
+        (u) => u.socketId !== currentRoom.userDrawing.socketId
+      );
+    }
+    // console.log(createdRooms);
     socket.to(roomName).emit("room-play-game", currentRoom);
   });
 
   socket.on("turn-complete", (roomName) => {
     console.log("Turn complete");
     // socket.emit("next-turn", (roomName) => {
-      const currentRoom = createdRooms.find((r) => r.roomName === roomName);
-      console.log(currentRoom);
-      if (currentRoom.notPlayedUsers.length === 0 && currentRoom.currentRound < currentRoom.rounds) {
-        currentRoom.currentRound += 1;
-        currentRoom.notPlayedUsers = currentRoom.users;
-        socket.to(roomName).emit("round-update", currentRoom);
-        console.log('round update');
-      }
-      currentRoom.userDrawing = getRandomElement(currentRoom.notPlayedUsers);
-      // console.log('next player '+currentRoom.userDrawing.name);
-      currentRoom.notPlayedUsers = currentRoom.notPlayedUsers.filter(
-        (u) => u.socketId !== currentRoom.userDrawing.socketId
-      );
-      console.log(currentRoom);
-      socket.to(roomName).emit("next-turn-start", currentRoom);
+    const currentRoom = createdRooms.find((r) => r.roomName === roomName);
+    console.log(currentRoom);
+    if (currentRoom.notPlayedUsers.length === 0 && currentRoom.currentRound < currentRoom.rounds) {
+      currentRoom.currentRound += 1;
+      currentRoom.notPlayedUsers = currentRoom.users;
+      socket.to(roomName).emit("round-update", currentRoom);
+      console.log('round update');
+      // socket.to(roomName).emit("room-play-game", currentRoom);
+    }
+    const selDoodle = getRandomElement(Object.values(constantData.LABELS));
+      currentRoom.currentDoodle = selDoodle;
+      console.log(selDoodle);
+      socket.emit("receive-doodle", selDoodle);
+
+    currentRoom.userDrawing = getRandomElement(currentRoom.notPlayedUsers);
+    // console.log('next player '+currentRoom.userDrawing.name);
+    currentRoom.notPlayedUsers = currentRoom.notPlayedUsers.filter(
+      (u) => u.socketId !== currentRoom.userDrawing.socketId
+    );
+    console.log(currentRoom);
+    socket.to(roomName).emit("next-turn-start", currentRoom);
     // });
   });
 

@@ -59,6 +59,8 @@ const PlayGame = () => {
   const [predictions, setPredictions] = useState([]);
   const [checkHandleMainClick, setCheckHandleMainClick] = useState(false);
 
+  const [currentRound, setCurrentRound] = useState(0);
+
   // temp
   const [currentDrawingName, setCurrentDrawingName] = useState("");
 
@@ -86,6 +88,11 @@ const PlayGame = () => {
       let base64String = arrayBufferToBase64(canvasData.data);
       canvasRef.current.updateMultiplayerCanvas(base64String);
     });
+
+    socket.on('round-update', (roomData) => {
+      setCurrentRound(roomData.currentRound);
+    })
+
   }, []);
 
   const broadcastCanvasUpdates = () => {
@@ -182,8 +189,8 @@ const PlayGame = () => {
   // Set up classify function
   const classify = useCallback(() => {
     if (worker.current && canvasRef.current) {
-      const image = canvasRef.current.getCanvasContent();
-      console.log(image);
+      const image = canvasRef.current.getCanvasData();
+      // console.log(image);
       if (image !== null) {
         // console.log('classifying');
         setIsPredicting(true);
@@ -231,12 +238,14 @@ const PlayGame = () => {
       worker.current.postMessage({ action: "load" });
     } else {
       beginCountdown();
+      
     }
   };
 
   useEffect(() => {
     socket.on("room-play-game", (createdRoom) => {
       setCurrentDrawingName(createdRoom.userDrawing.name);
+      setCurrentRound(createdRoom.currentRound);
       console.log(createdRoom.userDrawing);
       console.log("event recieved");
       if (createdRoom.userDrawing.socketId === socketID) {
@@ -249,9 +258,11 @@ const PlayGame = () => {
 
     socket.on("next-turn-start", (roomData) => {
       console.log("turn start");
+      setCurrentDrawingName(roomData.userDrawing.name);
       if (socketID === roomData.userDrawing.socketId) {
         setDrawEnabled(true);
-        beginCountdown();
+        // beginCountdown();
+        handleGameOverClick(true);
       }
     });
   }, []);
@@ -422,7 +433,8 @@ const PlayGame = () => {
   const gameOver = gameState === "end";
   return (
     <div className="" style={{ width: "100%" }}>
-      User Drawing : {currentDrawingName}
+      <h4 style={{textAlign: 'center'}}> Round : {currentRound} </h4>
+      {drawEnabled && `${currentDrawingName} is Drawing...`}
       <div className="">
         <ScoreContainer />
       </div>
@@ -443,12 +455,12 @@ const PlayGame = () => {
       {/*------------- this is the sketchcanvas files----------- */}
       <div className="flex flex-col">
         {isPlaying && (
-          <div className={` ${isPlaying ? "" : "pointer-events-none"}`}>
-            {drawEnabled && <h2 className="text-center">"Your Turn"</h2>}
+          <div className={` ${isPlaying && drawEnabled ? "" : "pointer-events-none"}`}>
+            {drawEnabled && <h2 className="text-center">Your Turn</h2>}
             <SketchCanvas
               onSketchChange={() => {
                 // console.log(canvasRef.current.updateMultiplayerCanvas())
-                broadcastCanvasUpdates();
+                // broadcastCanvasUpdates();
                 setSketchHasChanged(true);
               }}
               ref={canvasRef}
@@ -468,7 +480,7 @@ const PlayGame = () => {
 
         <AnimatePresence initial={false} mode="wait">
           {gameOver && (
-            <GameOver predictions={predictions} onClick={handleGameOverClick} />
+            <GameOver predictions={predictions} onClick={handleGameOverClick} currentDrawingName={currentDrawingName} />
           )}
         </AnimatePresence>
 
