@@ -134,7 +134,7 @@ const CreateRoom = () => {
                   className="btn btn-primary "
                   onClick={joinRoomHandler}
                 >
-                  Create Room
+                  Create Room/Join Room
                 </button>
               </div>
             </div>

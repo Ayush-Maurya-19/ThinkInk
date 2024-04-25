@@ -8,15 +8,12 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import Signup from "./components/signup";
 import CreateRoom from "./components/CreateRoom";
-import JoinRoom from "./components/JoinRoom";
 import Chat from "./components/Chat";
 import DrawingPage from "./components/DrawingPage";
-import DemoPage from "./components/DemoPage";
 import Multiplayer from "./components/Multiplayer";
 import { AppProvider } from "./AppContext";
 import { SocketProvider } from "./SocketContext";
 import { Toaster } from "react-hot-toast";
-import LeaderBoard from "./components/LeaderBoard";
 import { GameProvider } from "./GameContext";
 import PlayersInRoom from "./components/PlayersInRoom";
 import StartGameScreen from "./components/StartGameScreen";
@@ -84,11 +81,8 @@ function App() {
                   }
                   path="createroom"
                 />
-                <Route element={<JoinRoom />} path="joinroom" />
                 <Route element={<Chat />} path="chat" />
                 <Route element={<DrawingPage />} path="drawingpage" />
-                <Route element={<DemoPage />} path="demopage" />
-                <Route element={<LeaderBoard />} path="leaderboard" />
                 <Route element={<FinalScore />} path="finalscore" />
                 <Route element={<GameOverForSinglePlayer />} path="gameoverforsingleplayer" />
 
