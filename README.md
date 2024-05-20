@@ -7,7 +7,7 @@
 <h2>Screenshots</h2>
 HomePage: 
 
-![Home Page]([https://github.com/Ayush-Maurya-19/](https://github.com/Ayush-Maurya-19/ThinkInk/blob/main/screenshot/Home%20Page.png))
+![Home Page](https://github.com/Ayush-Maurya-19/ThinkInk/blob/main/screenshot/Home%20Page.png)
 Rules Page:
 ![Rules Page](https://github.com/Ayush-Maurya-19/ThinkInk/blob/main/screenshot/Rules%20Page.png)
 Single Player Page:
